@@ -218,13 +218,36 @@ export function GrowingTree() {
           <svg ref={svgRef} viewBox="-250 -360 500 580" width="500" height="580"
             fill="none" style={{ overflow:"visible" }}>
             <defs>
-              {/* Bark gradients — dark edges, warm cylinder highlight */}
+              {/* ── Main trunk — rich mahogany with deep shadow edges ── */}
               <linearGradient id="trunkG" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%"   stopColor="#2e1204"/>
-                <stop offset="18%"  stopColor="#6a3410"/>
-                <stop offset="48%"  stopColor="#b06828"/>
-                <stop offset="80%"  stopColor="#6a3410"/>
-                <stop offset="100%" stopColor="#220e02"/>
+                <stop offset="0%"   stopColor="#120802"/>
+                <stop offset="12%"  stopColor="#3e1c08"/>
+                <stop offset="35%"  stopColor="#7c3e14"/>
+                <stop offset="52%"  stopColor="#a85c22"/>
+                <stop offset="70%"  stopColor="#7a3c12"/>
+                <stop offset="88%"  stopColor="#3a180a"/>
+                <stop offset="100%" stopColor="#0e0602"/>
+              </linearGradient>
+              {/* Wide trunk base — slightly warmer to show the flare */}
+              <linearGradient id="trunkBaseG" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%"   stopColor="#0e0602"/>
+                <stop offset="10%"  stopColor="#3a1808"/>
+                <stop offset="30%"  stopColor="#6e3412"/>
+                <stop offset="50%"  stopColor="#9c5420"/>
+                <stop offset="70%"  stopColor="#6a3010"/>
+                <stop offset="90%"  stopColor="#361408"/>
+                <stop offset="100%" stopColor="#0c0502"/>
+              </linearGradient>
+              {/* Root gradient — lit from above, shadow underneath */}
+              <linearGradient id="rootTopG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"   stopColor="#7a4218"/>
+                <stop offset="40%"  stopColor="#5a2e0e"/>
+                <stop offset="100%" stopColor="#241008"/>
+              </linearGradient>
+              <linearGradient id="rootG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"   stopColor="#6a3814"/>
+                <stop offset="55%"  stopColor="#48240a"/>
+                <stop offset="100%" stopColor="#1e0e04"/>
               </linearGradient>
               <linearGradient id="heartG" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0%"   stopColor="#5e2c0c"/>
@@ -246,47 +269,150 @@ export function GrowingTree() {
                 <stop offset="50%"  stopColor="#527638"/>
                 <stop offset="100%" stopColor="#1e2c06"/>
               </linearGradient>
-              <linearGradient id="rootG" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stopColor="#8a4e18"/>
-                <stop offset="60%"  stopColor="#5e3010"/>
-                <stop offset="100%" stopColor="#3e1e08"/>
-              </linearGradient>
+              {/* Ground shadow — larger, more diffuse */}
               <radialGradient id="groundShadow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%"   stopColor="#2e1406" stopOpacity="0.30"/>
-                <stop offset="100%" stopColor="#2e1406" stopOpacity="0"/>
+                <stop offset="0%"   stopColor="#1e0e04" stopOpacity="0.40"/>
+                <stop offset="60%"  stopColor="#1e0e04" stopOpacity="0.15"/>
+                <stop offset="100%" stopColor="#1e0e04" stopOpacity="0"/>
+              </radialGradient>
+              {/* Soil gradient for ground-level root base */}
+              <radialGradient id="soilG" cx="50%" cy="30%" r="60%">
+                <stop offset="0%"   stopColor="#6a4020" stopOpacity="0.22"/>
+                <stop offset="100%" stopColor="#3a1e08" stopOpacity="0"/>
               </radialGradient>
             </defs>
 
-            {/* Ground shadow */}
-            <ellipse cx="0" cy="185" rx="100" ry="16" fill="url(#groundShadow)"/>
+            {/* Ground soil pool */}
+            <ellipse cx="0" cy="182" rx="130" ry="20" fill="url(#soilG)"/>
+            {/* Ground shadow under trunk */}
+            <ellipse cx="0" cy="186" rx="88" ry="13" fill="url(#groundShadow)"/>
 
             {/* ── SEED ── */}
             <circle className="gs-seed" cx="0" cy="170" r="9"  fill="#b06018"/>
             <circle className="gs-seed" cx="0" cy="170" r="5"  fill="#e89c38" opacity="0.7"/>
             <circle className="gs-seed" cx="0" cy="169" r="2"  fill="#fff4d0" opacity="0.5"/>
 
-            {/* ── ROOTS ── */}
-            <path className="gs-root" d="M 0,170 Q -44,184 -96,176"     stroke="url(#rootG)" strokeWidth="9"   strokeLinecap="round" fill="none"/>
-            <path className="gs-root" d="M -96,176 Q -136,183 -170,168"  stroke="url(#rootG)" strokeWidth="5.5" strokeLinecap="round" fill="none"/>
-            <path className="gs-root" d="M -96,176 Q -106,198 -115,216"  stroke="url(#rootG)" strokeWidth="4.5" strokeLinecap="round" fill="none"/>
-            <path className="gs-root" d="M -170,168 Q -194,164 -210,154" stroke="url(#rootG)" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
-            <path className="gs-root" d="M 0,170 Q  44,184  96,176"     stroke="url(#rootG)" strokeWidth="9"   strokeLinecap="round" fill="none"/>
-            <path className="gs-root" d="M  96,176 Q  136,183  170,168"  stroke="url(#rootG)" strokeWidth="5.5" strokeLinecap="round" fill="none"/>
-            <path className="gs-root" d="M  96,176 Q  106,198  115,216"  stroke="url(#rootG)" strokeWidth="4.5" strokeLinecap="round" fill="none"/>
-            <path className="gs-root" d="M  170,168 Q  194,164  210,154" stroke="url(#rootG)" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
-            <path className="gs-root" d="M 0,170 Q 2,196 4,222"          stroke="url(#rootG)" strokeWidth="4.5" strokeLinecap="round" fill="none"/>
-            {/* root texture */}
-            <path className="gs-root" d="M -22,174 Q -58,184 -84,180"   stroke="#1e0c04" strokeWidth="1.6" strokeLinecap="round" fill="none" opacity="0.38"/>
-            <path className="gs-root" d="M  22,174 Q  58,184  84,180"   stroke="#1e0c04" strokeWidth="1.6" strokeLinecap="round" fill="none" opacity="0.38"/>
+            {/* ══ ROOTS — organic, gnarled, buttress-style ══ */}
 
-            {/* ── MAIN TRUNK — short, thick, reference-like ── */}
-            <path className="gs-trunk" d="M 0,170 C -9,132 9,92 0,52"   stroke="url(#trunkG)" strokeWidth="28" strokeLinecap="round" fill="none"/>
-            {/* Bark fissure lines */}
-            <path className="gs-trunk" d="M -3,155 Q 5,124 -2,90"        stroke="#1a0a02" strokeWidth="2"   strokeLinecap="round" fill="none" opacity="0.48"/>
-            <path className="gs-trunk" d="M  6,142 Q -4,114  5,84"       stroke="#1a0a02" strokeWidth="1.4" strokeLinecap="round" fill="none" opacity="0.34"/>
-            <path className="gs-trunk" d="M -7,134 Q  3,108 -5,76"       stroke="#3a1e08" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.28"/>
-            {/* trunk highlight */}
-            <path className="gs-trunk" d="M  3,158 Q  2,120  3,76"       stroke="#c88040" strokeWidth="2.8" strokeLinecap="round" fill="none" opacity="0.16"/>
+            {/* Left main root — thick S-curve hugging the ground */}
+            <path className="gs-root"
+              d="M -4,168 C -18,172 -40,180 -62,179 C -84,178 -108,170 -128,162"
+              stroke="url(#rootTopG)" strokeWidth="14" strokeLinecap="round" fill="none"/>
+            {/* Left root continues, thinning */}
+            <path className="gs-root"
+              d="M -128,162 C -150,156 -168,158 -185,155"
+              stroke="url(#rootTopG)" strokeWidth="8" strokeLinecap="round" fill="none"/>
+            {/* Left root tip — thinning to ground */}
+            <path className="gs-root"
+              d="M -185,155 C -200,153 -212,152 -218,150"
+              stroke="url(#rootTopG)" strokeWidth="5" strokeLinecap="round" fill="none"/>
+            {/* Left root fork — droops down from mid-root */}
+            <path className="gs-root"
+              d="M -62,179 C -70,186 -76,196 -82,210 C -85,218 -86,226 -84,234"
+              stroke="url(#rootG)" strokeWidth="7" strokeLinecap="round" fill="none"/>
+            {/* Left root fork tip */}
+            <path className="gs-root"
+              d="M -128,162 C -134,172 -138,186 -135,200"
+              stroke="url(#rootG)" strokeWidth="5" strokeLinecap="round" fill="none"/>
+            {/* Left root shadow underline — adds depth */}
+            <path className="gs-root"
+              d="M -8,172 C -28,178 -55,184 -80,182"
+              stroke="#0e0602" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.45"/>
+            <path className="gs-root"
+              d="M -80,182 C -105,180 -128,172 -148,165"
+              stroke="#0e0602" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.30"/>
+
+            {/* Right main root — mirror, slightly varied for organic feel */}
+            <path className="gs-root"
+              d="M  4,168 C  18,172  40,180  62,179 C  84,178  108,170  128,162"
+              stroke="url(#rootTopG)" strokeWidth="14" strokeLinecap="round" fill="none"/>
+            <path className="gs-root"
+              d="M  128,162 C  150,156  168,158  185,155"
+              stroke="url(#rootTopG)" strokeWidth="8" strokeLinecap="round" fill="none"/>
+            <path className="gs-root"
+              d="M  185,155 C  200,153  212,152  218,150"
+              stroke="url(#rootTopG)" strokeWidth="5" strokeLinecap="round" fill="none"/>
+            {/* Right fork */}
+            <path className="gs-root"
+              d="M  62,179 C  70,186  76,196  82,210 C  85,218  86,226  84,234"
+              stroke="url(#rootG)" strokeWidth="7" strokeLinecap="round" fill="none"/>
+            <path className="gs-root"
+              d="M  128,162 C  134,172  138,186  135,200"
+              stroke="url(#rootG)" strokeWidth="5" strokeLinecap="round" fill="none"/>
+            {/* Right root shadow underline */}
+            <path className="gs-root"
+              d="M   8,172 C  28,178  55,184  80,182"
+              stroke="#0e0602" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.45"/>
+            <path className="gs-root"
+              d="M  80,182 C  105,180  128,172  148,165"
+              stroke="#0e0602" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.30"/>
+
+            {/* Centre front root — subtle, going forward */}
+            <path className="gs-root"
+              d="M 0,170 C 4,182 10,198 14,216"
+              stroke="url(#rootG)" strokeWidth="8" strokeLinecap="round" fill="none"/>
+            <path className="gs-root"
+              d="M 14,216 C 17,228 16,240 12,250"
+              stroke="url(#rootG)" strokeWidth="5" strokeLinecap="round" fill="none"/>
+
+            {/* ══ TRUNK — wide flared base tapering upward ══ */}
+
+            {/* Base flare segment — extra wide, short, creating the natural trunk swell */}
+            <path className="gs-trunk"
+              d="M 0,172 C -18,156 18,136 0,108"
+              stroke="url(#trunkBaseG)" strokeWidth="50" strokeLinecap="round" fill="none"/>
+            {/* Main trunk body — narrower, draws the eye upward */}
+            <path className="gs-trunk"
+              d="M 0,110 C -8,88 8,68 0,52"
+              stroke="url(#trunkG)" strokeWidth="32" strokeLinecap="round" fill="none"/>
+
+            {/* Vertical bark fissures — primary deep cracks */}
+            <path className="gs-trunk"
+              d="M -2,160 C 6,140 -4,118 3,96 C 8,80 -2,68 2,58"
+              stroke="#0c0602" strokeWidth="2.4" strokeLinecap="round" fill="none" opacity="0.55"/>
+            <path className="gs-trunk"
+              d="M 8,154 C -4,132 7,110 -3,88 C -8,74 5,62 1,54"
+              stroke="#0c0602" strokeWidth="1.8" strokeLinecap="round" fill="none" opacity="0.42"/>
+            <path className="gs-trunk"
+              d="M -9,148 C 3,128 -6,106 4,84 C 9,72 -3,60 0,52"
+              stroke="#180a04" strokeWidth="1.4" strokeLinecap="round" fill="none" opacity="0.32"/>
+            {/* Short fissure on left edge shadow */}
+            <path className="gs-trunk"
+              d="M -14,142 C -10,124 -12,108 -10,90"
+              stroke="#0a0402" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.38"/>
+            {/* Short fissure on right edge shadow */}
+            <path className="gs-trunk"
+              d="M 14,136 C 10,118 12,102 10,84"
+              stroke="#0a0402" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.38"/>
+
+            {/* Horizontal cross-cracks — give oak bark character */}
+            <path className="gs-trunk"
+              d="M -10,148 Q 0,145 10,148"
+              stroke="#0e0602" strokeWidth="1.0" strokeLinecap="round" fill="none" opacity="0.40"/>
+            <path className="gs-trunk"
+              d="M -9,132 Q 0,129 9,132"
+              stroke="#0e0602" strokeWidth="1.0" strokeLinecap="round" fill="none" opacity="0.36"/>
+            <path className="gs-trunk"
+              d="M -8,116 Q 0,113 8,116"
+              stroke="#0e0602" strokeWidth="0.9" strokeLinecap="round" fill="none" opacity="0.32"/>
+            <path className="gs-trunk"
+              d="M -7,100 Q 0,97 7,100"
+              stroke="#0e0602" strokeWidth="0.9" strokeLinecap="round" fill="none" opacity="0.28"/>
+            <path className="gs-trunk"
+              d="M -6,84 Q 0,81 6,84"
+              stroke="#0e0602" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.25"/>
+            <path className="gs-trunk"
+              d="M -5,68 Q 0,65 5,68"
+              stroke="#0e0602" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.22"/>
+
+            {/* Warm highlight ridge — centre of cylinder */}
+            <path className="gs-trunk"
+              d="M 2,162 C 1,134 2,106 1,78 Q 1,66 2,56"
+              stroke="#d09050" strokeWidth="3.2" strokeLinecap="round" fill="none" opacity="0.14"/>
+            {/* Secondary highlight — softer, offset */}
+            <path className="gs-trunk"
+              d="M 5,155 C 4,130 5,104 4,80"
+              stroke="#c07830" strokeWidth="1.8" strokeLinecap="round" fill="none" opacity="0.10"/>
 
             {/* ── HEART — brand signature on trunk ── */}
             <path className="gs-heart" d="M 0,52 C -26,44 -35,16 -15,2 C -5,-6 0,-18 0,-18"  stroke="url(#heartG)" strokeWidth="10" strokeLinecap="round" fill="none"/>
