@@ -34,10 +34,11 @@ Legacy companion app that helps families preserve memories, future letters, and 
 ## Architecture decisions
 
 - Tree animation uses GSAP ScrollTrigger pinning — the section pins for 4000px of scroll travel while the tree grows
-- Leaf clusters use organic Bezier leaf shapes with midrib veins and lateral veins for realism (not simple ellipses)
-- Bark uses SVG linearGradient for cylindrical shading: dark edges, warm highlight down the centre
-- Branch/root fissure lines are overlaid as narrow stroked paths for bark texture
-- All leaf clusters are composited from 12 individual organic leaves per cluster, scaled by `r` parameter
+- **GrowingTree uses Canvas 2D** (not SVG) for the tree rendering — this enables true tapered strokes (lineWidth varies per segment along each Bezier curve), which gives the professionally-illustrated look impossible with uniform SVG strokes
+- Each branch is drawn as a series of tiny line segments via `cubicTaper` / `quadTaper` helpers; `lineWidth` interpolates from wStart → wEnd along the path
+- Leaf clusters use organic Bezier leaf shapes with midrib veins; composited from 12 leaves per cluster, scaled by `r` parameter
+- Feature labels are in the DOM, animated via GSAP opacity/y in the ScrollTrigger `onUpdate` callback keyed to scroll progress thresholds
+- Bark uses a horizontal `createLinearGradient` across the stroke width for cylindrical shading: near-black edges, warm amber highlight at centre
 
 ## Product
 
