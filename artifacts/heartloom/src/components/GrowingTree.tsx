@@ -47,7 +47,7 @@ function barkGrad(ctx: Ctx, cx: number, r: number): CanvasGradient {
 function branchGrad(ctx: Ctx, cx: number, r: number): CanvasGradient {
   const g = ctx.createLinearGradient(cx - r, 0, cx + r, 0);
   g.addColorStop(0,    "#182608");
-  g.addColorStop(0.28, "#48680e");  // actually use a warmer green to transition
+  g.addColorStop(0.28, "#48680e");
   g.addColorStop(0.55, "#68922e");
   g.addColorStop(0.80, "#486c1a");
   g.addColorStop(1,    "#162208");
@@ -64,7 +64,7 @@ function rootGrad(ctx: Ctx, x1: number, y1: number, x2: number, y2: number): Can
   return g;
 }
 
-/** Draw a TAPERED cubic bezier — width from w0 at start → w1 at end */
+/** Tapered cubic bezier stroke — width from w0 at start to w1 at end */
 function cubicTaper(
   ctx: Ctx,
   x0: number, y0: number, cx1: number, cy1: number,
@@ -90,7 +90,7 @@ function cubicTaper(
   }
 }
 
-/** Draw a TAPERED quadratic bezier */
+/** Tapered quadratic bezier stroke */
 function quadTaper(
   ctx: Ctx,
   x0: number, y0: number, qx: number, qy: number, x2: number, y2: number,
@@ -113,90 +113,6 @@ function quadTaper(
     ctx.stroke();
     px = bx; py = by;
   }
-}
-
-// ─── Heart drawing ────────────────────────────────────────────────────────────
-
-function traceHeart(ctx: Ctx, hs: number) {
-  ctx.beginPath();
-  ctx.moveTo(0, hs);
-  ctx.bezierCurveTo(-hs * 0.08, hs * 0.72, -hs * 0.95, hs * 0.28, -hs, -hs * 0.12);
-  ctx.bezierCurveTo(-hs, -hs * 0.64, -hs * 0.50, -hs, 0, -hs * 0.52);
-  ctx.bezierCurveTo(hs * 0.50, -hs, hs, -hs * 0.64, hs, -hs * 0.12);
-  ctx.bezierCurveTo(hs * 0.95, hs * 0.28, hs * 0.08, hs * 0.72, 0, hs);
-  ctx.closePath();
-}
-
-function drawHeart(ctx: Ctx, cx: number, cy: number, progress: number) {
-  if (progress <= 0) return;
-  const a = progress;
-  ctx.save();
-  ctx.translate(cx, cy);
-
-  const hs = 38; // half-size of heart — determines scale
-
-  // ── 1. Ambient warm glow behind the heart ──
-  if (a > 0.2) {
-    const ga = mapP(a, 0.2, 1.0);
-    const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, hs * 2.2);
-    glow.addColorStop(0,    `rgba(230, 140, 20, ${ga * 0.55})`);
-    glow.addColorStop(0.35, `rgba(200, 110, 15, ${ga * 0.28})`);
-    glow.addColorStop(0.65, `rgba(180, 90,  10, ${ga * 0.12})`);
-    glow.addColorStop(1,    "rgba(160, 70,   5, 0)");
-    ctx.fillStyle = glow;
-    ctx.beginPath();
-    ctx.ellipse(0, 0, hs * 2.2, hs * 2.0, 0, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  ctx.globalAlpha = a;
-
-  // ── 2. Shadow / depth behind heart (carved-in effect) ──
-  ctx.save();
-  ctx.shadowColor = "rgba(0,0,0,0.5)";
-  ctx.shadowBlur = 10;
-  ctx.shadowOffsetX = 2;
-  ctx.shadowOffsetY = 3;
-  traceHeart(ctx, hs + 2);
-  ctx.fillStyle = "#3a1408";
-  ctx.fill();
-  ctx.restore();
-
-  // ── 3. Filled heart — radial gradient, golden centre ──
-  traceHeart(ctx, hs);
-  const hg = ctx.createRadialGradient(-hs * 0.15, -hs * 0.05, 0, 0, hs * 0.1, hs * 1.3);
-  hg.addColorStop(0,    "#f8d060");  // bright gold core
-  hg.addColorStop(0.20, "#e8a030");  // warm amber
-  hg.addColorStop(0.48, "#c87020");  // rich amber
-  hg.addColorStop(0.75, "#9a4e14");  // deeper
-  hg.addColorStop(1,    "#6a2c08");  // dark edge
-  ctx.fillStyle = hg;
-  ctx.fill();
-
-  // ── 4. Top-left highlight sheen ──
-  if (a > 0.5) {
-    const shine = mapP(a, 0.5, 1.0);
-    ctx.save();
-    ctx.globalAlpha = shine * 0.55;
-    ctx.beginPath();
-    ctx.ellipse(-hs * 0.30, -hs * 0.22, hs * 0.42, hs * 0.28, -0.5, 0, Math.PI * 2);
-    const sg = ctx.createRadialGradient(-hs * 0.30, -hs * 0.22, 0, -hs * 0.30, -hs * 0.22, hs * 0.42);
-    sg.addColorStop(0, "rgba(255,245,180,0.95)");
-    sg.addColorStop(1, "rgba(255,220,100,0)");
-    ctx.fillStyle = sg;
-    ctx.fill();
-    ctx.restore();
-  }
-
-  // ── 5. Amber outline for definition ──
-  traceHeart(ctx, hs);
-  ctx.strokeStyle = "#7a3808";
-  ctx.lineWidth = 1.8;
-  ctx.globalAlpha = a * 0.7;
-  ctx.stroke();
-
-  ctx.globalAlpha = 1;
-  ctx.restore();
 }
 
 // ─── Leaf rendering ───────────────────────────────────────────────────────────
@@ -231,7 +147,6 @@ function drawLeaf(ctx: Ctx, cx: number, cy: number, w: number, h: number, rot: n
   ctx.bezierCurveTo(-hw * 1.02, -hh * .18, -hw * .72, -hh * 1.1, 0, -hh);
   ctx.fillStyle = f;
   ctx.fill();
-  // midrib
   ctx.beginPath();
   ctx.moveTo(-hw * .88, 0); ctx.lineTo(hw * .88, 0);
   ctx.strokeStyle = v; ctx.lineWidth = 0.8;
@@ -250,57 +165,56 @@ function drawCluster(ctx: Ctx, cx: number, cy: number, r: number, br: number, pi
 
 // ─── Tree structure ───────────────────────────────────────────────────────────
 
-// Canvas: 500×580, CX=250, ground≈y=508
 const CX = 250;
 
-// DOME: [cx, cy, r, baseRot, paletteIdx]  — ~100 clusters for dense canopy
+// DOME clusters: [cx, cy, r, baseRot, paletteIdx]
 const DOME: [number, number, number, number, number][] = [
-  // ── Bottom fringe (y 290-320) ──
+  // ── Bottom fringe (y 290–322) ──
   [108,312,0.78,  8, 0],[140,302,0.80, -5, 2],[172,294,0.82,  3, 4],
   [205,288,0.83, -2, 6],[238,285,0.83, -1, 8],[272,286,0.83,  2, 1],
   [304,290,0.82, -4, 3],[336,298,0.80,  6, 5],[368,308,0.78, -7, 7],
   [398,322,0.76,  9, 9],[ 96,328,0.76, 12, 0],
 
-  // ── Lower canopy (y 255-285) ──
+  // ── Lower canopy (y 255–285) ──
   [ 80,270,0.84,-14, 1],[118,256,0.87,  7, 3],[158,245,0.90, -5, 5],
   [198,238,0.92,  2, 7],[238,234,0.93, -2, 9],[272,235,0.93,  3, 2],
   [312,240,0.92, -5, 4],[352,248,0.90,  7, 6],[390,258,0.87,-10, 8],
   [425,272,0.84, 12, 0],[ 62,286,0.82,-18, 3],
 
-  // ── Mid canopy (y 210-248) ──
+  // ── Mid canopy (y 210–248) ──
   [ 68,228,0.86,-20, 5],[108,214,0.90,  9, 7],[150,202,0.93, -6, 9],
   [190,194,0.95,  3, 2],[232,190,0.96, -2, 4],[268,191,0.96,  3, 6],
   [308,196,0.95, -5, 8],[348,204,0.93,  8, 1],[390,215,0.90,-11, 3],
   [428,228,0.86, 14, 5],[ 55,245,0.84,-22, 7],[445,244,0.84, 20, 9],
 
-  // ── Mid-upper canopy (y 168-205) ──
+  // ── Mid-upper canopy (y 168–205) ──
   [ 60,188,0.84,-24, 2],[100,174,0.88, 10, 4],[142,162,0.92, -7, 6],
   [184,154,0.95,  3, 8],[228,149,0.97, -2, 1],[268,150,0.97,  4, 3],
   [310,156,0.95, -5, 5],[352,164,0.92, 10, 7],[394,175,0.88,-12, 9],
   [432,190,0.85, 16, 2],[ 48,205,0.82,-26, 4],[452,210,0.82, 24, 6],
 
-  // ── Upper canopy (y 128-162) ──
+  // ── Upper canopy (y 128–162) ──
   [ 72,155,0.82,-22, 8],[112,140,0.86,  9, 1],[154,128,0.90, -6, 3],
   [196,120,0.93,  3, 5],[240,116,0.95, -2, 7],[278,118,0.94,  4, 9],
   [318,124,0.91, -6, 2],[358,132,0.88, 10, 4],[398,144,0.85,-12, 6],
   [436,160,0.82, 16, 8],[ 58,168,0.80,-26, 1],[448,172,0.80, 25, 3],
 
-  // ── Upper-mid crown (y 88-125) ──
+  // ── Upper-mid crown (y 88–125) ──
   [ 92,122,0.80,-18, 5],[130,108,0.84,  7, 7],[170,96,0.87,  -5, 9],
   [212,88,0.90,   2, 2],[248,84,0.91,  -1, 4],[284,86,0.91,   4, 6],
-  [322,92,0.89,  -5, 8],[360,102,0.86, 9, 1],[398,116,0.83,-12, 3],
+  [322,92,0.89,  -5, 8],[360,102,0.86,  9, 1],[398,116,0.83,-12, 3],
   [432,132,0.80, 15, 5],
 
-  // ── Top crown (y 48-88) ──
+  // ── Top crown (y 48–88) ──
   [138,80,0.78,  -8, 7],[174,68,0.82,   5, 9],[212,58,0.86,  -3, 2],
   [248,54,0.88,  -1, 4],[282,56,0.87,   4, 6],[318,64,0.84,  -6, 8],
   [354,76,0.80,  10, 1],[388,92,0.77, -14, 3],
 
-  // ── Peak (y 20-50) ──
+  // ── Peak (y 20–50) ──
   [188,42,0.74,  -6, 5],[218,30,0.77,   3, 7],[248,24,0.79,  -1, 9],
   [278,28,0.77,   4, 2],[308,38,0.74,  -7, 4],
 
-  // ── Interior fill — darker depth clusters ──
+  // ── Interior fill ──
   [170,220,0.90,  2, 8],[210,214,0.92,  4, 1],[248,211,0.93, -2, 3],
   [286,215,0.92,  3, 5],[324,222,0.90, -4, 7],
   [190,178,0.92, -3, 9],[248,174,0.94,  2, 2],[306,180,0.92,  3, 4],
@@ -340,131 +254,148 @@ function drawTree(ctx: Ctx, progress: number) {
   }
 
   // ══════════════════════════════════════════
-  // ROOTS — organic, buttress-style, warm
+  // ROOTS — organic buttress roots
   // ══════════════════════════════════════════
   if (pRoots > 0) {
     const mir = (x: number) => CX + (CX - x);
+    const rp = (s: number, e: number) => mapP(pRoots, s, e);
 
-    // Sub-progress stagger
-    const rp = (start: number, end: number) => mapP(pRoots, start, end);
-
-    // Warm junction glow where roots meet trunk
+    // Junction glow
     if (rp(0.05, 0.40) > 0) {
       const jg = ctx.createRadialGradient(CX, 505, 0, CX, 505, 52);
-      jg.addColorStop(0,   "rgba(160, 80, 20, 0.45)");
-      jg.addColorStop(0.5, "rgba(120, 55, 12, 0.20)");
-      jg.addColorStop(1,   "rgba(100, 40,  8, 0)");
-      ctx.fillStyle = jg;
-      ctx.globalAlpha = rp(0.05, 0.40);
+      jg.addColorStop(0,   "rgba(160,80,20,0.45)");
+      jg.addColorStop(0.5, "rgba(120,55,12,0.20)");
+      jg.addColorStop(1,   "rgba(100,40,8,0)");
+      ctx.fillStyle = jg; ctx.globalAlpha = rp(0.05, 0.40);
       ctx.beginPath(); ctx.ellipse(CX, 505, 52, 22, 0, 0, Math.PI * 2); ctx.fill();
       ctx.globalAlpha = 1;
     }
 
-    // ── LEFT roots ──
-    // Main left: arcs outward with gentle S-curve
+    // Left main root
     const rg_L = rootGrad(ctx, 240, 498, 52, 506);
-    cubicTaper(ctx, 240,500, 210,508, 180,514, 152,512, rp(0,0.32),   22, 14, rg_L);
-    cubicTaper(ctx, 152,512, 120,510, 92, 505, 68, 499,  rp(0.18,0.60), 14, 8,  rg_L);
-    quadTaper( ctx,  68,499,  46,494,  30,490,            rp(0.40,0.80),  8, 4,  rg_L);
-    quadTaper( ctx,  30,490,  16,486,   5,484,            rp(0.60,1.00),  4, 2,  rg_L);
-
-    // Left fork — droops into soil near mid-root
+    cubicTaper(ctx, 240,500, 210,508, 180,514, 152,512, rp(0,0.32),   22,14, rg_L);
+    cubicTaper(ctx, 152,512, 120,510,  92,505,  68,499, rp(0.18,0.60),14, 8, rg_L);
+    quadTaper( ctx,  68,499,  46,494,  30,490,           rp(0.40,0.80), 8, 4, rg_L);
+    quadTaper( ctx,  30,490,  16,486,   5,484,           rp(0.60,1.00), 4, 2, rg_L);
+    // Left fork
     const rf_L = rootGrad(ctx, 152,512, 140,545);
-    cubicTaper(ctx, 152,512, 148,522, 144,535, 140,548, rp(0.28,0.78), 10, 5, rf_L);
-    quadTaper( ctx, 140,548, 136,558, 130,565,           rp(0.52,0.92),  5, 2, rf_L);
-
-    // Left secondary root — shorter, shallower arc
+    cubicTaper(ctx, 152,512, 148,522, 144,535, 140,548, rp(0.28,0.78),10,5, rf_L);
+    quadTaper( ctx, 140,548, 136,558, 130,565,           rp(0.52,0.92), 5,2, rf_L);
+    // Left secondary
     const rs_L = rootGrad(ctx, 245,504, 95,512);
-    cubicTaper(ctx, 244,503, 215,510, 175,516, 144,514, rp(0.08,0.50), 12, 7, rs_L);
-    quadTaper( ctx, 144,514, 118,512,  96,508,           rp(0.30,0.72),  7, 4, rs_L);
-
-    // Left surface highlight (lit top)
-    if (rp(0, 0.35) > 0) {
+    cubicTaper(ctx, 244,503, 215,510, 175,516, 144,514, rp(0.08,0.50),12,7, rs_L);
+    quadTaper( ctx, 144,514, 118,512,  96,508,           rp(0.30,0.72), 7,4, rs_L);
+    // Surface highlight
+    if (rp(0,0.35) > 0) {
       ctx.globalAlpha = 0.38;
-      quadTaper(ctx, 240,498, 188,506, 142,504, rp(0,0.35), 7, 3.5, "#a06020");
+      quadTaper(ctx, 240,498, 188,506, 142,504, rp(0,0.35), 7,3.5, "#a06020");
       ctx.globalAlpha = 1;
     }
     // Shadow underline
-    if (rp(0, 0.30) > 0) {
+    if (rp(0,0.30) > 0) {
       ctx.globalAlpha = 0.28;
-      quadTaper(ctx, 244,510, 188,520, 140,518, rp(0,0.30), 6, 3, "#0a0402");
+      quadTaper(ctx, 244,510, 188,520, 140,518, rp(0,0.30), 6,3, "#0a0402");
       ctx.globalAlpha = 1;
     }
 
-    // ── RIGHT roots (mirrored) ──
+    // Right (mirror)
     const rg_R = rootGrad(ctx, mir(240), 498, mir(52), 506);
     cubicTaper(ctx, mir(240),500, mir(210),508, mir(180),514, mir(152),512, rp(0,0.32),   22,14, rg_R);
-    cubicTaper(ctx, mir(152),512, mir(120),510, mir(92),505,  mir(68),499,  rp(0.18,0.60), 14, 8, rg_R);
-    quadTaper( ctx, mir(68),499,  mir(46),494,  mir(30),490,               rp(0.40,0.80),  8, 4, rg_R);
-    quadTaper( ctx, mir(30),490,  mir(16),486,  mir(5),484,                rp(0.60,1.00),  4, 2, rg_R);
-
+    cubicTaper(ctx, mir(152),512, mir(120),510, mir(92),505,  mir(68),499,  rp(0.18,0.60),14, 8, rg_R);
+    quadTaper( ctx, mir(68),499,  mir(46),494,  mir(30),490,               rp(0.40,0.80), 8, 4, rg_R);
+    quadTaper( ctx, mir(30),490,  mir(16),486,  mir(5),484,                rp(0.60,1.00), 4, 2, rg_R);
     const rf_R = rootGrad(ctx, mir(152),512, mir(140),545);
-    cubicTaper(ctx, mir(152),512, mir(148),522, mir(144),535, mir(140),548, rp(0.28,0.78),10, 5, rf_R);
-    quadTaper( ctx, mir(140),548, mir(136),558, mir(130),565,               rp(0.52,0.92), 5, 2, rf_R);
-
+    cubicTaper(ctx, mir(152),512, mir(148),522, mir(144),535, mir(140),548, rp(0.28,0.78),10,5, rf_R);
+    quadTaper( ctx, mir(140),548, mir(136),558, mir(130),565,               rp(0.52,0.92), 5,2, rf_R);
     const rs_R = rootGrad(ctx, mir(245),504, mir(95),512);
-    cubicTaper(ctx, mir(244),503, mir(215),510, mir(175),516, mir(144),514, rp(0.08,0.50),12, 7, rs_R);
-    quadTaper( ctx, mir(144),514, mir(118),512, mir(96),508,                rp(0.30,0.72),  7, 4, rs_R);
-
-    if (rp(0, 0.35) > 0) {
+    cubicTaper(ctx, mir(244),503, mir(215),510, mir(175),516, mir(144),514, rp(0.08,0.50),12,7, rs_R);
+    quadTaper( ctx, mir(144),514, mir(118),512, mir(96),508,                rp(0.30,0.72), 7,4, rs_R);
+    if (rp(0,0.35) > 0) {
       ctx.globalAlpha = 0.38;
-      quadTaper(ctx, mir(240),498, mir(188),506, mir(142),504, rp(0,0.35), 7, 3.5, "#a06020");
+      quadTaper(ctx, mir(240),498, mir(188),506, mir(142),504, rp(0,0.35), 7,3.5, "#a06020");
       ctx.globalAlpha = 1;
     }
-    if (rp(0, 0.30) > 0) {
+    if (rp(0,0.30) > 0) {
       ctx.globalAlpha = 0.28;
-      quadTaper(ctx, mir(244),510, mir(188),520, mir(140),518, rp(0,0.30), 6, 3, "#0a0402");
+      quadTaper(ctx, mir(244),510, mir(188),520, mir(140),518, rp(0,0.30), 6,3, "#0a0402");
       ctx.globalAlpha = 1;
     }
 
-    // ── Center front root ──
+    // Centre forward root
     const rc = rootGrad(ctx, 252,502, 260,555);
-    cubicTaper(ctx, 252,502, 254,518, 258,536, 260,554, rp(0.14,0.65), 10, 5, rc);
-    quadTaper( ctx, 260,554, 262,566, 258,574,           rp(0.40,0.85),  5, 2, rc);
+    cubicTaper(ctx, 252,502, 254,518, 258,536, 260,554, rp(0.14,0.65),10,5, rc);
+    quadTaper( ctx, 260,554, 262,566, 258,574,           rp(0.40,0.85), 5,2, rc);
   }
 
   // ══════════════════════════════════════════
-  // TRUNK — thick, flared, dark oak bark
+  // TRUNK — one single smooth motion,
+  // ground to heart junction (y 504 → 372)
   // ══════════════════════════════════════════
   if (pTrunk > 0) {
     const bg = barkGrad(ctx, CX, 26);
+    // One continuous tapered stroke — wide flare at base narrows smoothly to crown
+    cubicTaper(ctx, CX,504, CX-16,456, CX+10,408, CX,372, pTrunk, 50, 22, bg);
 
-    // Wide base flare — trunk meets ground with a natural swell
-    cubicTaper(ctx, CX,502, CX-12,472, CX+12,444, CX,408, pTrunk, 50, 30, bg);
-    // Upper trunk body
-    cubicTaper(ctx, CX,412, CX-8,396,  CX+8,382,  CX,370, pTrunk, 30, 24, bg);
-
-    // Bark fissures — organic vertical cracks
+    // Bark fissures for texture
     if (pTrunk > 0.22) {
       const fp = mapP(pTrunk, 0.22, 1.0);
       ctx.globalAlpha = 0.44;
-      cubicTaper(ctx, CX-3,496, CX+7,465, CX-5,436, CX+2,404, fp, 2.0, 1.3, "#080402");
+      cubicTaper(ctx, CX-3,496, CX+7,462, CX-5,430, CX+2,398, fp, 2.0, 1.3, "#080402");
       ctx.globalAlpha = 0.30;
-      cubicTaper(ctx, CX+9,482, CX-6,454, CX+6,424, CX-3,396, fp, 1.5, 0.9, "#080402");
+      cubicTaper(ctx, CX+9,480, CX-6,450, CX+6,420, CX-3,392, fp, 1.5, 0.9, "#080402");
       ctx.globalAlpha = 0.22;
-      cubicTaper(ctx, CX-10,470, CX+4,445, CX-4,418, CX+1,390, fp, 1.2, 0.8, "#180a04");
+      cubicTaper(ctx, CX-10,468, CX+4,440, CX-4,414, CX+1,384, fp, 1.2, 0.8, "#180a04");
       ctx.globalAlpha = 1;
     }
-    // Warm highlight ridge
+    // Centre highlight
     if (pTrunk > 0.32) {
       const hp = mapP(pTrunk, 0.32, 1.0);
       ctx.globalAlpha = 0.14;
-      cubicTaper(ctx, CX+3,494, CX+3,462, CX+3,432, CX+3,400, hp, 4, 2.2, "#d09050");
+      cubicTaper(ctx, CX+3,492, CX+3,458, CX+3,428, CX+3,394, hp, 4.2, 2.2, "#d09050");
       ctx.globalAlpha = 1;
     }
   }
 
   // ══════════════════════════════════════════
-  // HEART — glowing amber, brand centrepiece
+  // HEART — formed by two branch curves
+  // The trunk forks; branches arc outward and
+  // back together, outlining a heart in the
+  // negative space between them.
   // ══════════════════════════════════════════
-  drawHeart(ctx, CX, 355, pHeart);
+  if (pHeart > 0) {
+    const hbg = barkGrad(ctx, CX, 20);
+    // Phase 1: lower arc — branches sweep outward
+    const ph1 = mapP(pHeart, 0,    0.56);
+    // Phase 2: upper arc — branches curl back to meet at top
+    const ph2 = mapP(pHeart, 0.44, 1.00);
+
+    // Left branch — traces left half of heart outline
+    cubicTaper(ctx, CX,390, CX-6,374, CX-44,360, CX-44,340, ph1, 13, 8, hbg);
+    cubicTaper(ctx, CX-44,340, CX-44,318, CX-24,312, CX,321, ph2,  8, 5, hbg);
+
+    // Right branch — mirror
+    cubicTaper(ctx, CX,390, CX+6,374, CX+44,360, CX+44,340, ph1, 13, 8, hbg);
+    cubicTaper(ctx, CX+44,340, CX+44,318, CX+24,312, CX,321, ph2,  8, 5, hbg);
+
+    // Subtle warm glow in the heart space as it completes
+    if (pHeart > 0.72) {
+      const ga = mapP(pHeart, 0.72, 1.0) * 0.5;
+      const glow = ctx.createRadialGradient(CX, 354, 0, CX, 354, 42);
+      glow.addColorStop(0,   `rgba(220,140,20,${ga * 0.45})`);
+      glow.addColorStop(0.5, `rgba(200,110,15,${ga * 0.20})`);
+      glow.addColorStop(1,   "rgba(180,90,10,0)");
+      ctx.fillStyle = glow;
+      ctx.beginPath(); ctx.ellipse(CX, 354, 42, 36, 0, 0, Math.PI * 2); ctx.fill();
+    }
+  }
 
   // ══════════════════════════════════════════
-  // UPPER TRUNK — sage-green, narrowing
+  // UPPER TRUNK — sage-green, rising from
+  // heart junction to canopy base
   // ══════════════════════════════════════════
   if (pUpper > 0) {
     const ug = branchGrad(ctx, CX, 12);
-    cubicTaper(ctx, CX,320, CX-5,292, CX+5,264, CX,232, pUpper, 17, 10, ug);
+    cubicTaper(ctx, CX,322, CX-5,292, CX+5,264, CX,232, pUpper, 16, 10, ug);
     if (pUpper > 0.38) {
       const up2 = mapP(pUpper, 0.38, 1.0);
       ctx.globalAlpha = 0.11;
@@ -474,109 +405,109 @@ function drawTree(ctx: Ctx, progress: number) {
   }
 
   // ══════════════════════════════════════════
-  // WIDE MAIN BOUGHS — sweep out from trunk
-  // Emerge at different trunk heights for realism
+  // CANOPY BRANCHES — all clipped to the leaf
+  // dome silhouette so nothing pokes outside
   // ══════════════════════════════════════════
+  ctx.save();
+  // Clip path follows the approximate silhouette of the DOME leaf clusters
+  ctx.beginPath();
+  ctx.moveTo(72, 342);
+  ctx.bezierCurveTo(38, 274, 30, 200, 38, 148);
+  ctx.bezierCurveTo(46, 96,  72,  38, 250,  14);
+  ctx.bezierCurveTo(428, 38, 454, 96, 462, 148);
+  ctx.bezierCurveTo(470, 200, 462, 274, 428, 342);
+  ctx.bezierCurveTo(386, 362, 322, 372, 250, 374);
+  ctx.bezierCurveTo(178, 372, 114, 362,  72, 342);
+  ctx.closePath();
+  ctx.clip();
+
+  // ── Wide main boughs ──
   if (pBW > 0) {
     const bg = branchGrad(ctx, CX, 15);
-    // Left bough — emerges slightly lower, sweeps wide
-    const lp = mapP(pBW, 0, 0.58);
-    cubicTaper(ctx, CX-5,378, CX-55,355, CX-112,318, CX-162,285, lp, 16, 9, bg);
-    // Right bough — slightly higher origin, asymmetric sweep
-    const rp = mapP(pBW, 0.10, 0.65);
-    cubicTaper(ctx, CX+5,370, CX+58,348, CX+116,310, CX+165,280, rp, 16, 9, bg);
-    // Third bough — sweeps back/down left for organic feel
-    const p3 = mapP(pBW, 0.20, 0.72);
-    cubicTaper(ctx, CX-8,395, CX-55,405, CX-100,398, CX-138,385, p3, 12, 7, bg);
-    const p4 = mapP(pBW, 0.25, 0.76);
-    cubicTaper(ctx, CX+8,390, CX+55,400, CX+100,395, CX+138,382, p4, 12, 7, bg);
-
-    if (lp > 0.28) {
+    // Left bough — asymmetric origin, sweeps wide
+    cubicTaper(ctx, CX-5,374, CX-55,352, CX-108,315, CX-152,284, mapP(pBW,0,0.56),    16, 9, bg);
+    // Right bough
+    cubicTaper(ctx, CX+5,368, CX+58,346, CX+112,308, CX+155,280, mapP(pBW,0.10,0.64), 16, 9, bg);
+    // Lower drooping boughs
+    cubicTaper(ctx, CX-8,392, CX-52,398, CX-96,392, CX-128,382, mapP(pBW,0.20,0.70), 12, 7, bg);
+    cubicTaper(ctx, CX+8,388, CX+52,394, CX+96,388, CX+128,378, mapP(pBW,0.26,0.76), 12, 7, bg);
+    if (mapP(pBW,0,0.56) > 0.28) {
       ctx.globalAlpha = 0.09;
-      cubicTaper(ctx, CX-8,374, CX-58,352, CX-115,315, CX-160,283, lp, 2.2, 1, "#b0d860");
-      cubicTaper(ctx, CX+8,366, CX+62,344, CX+119,307, CX+163,278, rp, 2.2, 1, "#b0d860");
+      cubicTaper(ctx, CX-8,370, CX-58,350, CX-112,312, CX-150,282, mapP(pBW,0,0.56),    2.2,1, "#b0d860");
+      cubicTaper(ctx, CX+8,364, CX+62,342, CX+116,305, CX+153,278, mapP(pBW,0.10,0.64), 2.2,1, "#b0d860");
       ctx.globalAlpha = 1;
     }
   }
 
-  // ══════════════════════════════════════════
-  // UPPER BOUGHS — arch into crown
-  // ══════════════════════════════════════════
+  // ── Upper boughs ──
   if (pBU > 0) {
     const bg = branchGrad(ctx, CX, 11);
-    cubicTaper(ctx, CX,282, CX-40,242, CX-80,205, CX-112,170, mapP(pBU,0,0.62),    12, 6.5, bg);
-    cubicTaper(ctx, CX,282, CX+40,242, CX+80,205, CX+112,170, mapP(pBU,0.10,0.72), 12, 6.5, bg);
-    cubicTaper(ctx, CX,255, CX-2, 212, CX+2, 178, CX,   148,  mapP(pBU,0.05,0.58), 11, 6,   bg);
-    // Additional upper boughs for fuller crown
-    cubicTaper(ctx, CX-162,285, CX-172,252, CX-178,215, CX-176,178, mapP(pBU,0.12,0.68), 8,4.5,bg);
-    cubicTaper(ctx, CX+162,280, CX+172,248, CX+178,212, CX+176,175, mapP(pBU,0.18,0.74), 8,4.5,bg);
-    cubicTaper(ctx, CX-138,385, CX-148,355, CX-158,315, CX-168,275, mapP(pBU,0.22,0.75), 8,4.5,bg);
-    cubicTaper(ctx, CX+138,382, CX+148,352, CX+158,312, CX+168,272, mapP(pBU,0.28,0.80), 8,4.5,bg);
+    cubicTaper(ctx, CX,280, CX-40,240, CX-78,204, CX-108,170, mapP(pBU,0,0.62),    12,6.5,bg);
+    cubicTaper(ctx, CX,280, CX+40,240, CX+78,204, CX+108,170, mapP(pBU,0.10,0.72), 12,6.5,bg);
+    cubicTaper(ctx, CX,254, CX-2, 212, CX+2, 178, CX,   148,  mapP(pBU,0.05,0.58), 11,6,  bg);
+    // Side upper boughs from wide bough tips
+    cubicTaper(ctx, CX-152,284, CX-162,252, CX-170,218, CX-168,180, mapP(pBU,0.12,0.68), 8,4.5,bg);
+    cubicTaper(ctx, CX+152,280, CX+162,248, CX+170,215, CX+168,178, mapP(pBU,0.18,0.74), 8,4.5,bg);
+    cubicTaper(ctx, CX-128,382, CX-138,350, CX-148,312, CX-158,274, mapP(pBU,0.22,0.75), 8,4.5,bg);
+    cubicTaper(ctx, CX+128,378, CX+138,346, CX+148,308, CX+158,270, mapP(pBU,0.28,0.80), 8,4.5,bg);
   }
 
-  // ══════════════════════════════════════════
-  // SUB-BRANCHES — from bough tips/midpoints
-  // Many more than before, varied origins
-  // ══════════════════════════════════════════
+  // ── Sub-branches ──
   if (pBS > 0) {
     const sg = branchGrad(ctx, CX, 9);
     const mir = (x: number) => CX + (CX - x);
     const p = (i: number) => mapP(pBS, i * 0.038, i * 0.038 + 0.66);
 
-    // From left main bough tip (CX-162, 285)
-    cubicTaper(ctx, CX-162,285, CX-182,256, CX-184,222, CX-180,188, p(0),  9, 5, sg);
-    cubicTaper(ctx, CX-162,285, CX-170,305, CX-174,328, CX-172,350, p(1),  8,4.5,sg);
-    cubicTaper(ctx, CX-162,285, CX-178,272, CX-196,262, CX-212,254, p(2),  7, 4, sg);
-    // From mid-bough (CX-112, 300)
-    cubicTaper(ctx, CX-118,308, CX-138,278, CX-140,248, CX-136,216, p(3),  8, 4, sg);
-    cubicTaper(ctx, CX-82, 328, CX-100,296, CX-100,266, CX-94, 234, p(4), 7.5,4, sg);
-    cubicTaper(ctx, CX-42, 358, CX-56,330,  CX-58,298,  CX-52, 268, p(5),  7,3.5,sg);
-
-    // From lower left bough (CX-138, 385)
-    cubicTaper(ctx, CX-138,385, CX-150,360, CX-155,330, CX-152,300, p(6),  8,4.5,sg);
-    cubicTaper(ctx, CX-138,385, CX-162,368, CX-178,348, CX-188,325, p(7),  7, 4, sg);
+    // From left wide bough tip
+    cubicTaper(ctx, CX-152,284, CX-172,255, CX-174,222, CX-170,190, p(0),  9, 5, sg);
+    cubicTaper(ctx, CX-152,284, CX-160,304, CX-164,326, CX-162,348, p(1),  8,4.5,sg);
+    cubicTaper(ctx, CX-152,284, CX-168,272, CX-184,262, CX-198,254, p(2),  7, 4, sg);
+    // From mid-bough
+    cubicTaper(ctx, CX-116,306, CX-136,276, CX-136,248, CX-130,216, p(3),  8, 4, sg);
+    cubicTaper(ctx, CX-80, 326, CX-98, 294, CX-96, 266, CX-90, 234, p(4), 7.5,4, sg);
+    cubicTaper(ctx, CX-42, 356, CX-54, 328, CX-52, 298, CX-46, 268, p(5),  7,3.5,sg);
+    // From lower bough
+    cubicTaper(ctx, CX-128,382, CX-140,356, CX-144,328, CX-140,298, p(6),  8,4.5,sg);
+    cubicTaper(ctx, CX-128,382, CX-150,364, CX-164,344, CX-172,322, p(7),  7, 4, sg);
 
     // Right mirrors
-    cubicTaper(ctx, mir(CX-162),285, mir(CX-182),256, mir(CX-184),222, mir(CX-180),188, p(0), 9, 5, sg);
-    cubicTaper(ctx, mir(CX-162),285, mir(CX-170),305, mir(CX-174),328, mir(CX-172),350, p(1), 8,4.5,sg);
-    cubicTaper(ctx, mir(CX-162),285, mir(CX-178),272, mir(CX-196),262, mir(CX-212),254, p(2), 7, 4, sg);
-    cubicTaper(ctx, mir(CX-118),308, mir(CX-138),278, mir(CX-140),248, mir(CX-136),216, p(3), 8, 4, sg);
-    cubicTaper(ctx, mir(CX-82),328,  mir(CX-100),296, mir(CX-100),266, mir(CX-94),234,  p(4),7.5,4, sg);
-    cubicTaper(ctx, mir(CX-42),358,  mir(CX-56),330,  mir(CX-58),298,  mir(CX-52),268,  p(5), 7,3.5,sg);
-    cubicTaper(ctx, mir(CX-138),385, mir(CX-150),360, mir(CX-155),330, mir(CX-152),300, p(6), 8,4.5,sg);
-    cubicTaper(ctx, mir(CX-138),385, mir(CX-162),368, mir(CX-178),348, mir(CX-188),325, p(7), 7, 4, sg);
+    cubicTaper(ctx, mir(CX-152),284, mir(CX-172),255, mir(CX-174),222, mir(CX-170),190, p(0), 9, 5, sg);
+    cubicTaper(ctx, mir(CX-152),284, mir(CX-160),304, mir(CX-164),326, mir(CX-162),348, p(1), 8,4.5,sg);
+    cubicTaper(ctx, mir(CX-152),284, mir(CX-168),272, mir(CX-184),262, mir(CX-198),254, p(2), 7, 4, sg);
+    cubicTaper(ctx, mir(CX-116),306, mir(CX-136),276, mir(CX-136),248, mir(CX-130),216, p(3), 8, 4, sg);
+    cubicTaper(ctx, mir(CX-80),326,  mir(CX-98),294,  mir(CX-96),266,  mir(CX-90),234,  p(4),7.5,4, sg);
+    cubicTaper(ctx, mir(CX-42),356,  mir(CX-54),328,  mir(CX-52),298,  mir(CX-46),268,  p(5), 7,3.5,sg);
+    cubicTaper(ctx, mir(CX-128),382, mir(CX-140),356, mir(CX-144),328, mir(CX-140),298, p(6), 8,4.5,sg);
+    cubicTaper(ctx, mir(CX-128),382, mir(CX-150),364, mir(CX-164),344, mir(CX-172),322, p(7), 7, 4, sg);
 
     // From upper boughs
-    cubicTaper(ctx, CX-112,170, CX-152,160, CX-185,152, CX-200,144, p(8),  8,4, sg);
-    cubicTaper(ctx, CX-112,170, CX-116,138, CX-112,106, CX-106,76,  p(9),  7,3.5,sg);
-    cubicTaper(ctx, CX-78, 202, CX-98, 172, CX-98, 140, CX-92, 108, p(10), 6.5,3.5,sg);
-    cubicTaper(ctx, CX-40, 230, CX-58, 202, CX-56, 172, CX-50, 142, p(11), 6, 3, sg);
-    cubicTaper(ctx, mir(CX-112),170, mir(CX-152),160, mir(CX-185),152, mir(CX-200),144, p(8),  8, 4,  sg);
-    cubicTaper(ctx, mir(CX-112),170, mir(CX-116),138, mir(CX-112),106, mir(CX-106),76,  p(9),  7, 3.5,sg);
-    cubicTaper(ctx, mir(CX-78),202,  mir(CX-98),172,  mir(CX-98),140,  mir(CX-92),108,  p(10),6.5,3.5,sg);
-    cubicTaper(ctx, mir(CX-40),230,  mir(CX-58),202,  mir(CX-56),172,  mir(CX-50),142,  p(11), 6, 3,  sg);
-
-    // From far left upper (CX-176, 178)
-    cubicTaper(ctx, CX-176,178, CX-198,162, CX-216,144, CX-225,122, p(12), 6,3, sg);
-    cubicTaper(ctx, mir(CX-176),178, mir(CX-198),162, mir(CX-216),144, mir(CX-225),122, p(12),6,3,sg);
+    cubicTaper(ctx, CX-108,170, CX-148,160, CX-178,150, CX-192,140, p(8),  8, 4, sg);
+    cubicTaper(ctx, CX-108,170, CX-112,138, CX-108,108, CX-102,78,  p(9),  7,3.5,sg);
+    cubicTaper(ctx, CX-76, 200, CX-96, 172, CX-94, 142, CX-88, 110, p(10), 6.5,3.5,sg);
+    cubicTaper(ctx, CX-38, 228, CX-56, 200, CX-52, 172, CX-46, 142, p(11), 6, 3, sg);
+    cubicTaper(ctx, mir(CX-108),170, mir(CX-148),160, mir(CX-178),150, mir(CX-192),140, p(8),  8, 4,  sg);
+    cubicTaper(ctx, mir(CX-108),170, mir(CX-112),138, mir(CX-108),108, mir(CX-102),78,  p(9),  7, 3.5,sg);
+    cubicTaper(ctx, mir(CX-76),200,  mir(CX-96),172,  mir(CX-94),142,  mir(CX-88),110,  p(10),6.5,3.5,sg);
+    cubicTaper(ctx, mir(CX-38),228,  mir(CX-56),200,  mir(CX-52),172,  mir(CX-46),142,  p(11), 6, 3,  sg);
+    // Far-side upper boughs
+    cubicTaper(ctx, CX-168,180, CX-186,162, CX-202,142, CX-208,120, p(12), 6,3, sg);
+    cubicTaper(ctx, mir(CX-168),180, mir(CX-186),162, mir(CX-202),142, mir(CX-208),120, p(12),6,3,sg);
   }
 
-  // ══════════════════════════════════════════
-  // TOP BRANCHES — fill the crown
-  // ══════════════════════════════════════════
+  // ── Top branches ──
   if (pBT > 0) {
     const sg = branchGrad(ctx, CX, 7);
     const p = (i: number) => mapP(pBT, i * 0.055, i * 0.055 + 0.62);
     const mir = (x: number) => CX + (CX - x);
-    cubicTaper(ctx, CX,148, CX-2,118, CX+2,84,  CX,55,            p(0), 8, 4, sg);
-    cubicTaper(ctx, CX,170, CX-55,142, CX-96,118, CX-108,90,       p(1), 7, 3.5, sg);
-    cubicTaper(ctx, CX,170, CX+55,142, CX+96,118, CX+108,90,       p(2), 7, 3.5, sg);
-    cubicTaper(ctx, CX,100, CX-30,78, CX-42,58,  CX-44,38,         p(3), 5, 2.8, sg);
-    cubicTaper(ctx, CX,100, CX+30,78, CX+42,58,  CX+44,38,         p(4), 5, 2.8, sg);
-    cubicTaper(ctx, CX-180,188, CX-198,170, CX-208,148, CX-206,120, p(5), 7, 3.5, sg);
-    cubicTaper(ctx, mir(CX-180),188, mir(CX-198),170, mir(CX-208),148, mir(CX-206),120, p(6), 7,3.5,sg);
-    cubicTaper(ctx, CX-200,144, CX-218,124, CX-222,100, CX-215,76,  p(7), 6, 3,  sg);
-    cubicTaper(ctx, mir(CX-200),144, mir(CX-218),124, mir(CX-222),100, mir(CX-215),76, p(8),6,3,sg);
+    cubicTaper(ctx, CX,148, CX-2,118, CX+2,84,  CX,55,             p(0), 8, 4,  sg);
+    cubicTaper(ctx, CX,170, CX-55,142, CX-96,118, CX-106,90,        p(1), 7,3.5, sg);
+    cubicTaper(ctx, CX,170, CX+55,142, CX+96,118, CX+106,90,        p(2), 7,3.5, sg);
+    cubicTaper(ctx, CX,100, CX-28,78,  CX-38,58,  CX-40,38,         p(3), 5,2.8, sg);
+    cubicTaper(ctx, CX,100, CX+28,78,  CX+38,58,  CX+40,38,         p(4), 5,2.8, sg);
+    cubicTaper(ctx, CX-168,180, CX-186,162, CX-196,142, CX-194,114, p(5), 7,3.5, sg);
+    cubicTaper(ctx, mir(CX-168),180, mir(CX-186),162, mir(CX-196),142, mir(CX-194),114, p(6),7,3.5,sg);
+    cubicTaper(ctx, CX-192,140, CX-208,122, CX-210,100, CX-204,76,  p(7), 6, 3,  sg);
+    cubicTaper(ctx, mir(CX-192),140, mir(CX-208),122, mir(CX-210),100, mir(CX-204),76, p(8),6,3,sg);
   }
 
   // ── Tip branches ──
@@ -585,22 +516,25 @@ function drawTree(ctx: Ctx, progress: number) {
     const p = (i: number) => mapP(pBTip, i * 0.045, i * 0.045 + 0.58);
     const mir = (x: number) => CX + (CX - x);
     const tips: [number,number,number,number,number,number][] = [
-      [CX-180,188, CX-204,165, CX-202,140],[CX-180,188, CX-216,170, CX-222,145],
-      [CX-108,90,  CX-120,68,  CX-116,44], [CX-108,90,  CX-94, 70,  CX-86, 48],
-      [CX-92, 108, CX-108,86,  CX-104,62], [CX-50, 142, CX-66, 118, CX-62, 90],
-      [CX-44, 38,  CX-52, 20,  CX-46,  4], [CX,55,      CX-14, 34,  CX-10, 14],
-      [CX,55,      CX+14, 34,  CX+10,  14],[CX+44,38,   CX+52, 20,  CX+46,  4],
-      [CX-225,122, CX-236,100, CX-228, 78],[CX-215,76,  CX-224, 56,  CX-218, 36],
-      [CX-168,275, CX-188,258, CX-192,236],[CX-188,325, CX-210,308, CX-215,285],
+      [CX-168,180, CX-190,158, CX-188,134],[CX-168,180, CX-204,162, CX-208,136],
+      [CX-106,90,  CX-118,68,  CX-112,44], [CX-106,90,  CX-90, 70,  CX-82, 48],
+      [CX-88, 110, CX-104,88,  CX-100,62], [CX-46, 142, CX-60, 118, CX-56, 90],
+      [CX-40, 38,  CX-48, 22,  CX-42,  6], [CX,55,      CX-12, 34,  CX-8,  14],
+      [CX,55,      CX+12, 34,  CX+8,  14], [CX+40,38,   CX+48, 22,  CX+42,  6],
+      [CX-204,76,  CX-212,56,  CX-206, 36],[CX-194,114, CX-202, 92, CX-196, 70],
+      [CX-158,274, CX-178,256, CX-180,234],[CX-172,322, CX-196,304, CX-200,280],
     ];
     tips.forEach(([x0,y0, qx,qy, x2,y2], i) => {
-      quadTaper(ctx, x0,y0, qx,qy, x2,y2, p(i), 4, 2, tg);
+      quadTaper(ctx, x0,y0, qx,qy, x2,y2,         p(i), 4, 2, tg);
       quadTaper(ctx, mir(x0),y0, mir(qx),qy, mir(x2),y2, p(i), 4, 2, tg);
     });
   }
 
+  ctx.restore(); // end canopy clip
+
   // ══════════════════════════════════════════
-  // LEAF CLUSTERS — dense dome canopy
+  // LEAF CLUSTERS — drawn outside clip so they
+  // form the visible canopy boundary
   // ══════════════════════════════════════════
   if (pLeaves > 0) {
     DOME.forEach(([cx, cy, r, br, pi], i) => {
