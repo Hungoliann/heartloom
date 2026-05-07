@@ -43,14 +43,15 @@ function barkGrad(ctx: Ctx, cx: number, r: number): CanvasGradient {
   return g;
 }
 
-/** Branch sage gradient */
-function branchGrad(ctx: Ctx, cx: number, r: number): CanvasGradient {
-  const g = ctx.createLinearGradient(cx - r, 0, cx + r, 0);
-  g.addColorStop(0,    "#182608");
-  g.addColorStop(0.28, "#48680e");
-  g.addColorStop(0.55, "#68922e");
-  g.addColorStop(0.80, "#486c1a");
-  g.addColorStop(1,    "#162208");
+/** Branch sage gradient — low contrast so vertical & angled strokes match */
+function branchGrad(ctx: Ctx, _cx: number, _r: number): CanvasGradient {
+  // Use a diagonal gradient aligned with the typical branch direction (upper-left → lower-right)
+  // so the shading is depth-based rather than position-based, giving consistent colour everywhere.
+  const g = ctx.createLinearGradient(0, 580, 500, 0);
+  g.addColorStop(0,   "#2e4c10");
+  g.addColorStop(0.4, "#486818");
+  g.addColorStop(0.7, "#527c20");
+  g.addColorStop(1,   "#3c5c14");
   return g;
 }
 
@@ -421,112 +422,115 @@ function drawTree(ctx: Ctx, progress: number) {
   ctx.closePath();
   ctx.clip();
 
-  // ── Wide main boughs ──
+  // ── Wide main boughs (~20% shorter than before) ──
+  // Named anchor constants so sub-branches reference the same endpoints
+  const LB  = { x: CX-118, y: 294 }; // left main bough tip
+  const RB  = { x: CX+118, y: 290 }; // right main bough tip
+  const LLB = { x: CX-96,  y: 390 }; // left lower bough tip
+  const RLB = { x: CX+96,  y: 386 }; // right lower bough tip
+
   if (pBW > 0) {
     const bg = branchGrad(ctx, CX, 15);
-    // Left bough — asymmetric origin, sweeps wide
-    cubicTaper(ctx, CX-5,374, CX-55,352, CX-108,315, CX-152,284, mapP(pBW,0,0.56),    16, 9, bg);
-    // Right bough
-    cubicTaper(ctx, CX+5,368, CX+58,346, CX+112,308, CX+155,280, mapP(pBW,0.10,0.64), 16, 9, bg);
-    // Lower drooping boughs
-    cubicTaper(ctx, CX-8,392, CX-52,398, CX-96,392, CX-128,382, mapP(pBW,0.20,0.70), 12, 7, bg);
-    cubicTaper(ctx, CX+8,388, CX+52,394, CX+96,388, CX+128,378, mapP(pBW,0.26,0.76), 12, 7, bg);
-    if (mapP(pBW,0,0.56) > 0.28) {
-      ctx.globalAlpha = 0.09;
-      cubicTaper(ctx, CX-8,370, CX-58,350, CX-112,312, CX-150,282, mapP(pBW,0,0.56),    2.2,1, "#b0d860");
-      cubicTaper(ctx, CX+8,364, CX+62,342, CX+116,305, CX+153,278, mapP(pBW,0.10,0.64), 2.2,1, "#b0d860");
-      ctx.globalAlpha = 1;
-    }
+    cubicTaper(ctx, CX-5,374, CX-44,356, CX-88,320, LB.x,LB.y,    mapP(pBW,0,0.56),    16,8.5,bg);
+    cubicTaper(ctx, CX+5,368, CX+46,350, CX+90,316, RB.x,RB.y,    mapP(pBW,0.10,0.64), 16,8.5,bg);
+    cubicTaper(ctx, CX-8,392, CX-40,398, CX-72,396, LLB.x,LLB.y,  mapP(pBW,0.20,0.70), 12,6.5,bg);
+    cubicTaper(ctx, CX+8,388, CX+40,394, CX+72,392, RLB.x,RLB.y,  mapP(pBW,0.26,0.76), 12,6.5,bg);
   }
 
-  // ── Upper boughs ──
+  // ── Upper boughs (~20% shorter) ──
+  const LUB = { x: CX-86,  y: 182 }; // left upper bough tip
+  const RUB = { x: CX+86,  y: 180 }; // right upper bough tip
+  const CTR = { x: CX,     y: 156 }; // centre top
+
   if (pBU > 0) {
     const bg = branchGrad(ctx, CX, 11);
-    cubicTaper(ctx, CX,280, CX-40,240, CX-78,204, CX-108,170, mapP(pBU,0,0.62),    12,6.5,bg);
-    cubicTaper(ctx, CX,280, CX+40,240, CX+78,204, CX+108,170, mapP(pBU,0.10,0.72), 12,6.5,bg);
-    cubicTaper(ctx, CX,254, CX-2, 212, CX+2, 178, CX,   148,  mapP(pBU,0.05,0.58), 11,6,  bg);
-    // Side upper boughs from wide bough tips
-    cubicTaper(ctx, CX-152,284, CX-162,252, CX-170,218, CX-168,180, mapP(pBU,0.12,0.68), 8,4.5,bg);
-    cubicTaper(ctx, CX+152,280, CX+162,248, CX+170,215, CX+168,178, mapP(pBU,0.18,0.74), 8,4.5,bg);
-    cubicTaper(ctx, CX-128,382, CX-138,350, CX-148,312, CX-158,274, mapP(pBU,0.22,0.75), 8,4.5,bg);
-    cubicTaper(ctx, CX+128,378, CX+138,346, CX+148,308, CX+158,270, mapP(pBU,0.28,0.80), 8,4.5,bg);
+    cubicTaper(ctx, CX,282, CX-32,246, CX-62,210, LUB.x,LUB.y,    mapP(pBU,0,0.62),    12,6, bg);
+    cubicTaper(ctx, CX,282, CX+32,246, CX+62,210, RUB.x,RUB.y,    mapP(pBU,0.10,0.72), 12,6, bg);
+    cubicTaper(ctx, CX,256, CX-2, 216, CX+2,182,  CTR.x,CTR.y,    mapP(pBU,0.05,0.58), 11,6, bg);
+    // Side boughs from wide tip — arc upward naturally
+    cubicTaper(ctx, LB.x,LB.y, CX-128,264, CX-138,224, CX-136,188, mapP(pBU,0.12,0.68), 8,4, bg);
+    cubicTaper(ctx, RB.x,RB.y, CX+128,260, CX+138,220, CX+136,186, mapP(pBU,0.18,0.74), 8,4, bg);
+    // From lower bough — rise inward
+    cubicTaper(ctx, LLB.x,LLB.y, CX-106,360, CX-116,320, CX-120,286, mapP(pBU,0.22,0.75), 8,4, bg);
+    cubicTaper(ctx, RLB.x,RLB.y, CX+106,356, CX+116,316, CX+120,282, mapP(pBU,0.28,0.80), 8,4, bg);
   }
 
-  // ── Sub-branches ──
+  // ── Sub-branches — shorter, steeper angles for naturalism ──
   if (pBS > 0) {
     const sg = branchGrad(ctx, CX, 9);
     const mir = (x: number) => CX + (CX - x);
-    const p = (i: number) => mapP(pBS, i * 0.038, i * 0.038 + 0.66);
+    const p = (i: number) => mapP(pBS, i * 0.04, i * 0.04 + 0.62);
 
-    // From left wide bough tip
-    cubicTaper(ctx, CX-152,284, CX-172,255, CX-174,222, CX-170,190, p(0),  9, 5, sg);
-    cubicTaper(ctx, CX-152,284, CX-160,304, CX-164,326, CX-162,348, p(1),  8,4.5,sg);
-    cubicTaper(ctx, CX-152,284, CX-168,272, CX-184,262, CX-198,254, p(2),  7, 4, sg);
-    // From mid-bough
-    cubicTaper(ctx, CX-116,306, CX-136,276, CX-136,248, CX-130,216, p(3),  8, 4, sg);
-    cubicTaper(ctx, CX-80, 326, CX-98, 294, CX-96, 266, CX-90, 234, p(4), 7.5,4, sg);
-    cubicTaper(ctx, CX-42, 356, CX-54, 328, CX-52, 298, CX-46, 268, p(5),  7,3.5,sg);
+    // From left main bough tip
+    cubicTaper(ctx, LB.x,LB.y, LB.x-14,270, LB.x-16,242, LB.x-12,212, p(0), 8,4.5,sg);
+    cubicTaper(ctx, LB.x,LB.y, LB.x-8, 314, LB.x-10,334, LB.x-8, 352, p(1), 7,4,  sg);
+    cubicTaper(ctx, LB.x,LB.y, LB.x-22,276, LB.x-36,264, LB.x-46,254, p(2), 6,3.5,sg);
+    // From mid-bough (about 60% along the left main bough)
+    cubicTaper(ctx, CX-88,312, CX-102,284, CX-102,256, CX-96,228,    p(3), 7,4,  sg);
+    cubicTaper(ctx, CX-58,332, CX-70, 304, CX-68, 276, CX-62,248,    p(4), 6.5,3.5,sg);
+    cubicTaper(ctx, CX-32,356, CX-42, 330, CX-40, 302, CX-36,276,    p(5), 6,3,  sg);
     // From lower bough
-    cubicTaper(ctx, CX-128,382, CX-140,356, CX-144,328, CX-140,298, p(6),  8,4.5,sg);
-    cubicTaper(ctx, CX-128,382, CX-150,364, CX-164,344, CX-172,322, p(7),  7, 4, sg);
+    cubicTaper(ctx, LLB.x,LLB.y, LLB.x-12,366, LLB.x-14,342, LLB.x-10,316, p(6), 7,4, sg);
+    cubicTaper(ctx, LLB.x,LLB.y, LLB.x-22,372, LLB.x-32,356, LLB.x-38,338, p(7), 6,3.5,sg);
 
     // Right mirrors
-    cubicTaper(ctx, mir(CX-152),284, mir(CX-172),255, mir(CX-174),222, mir(CX-170),190, p(0), 9, 5, sg);
-    cubicTaper(ctx, mir(CX-152),284, mir(CX-160),304, mir(CX-164),326, mir(CX-162),348, p(1), 8,4.5,sg);
-    cubicTaper(ctx, mir(CX-152),284, mir(CX-168),272, mir(CX-184),262, mir(CX-198),254, p(2), 7, 4, sg);
-    cubicTaper(ctx, mir(CX-116),306, mir(CX-136),276, mir(CX-136),248, mir(CX-130),216, p(3), 8, 4, sg);
-    cubicTaper(ctx, mir(CX-80),326,  mir(CX-98),294,  mir(CX-96),266,  mir(CX-90),234,  p(4),7.5,4, sg);
-    cubicTaper(ctx, mir(CX-42),356,  mir(CX-54),328,  mir(CX-52),298,  mir(CX-46),268,  p(5), 7,3.5,sg);
-    cubicTaper(ctx, mir(CX-128),382, mir(CX-140),356, mir(CX-144),328, mir(CX-140),298, p(6), 8,4.5,sg);
-    cubicTaper(ctx, mir(CX-128),382, mir(CX-150),364, mir(CX-164),344, mir(CX-172),322, p(7), 7, 4, sg);
+    cubicTaper(ctx, mir(LB.x),LB.y, mir(LB.x-14),270, mir(LB.x-16),242, mir(LB.x-12),212, p(0), 8,4.5,sg);
+    cubicTaper(ctx, mir(LB.x),LB.y, mir(LB.x-8), 314, mir(LB.x-10),334, mir(LB.x-8), 352, p(1), 7,4,  sg);
+    cubicTaper(ctx, mir(LB.x),LB.y, mir(LB.x-22),276, mir(LB.x-36),264, mir(LB.x-46),254, p(2), 6,3.5,sg);
+    cubicTaper(ctx, mir(CX-88),312, mir(CX-102),284, mir(CX-102),256, mir(CX-96),228,    p(3), 7,4,  sg);
+    cubicTaper(ctx, mir(CX-58),332, mir(CX-70), 304, mir(CX-68), 276, mir(CX-62),248,    p(4), 6.5,3.5,sg);
+    cubicTaper(ctx, mir(CX-32),356, mir(CX-42), 330, mir(CX-40), 302, mir(CX-36),276,    p(5), 6,3,  sg);
+    cubicTaper(ctx, mir(LLB.x),LLB.y, mir(LLB.x-12),366, mir(LLB.x-14),342, mir(LLB.x-10),316, p(6), 7,4, sg);
+    cubicTaper(ctx, mir(LLB.x),LLB.y, mir(LLB.x-22),372, mir(LLB.x-32),356, mir(LLB.x-38),338, p(7), 6,3.5,sg);
 
     // From upper boughs
-    cubicTaper(ctx, CX-108,170, CX-148,160, CX-178,150, CX-192,140, p(8),  8, 4, sg);
-    cubicTaper(ctx, CX-108,170, CX-112,138, CX-108,108, CX-102,78,  p(9),  7,3.5,sg);
-    cubicTaper(ctx, CX-76, 200, CX-96, 172, CX-94, 142, CX-88, 110, p(10), 6.5,3.5,sg);
-    cubicTaper(ctx, CX-38, 228, CX-56, 200, CX-52, 172, CX-46, 142, p(11), 6, 3, sg);
-    cubicTaper(ctx, mir(CX-108),170, mir(CX-148),160, mir(CX-178),150, mir(CX-192),140, p(8),  8, 4,  sg);
-    cubicTaper(ctx, mir(CX-108),170, mir(CX-112),138, mir(CX-108),108, mir(CX-102),78,  p(9),  7, 3.5,sg);
-    cubicTaper(ctx, mir(CX-76),200,  mir(CX-96),172,  mir(CX-94),142,  mir(CX-88),110,  p(10),6.5,3.5,sg);
-    cubicTaper(ctx, mir(CX-38),228,  mir(CX-56),200,  mir(CX-52),172,  mir(CX-46),142,  p(11), 6, 3,  sg);
-    // Far-side upper boughs
-    cubicTaper(ctx, CX-168,180, CX-186,162, CX-202,142, CX-208,120, p(12), 6,3, sg);
-    cubicTaper(ctx, mir(CX-168),180, mir(CX-186),162, mir(CX-202),142, mir(CX-208),120, p(12),6,3,sg);
+    cubicTaper(ctx, LUB.x,LUB.y, LUB.x-24,166, LUB.x-38,152, LUB.x-44,138, p(8), 7,3.5,sg);
+    cubicTaper(ctx, LUB.x,LUB.y, LUB.x-8, 158, LUB.x-6, 130, LUB.x,  104,  p(9), 6,3,  sg);
+    cubicTaper(ctx, CX-60,204, CX-76,180, CX-74,154, CX-70,126,               p(10),6,3,  sg);
+    cubicTaper(ctx, CX-30,232, CX-44,208, CX-40,182, CX-36,156,               p(11),5.5,3,sg);
+    cubicTaper(ctx, mir(LUB.x),LUB.y, mir(LUB.x-24),166, mir(LUB.x-38),152, mir(LUB.x-44),138, p(8), 7,3.5,sg);
+    cubicTaper(ctx, mir(LUB.x),LUB.y, mir(LUB.x-8), 158, mir(LUB.x-6), 130, mir(LUB.x),  104,  p(9), 6,3,  sg);
+    cubicTaper(ctx, mir(CX-60),204, mir(CX-76),180, mir(CX-74),154, mir(CX-70),126,         p(10),6,3,  sg);
+    cubicTaper(ctx, mir(CX-30),232, mir(CX-44),208, mir(CX-40),182, mir(CX-36),156,         p(11),5.5,3,sg);
+    // Far upper sub-branch
+    cubicTaper(ctx, CX-136,188, CX-148,170, CX-156,152, CX-154,130, p(12), 5.5,2.8,sg);
+    cubicTaper(ctx, mir(CX-136),188, mir(CX-148),170, mir(CX-156),152, mir(CX-154),130, p(12),5.5,2.8,sg);
   }
 
-  // ── Top branches ──
+  // ── Top branches — rise toward apex ──
   if (pBT > 0) {
     const sg = branchGrad(ctx, CX, 7);
-    const p = (i: number) => mapP(pBT, i * 0.055, i * 0.055 + 0.62);
+    const p = (i: number) => mapP(pBT, i * 0.055, i * 0.055 + 0.60);
     const mir = (x: number) => CX + (CX - x);
-    cubicTaper(ctx, CX,148, CX-2,118, CX+2,84,  CX,55,             p(0), 8, 4,  sg);
-    cubicTaper(ctx, CX,170, CX-55,142, CX-96,118, CX-106,90,        p(1), 7,3.5, sg);
-    cubicTaper(ctx, CX,170, CX+55,142, CX+96,118, CX+106,90,        p(2), 7,3.5, sg);
-    cubicTaper(ctx, CX,100, CX-28,78,  CX-38,58,  CX-40,38,         p(3), 5,2.8, sg);
-    cubicTaper(ctx, CX,100, CX+28,78,  CX+38,58,  CX+40,38,         p(4), 5,2.8, sg);
-    cubicTaper(ctx, CX-168,180, CX-186,162, CX-196,142, CX-194,114, p(5), 7,3.5, sg);
-    cubicTaper(ctx, mir(CX-168),180, mir(CX-186),162, mir(CX-196),142, mir(CX-194),114, p(6),7,3.5,sg);
-    cubicTaper(ctx, CX-192,140, CX-208,122, CX-210,100, CX-204,76,  p(7), 6, 3,  sg);
-    cubicTaper(ctx, mir(CX-192),140, mir(CX-208),122, mir(CX-210),100, mir(CX-204),76, p(8),6,3,sg);
+    cubicTaper(ctx, CTR.x,CTR.y, CX-2,128,  CX+2,98,  CX,68,               p(0), 7,3.5,sg);
+    cubicTaper(ctx, CX,182, CX-44,158, CX-78,132, CX-88,106,                p(1), 6.5,3,sg);
+    cubicTaper(ctx, CX,182, CX+44,158, CX+78,132, CX+88,106,                p(2), 6.5,3,sg);
+    cubicTaper(ctx, CX,108, CX-20,88,  CX-28,70,  CX-30,52,                 p(3), 4.5,2.5,sg);
+    cubicTaper(ctx, CX,108, CX+20,88,  CX+28,70,  CX+30,52,                 p(4), 4.5,2.5,sg);
+    cubicTaper(ctx, CX-136,188, CX-148,168, CX-154,146, CX-150,122,          p(5), 6,3,  sg);
+    cubicTaper(ctx, mir(CX-136),188, mir(CX-148),168, mir(CX-154),146, mir(CX-150),122, p(6),6,3,sg);
+    cubicTaper(ctx, LUB.x-50,190, LUB.x-58,172, LUB.x-60,152, LUB.x-56,128, p(7), 5,2.5,sg);
+    cubicTaper(ctx, mir(LUB.x-50),190, mir(LUB.x-58),172, mir(LUB.x-60),152, mir(LUB.x-56),128, p(8),5,2.5,sg);
   }
 
-  // ── Tip branches ──
+  // ── Tip branches — fine twigs, very thin taper ──
   if (pBTip > 0) {
     const tg = branchGrad(ctx, CX, 5);
-    const p = (i: number) => mapP(pBTip, i * 0.045, i * 0.045 + 0.58);
+    const p = (i: number) => mapP(pBTip, i * 0.05, i * 0.05 + 0.55);
     const mir = (x: number) => CX + (CX - x);
     const tips: [number,number,number,number,number,number][] = [
-      [CX-168,180, CX-190,158, CX-188,134],[CX-168,180, CX-204,162, CX-208,136],
-      [CX-106,90,  CX-118,68,  CX-112,44], [CX-106,90,  CX-90, 70,  CX-82, 48],
-      [CX-88, 110, CX-104,88,  CX-100,62], [CX-46, 142, CX-60, 118, CX-56, 90],
-      [CX-40, 38,  CX-48, 22,  CX-42,  6], [CX,55,      CX-12, 34,  CX-8,  14],
-      [CX,55,      CX+12, 34,  CX+8,  14], [CX+40,38,   CX+48, 22,  CX+42,  6],
-      [CX-204,76,  CX-212,56,  CX-206, 36],[CX-194,114, CX-202, 92, CX-196, 70],
-      [CX-158,274, CX-178,256, CX-180,234],[CX-172,322, CX-196,304, CX-200,280],
+      [CX-136,188, CX-148,170, CX-144,150],[CX-136,188, CX-158,172, CX-160,152],
+      [CX-88,106,  CX-96, 86,  CX-90, 68], [CX-88,106,  CX-76, 86,  CX-70, 68],
+      [CX-70,126,  CX-80, 106, CX-76, 88], [CX-36,156,  CX-46, 134, CX-42,114],
+      [CX-30,52,   CX-36, 36,  CX-32, 22], [CX,68,      CX-10, 48,  CX-6,  32],
+      [CX,68,      CX+10, 48,  CX+6,  32], [CX+30,52,   CX+36, 36,  CX+32, 22],
+      [CX-150,122, CX-156,104, CX-150,86], [CX-104,104, CX-112,84,  CX-106,66],
+      [LB.x-12,212, LB.x-18,196, LB.x-14,180],
+      [LLB.x-10,316, LLB.x-16,300, LLB.x-12,282],
     ];
     tips.forEach(([x0,y0, qx,qy, x2,y2], i) => {
-      quadTaper(ctx, x0,y0, qx,qy, x2,y2,         p(i), 4, 2, tg);
-      quadTaper(ctx, mir(x0),y0, mir(qx),qy, mir(x2),y2, p(i), 4, 2, tg);
+      quadTaper(ctx, x0,y0, qx,qy, x2,y2,         p(i), 3,1.4,tg);
+      quadTaper(ctx, mir(x0),y0, mir(qx),qy, mir(x2),y2, p(i), 3,1.4,tg);
     });
   }
 
