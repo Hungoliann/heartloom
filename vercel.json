@@ -1,5 +1,5 @@
 {
-  "buildCommand": "corepack pnpm --filter @workspace/heartloom build && node -e \"const fs=require('fs'); const path=require('path'); const src='artifacts/heartloom/dist/public'; const dest='public'; if(fs.existsSync(dest)) fs.rmSync(dest, {recursive:true}); fs.cpSync(src, dest, {recursive:true}); console.log('Built output copied to public/');\"",
+  "buildCommand": "corepack pnpm --filter @workspace/heartloom build && node build.js",
   "installCommand": "corepack pnpm install --frozen-lockfile",
   "outputDirectory": "public",
   "routes": [
