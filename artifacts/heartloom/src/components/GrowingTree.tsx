@@ -228,14 +228,14 @@ function drawTree(ctx: Ctx, progress: number) {
   const pSeed   = mapP(progress, 0.00, 0.06);
   const pRoots  = mapP(progress, 0.05, 0.22);
   const pTrunk  = mapP(progress, 0.18, 0.35);
-  const pHeart  = mapP(progress, 0.32, 0.44);
-  const pUpper  = mapP(progress, 0.38, 0.52);
-  const pBW     = mapP(progress, 0.46, 0.62);
-  const pBU     = mapP(progress, 0.54, 0.68);
-  const pBS     = mapP(progress, 0.62, 0.76);
-  const pBT     = mapP(progress, 0.72, 0.84);
-  const pBTip   = mapP(progress, 0.80, 0.90);
-  const pLeaves = mapP(progress, 0.86, 1.00);
+  // heart removed — shift subsequent windows earlier by ~0.12
+  const pUpper  = mapP(progress, 0.26, 0.40);
+  const pBW     = mapP(progress, 0.34, 0.50);
+  const pBU     = mapP(progress, 0.42, 0.56);
+  const pBS     = mapP(progress, 0.50, 0.64);
+  const pBT     = mapP(progress, 0.60, 0.72);
+  const pBTip   = mapP(progress, 0.68, 0.78);
+  const pLeaves = mapP(progress, 0.74, 1.00);
 
   // Ground shadow
   const gs = ctx.createRadialGradient(CX, 518, 5, CX, 516, 125);
@@ -357,38 +357,7 @@ function drawTree(ctx: Ctx, progress: number) {
     }
   }
 
-  // ══════════════════════════════════════════
-  // HEART — formed by two branch curves
-  // The trunk forks; branches arc outward and
-  // back together, outlining a heart in the
-  // negative space between them.
-  // ══════════════════════════════════════════
-  if (pHeart > 0) {
-    const hbg = barkGrad(ctx, CX, 20);
-    // Phase 1: lower arc — branches sweep outward
-    const ph1 = mapP(pHeart, 0,    0.56);
-    // Phase 2: upper arc — branches curl back to meet at top
-    const ph2 = mapP(pHeart, 0.44, 1.00);
-
-    // Left branch — traces left half of heart outline
-    cubicTaper(ctx, CX,390, CX-6,374, CX-44,360, CX-44,340, ph1, 13, 8, hbg);
-    cubicTaper(ctx, CX-44,340, CX-44,318, CX-24,312, CX,321, ph2,  8, 5, hbg);
-
-    // Right branch — mirror
-    cubicTaper(ctx, CX,390, CX+6,374, CX+44,360, CX+44,340, ph1, 13, 8, hbg);
-    cubicTaper(ctx, CX+44,340, CX+44,318, CX+24,312, CX,321, ph2,  8, 5, hbg);
-
-    // Subtle warm glow in the heart space as it completes
-    if (pHeart > 0.72) {
-      const ga = mapP(pHeart, 0.72, 1.0) * 0.5;
-      const glow = ctx.createRadialGradient(CX, 354, 0, CX, 354, 42);
-      glow.addColorStop(0,   `rgba(220,140,20,${ga * 0.45})`);
-      glow.addColorStop(0.5, `rgba(200,110,15,${ga * 0.20})`);
-      glow.addColorStop(1,   "rgba(180,90,10,0)");
-      ctx.fillStyle = glow;
-      ctx.beginPath(); ctx.ellipse(CX, 354, 42, 36, 0, 0, Math.PI * 2); ctx.fill();
-    }
-  }
+  // HEART removed — trunk now continues directly to upper trunk
 
   // ══════════════════════════════════════════
   // UPPER TRUNK — sage-green, rising from
