@@ -330,12 +330,13 @@ function drawTree(ctx: Ctx, progress: number) {
 
   // ══════════════════════════════════════════
   // TRUNK — one single smooth motion,
-  // ground to heart junction (y 504 → 372)
+  // ground to upper-trunk junction (y 504 → 332) — extended ~30% upward
   // ══════════════════════════════════════════
   if (pTrunk > 0) {
     const bg = barkGrad(ctx, CX, 26);
-    // One continuous tapered stroke — wide flare at base narrows smoothly to crown
-    cubicTaper(ctx, CX,504, CX-16,456, CX+10,408, CX,372, pTrunk, 50, 22, bg);
+    // One continuous tapered stroke — wide flare at base narrows smoothly upward
+    // endpoint y moved from 372 → 332 to extend trunk upward by ~0.3
+    cubicTaper(ctx, CX,504, CX-16,456, CX+10,408, CX,332, pTrunk, 50, 22, bg);
 
     // Bark fissures for texture
     if (pTrunk > 0.22) {
