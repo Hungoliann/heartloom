@@ -1,0 +1,21 @@
+{
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "buildCommand": "pnpm --filter @workspace/heartloom build",
+        "distDir": "artifacts/heartloom/dist/public"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/artifacts/heartloom/dist/public/index.html"
+    }
+  ]
+}
