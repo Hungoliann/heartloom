@@ -1,22 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
-  Heart,
   BookOpen,
-  Send,
-  Shield,
-  Quote,
-  Users,
+  Calendar,
   CheckCircle,
-  Loader2,
-  Star,
   Clock,
   FileText,
+  Heart,
+  Loader2,
   Mic,
-  Calendar,
+  Send,
+  Shield,
+  Star,
   UserCheck,
 } from "lucide-react";
 import { GrowingTree } from "@/components/GrowingTree";
@@ -24,18 +22,73 @@ import logoImage from "@assets/image_1778097592136.png";
 
 const AMBER = "#D27F14";
 const SAGE = "#9CAF88";
+const RECIPIENTS = ["my children", "my partner", "my family", "my executor"];
+
+const PILLARS = [
+  {
+    icon: Shield,
+    title: "The Vault",
+    desc: "Secure storage for wills, DNRs, account lists, and the documents your family needs first.",
+    points: ["Encrypted access", "Role-based sharing", "Family handoff packets"],
+  },
+  {
+    icon: Send,
+    title: "The Thread",
+    desc: "Future letters delivered when they matter most: birthdays, milestones, and hard days.",
+    points: ["Open-when delivery", "Milestone scheduling", "Guided memory prompts"],
+  },
+  {
+    icon: UserCheck,
+    title: "The Concierge",
+    desc: "A human guide helps with hospice benefits, estate logistics, and executor access.",
+    points: ["Medicare benefit optimization", "Digital will integration", "Estate executor access"],
+  },
+];
+
+const DASHBOARD_ITEMS = [
+  "Medicare benefit optimization",
+  "Digital will integration",
+  "Estate executor access",
+  "Care team contact list",
+  "Account inventory and key documents",
+  "Family notification plan",
+];
+
+const PLANS = [
+  {
+    name: "Gift Model",
+    price: "$49",
+    period: "one-time",
+    desc: "A meaningful first step for one loved one or one milestone.",
+    features: ["One guided future letter", "One memory recording", "Basic vault starter"],
+    color: SAGE,
+  },
+  {
+    name: "Family Tier",
+    price: "$15",
+    period: "/mo",
+    desc: "Active concierge support for families managing care and legacy together.",
+    features: ["Unlimited letters", "Family sharing", "Concierge check-ins", "Shared document vault"],
+    color: AMBER,
+    recommended: true,
+  },
+  {
+    name: "Legacy Vault",
+    price: "$299",
+    period: "one-time",
+    desc: "Permanent secure archive for practical planning and long-term peace of mind.",
+    features: ["Vault architecture access", "Executor-ready handoff", "Document organization", "Permanent storage"],
+    color: SAGE,
+  },
+];
 
 export default function Home() {
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
-  const waitlistRef = useRef<HTMLElement>(null);
-
-  const [email, setEmail] = useState("");
-  const [waitlistEmail, setWaitlistEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [displayCount, setDisplayCount] = useState(0);
-  const count = 3847;
+  const [recipient, setRecipient] = useState(RECIPIENTS[0]);
+  const [message, setMessage] = useState("");
+  const [mode, setMode] = useState<"letter" | "memory">("letter");
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
@@ -52,608 +105,545 @@ export default function Home() {
         { threshold: 0.08 }
       );
       section.style.opacity = "0";
-      section.style.transform = "translateY(44px)";
-      section.style.transition = "opacity 0.85s ease, transform 0.85s ease";
+      section.style.transform = "translateY(32px)";
+      section.style.transition = "opacity 0.8s ease, transform 0.8s ease";
       obs.observe(section);
       observers.push(obs);
     });
-    return () => observers.forEach((o) => o.disconnect());
+
+    return () => observers.forEach((observer) => observer.disconnect());
   }, []);
 
-  useEffect(() => {
-    if (!waitlistRef.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        observer.disconnect();
-        const duration = 2000;
-        const start = performance.now();
-        const tick = (now: number) => {
-          const elapsed = now - start;
-          const p = Math.min(elapsed / duration, 1);
-          const ease = 1 - Math.pow(1 - p, 3);
-          setDisplayCount(Math.round(ease * count));
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      },
-      { threshold: 0.3 }
-    );
-    observer.observe(waitlistRef.current);
-    return () => observer.disconnect();
-  }, [count]);
-
-  const handleWaitlist = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!waitlistEmail) return;
-    setLoading(true);
-    setTimeout(() => { setLoading(false); setWaitlistSubmitted(true); }, 1200);
-  };
-
-  const handleFooter = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubmitted(true);
+  const handleMicroAction = (event: FormEvent) => {
+    event.preventDefault();
+    if (!message.trim()) return;
+    setSaving(true);
+    window.setTimeout(() => {
+      setSaving(false);
+      setSaved(true);
+    }, 1100);
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-
-      {/* ── NAV ──────────────────────────────────────────────────────────── */}
+    <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
       <nav
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 md:px-12"
-        style={{ background: "rgba(250,248,242,0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(156,175,136,0.15)" }}
+        className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-6 py-3 md:px-12"
+        style={{
+          background: "rgba(250,248,242,0.9)",
+          backdropFilter: "blur(16px)",
+          borderBottom: "1px solid rgba(156,175,136,0.16)",
+        }}
       >
         <a href="/" className="flex items-center gap-3">
           <img src={logoImage} alt="Heartloom" className="h-10 w-auto" />
           <div>
-            <span className="font-serif text-xl font-semibold block leading-tight" style={{ color: "#2d1a08" }}>Heartloom</span>
-            <span className="text-xs font-sans" style={{ color: SAGE }}>Legacy Guides</span>
+            <span className="block font-serif text-xl font-semibold leading-tight" style={{ color: "#2d1a08" }}>
+              Heartloom
+            </span>
+            <span className="text-xs font-sans" style={{ color: SAGE }}>
+              Legacy Guides
+            </span>
           </div>
         </a>
         <div className="flex items-center gap-3">
-          <Button variant="ghost" className="text-sm hidden sm:inline-flex" style={{ color: "#2d1a08" }}>Log In</Button>
-          <Button className="rounded-full px-5 text-sm text-white font-semibold" style={{ background: AMBER }}>
-            Join Waitlist
+          <Button variant="ghost" className="hidden text-sm sm:inline-flex" style={{ color: "#2d1a08" }}>
+            See pricing
+          </Button>
+          <Button className="rounded-full px-5 text-sm font-semibold text-white" style={{ background: AMBER }}>
+            Draft a letter
           </Button>
         </div>
       </nav>
 
-      {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      <section
-        className="relative w-full flex items-center justify-center text-white"
-        style={{ height: "100dvh", paddingTop: 72 }}
-      >
-        {/* Background family photo */}
+      <section className="relative overflow-hidden px-6 pb-20 pt-28 md:px-12 md:pt-32">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1511895426328-dc8714191011?w=1920&q=85&auto=format&fit=crop')`,
+            backgroundImage: "url('https://images.unsplash.com/photo-1511895426328-dc8714191011?w=1920&q=85&auto=format&fit=crop')",
           }}
         />
-        {/* Warm overlay — lighter to let the photo breathe */}
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(to bottom, rgba(15,8,2,0.45) 0%, rgba(25,12,4,0.38) 45%, rgba(10,16,8,0.68) 100%)",
+            background:
+              "linear-gradient(125deg, rgba(18,10,4,0.72) 0%, rgba(22,14,6,0.54) 48%, rgba(156,175,136,0.16) 100%)",
           }}
         />
+        <div className="absolute inset-x-0 bottom-0 h-28" style={{ background: "linear-gradient(to bottom, transparent, hsl(var(--background)))" }} />
 
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, delay: 0.2 }}
-          className="relative z-10 text-center px-6 max-w-4xl mx-auto"
-        >
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-xs font-sans font-semibold tracking-[0.22em] uppercase mb-5"
-            style={{ color: SAGE }}
+        <div className="relative z-10 mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.1 }}
+            className="max-w-2xl"
           >
-            A legacy companion for families
-          </motion.p>
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-white/70">
+              Preserve words and wisdom
+            </p>
+            <h1 className="font-serif text-white leading-[0.95]" style={{ fontSize: "clamp(2.8rem, 6vw, 5.6rem)" }}>
+              A legacy platform<br />
+              built for the moments<br />
+              families cannot afford to miss.
+            </h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/75 md:text-xl">
+              Start with one sentence, one memory, or one future letter. Heartloom helps you turn it into a secure vault,
+              a guided delivery thread, and a human concierge when the logistics become real.
+            </p>
 
-          <h1
-            className="font-serif text-white leading-tight mb-6"
-            style={{ fontSize: "clamp(2.4rem, 6vw, 5rem)", textShadow: "0 4px 32px rgba(0,0,0,0.55)" }}
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {[
+                { icon: Mic, title: "60-second memory", copy: "Capture a voice note and keep the tone intact." },
+                { icon: FileText, title: "Practical vault", copy: "Store wills, DNRs, and account details together." },
+                { icon: UserCheck, title: "Concierge support", copy: "Get help with hospice and estate logistics." },
+              ].map((item) => (
+                <div key={item.title} className="rounded-2xl border border-white/10 bg-white/8 p-4 text-white shadow-[0_20px_60px_rgba(0,0,0,0.18)] backdrop-blur">
+                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: `${AMBER}20` }}>
+                    <item.icon className="h-5 w-5" style={{ color: AMBER }} />
+                  </div>
+                  <p className="font-serif text-lg font-semibold">{item.title}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-white/64">{item.copy}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-white/65">
+              {[
+                "Founded by researchers from Stanford, NASA, and Berkeley",
+                "Accessibility tools included",
+                "Warm, family-first onboarding",
+              ].map((item) => (
+                <span key={item} className="rounded-full border border-white/12 bg-white/8 px-4 py-2 backdrop-blur">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1, delay: 0.18 }}
           >
-            The story of your life<br />
-            is too important to{" "}
-            <em style={{ color: AMBER }}>leave to chance.</em>
-          </h1>
-
-          <p className="text-lg text-white/70 mb-10 max-w-xl mx-auto font-sans leading-relaxed">
-            Write letters for milestones years away. Preserve memories. Leave your family everything they need — and everything they'll treasure.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="rounded-full px-8 text-white font-semibold"
-              style={{ background: AMBER, boxShadow: `0 4px 24px ${AMBER}55` }}
-            >
-              Reserve My Spot <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="rounded-full px-8 border-white/25 text-white hover:bg-white/10"
-            >
-              See How It Works
-            </Button>
-          </div>
-
-          <div className="mt-10 flex items-center justify-center gap-6 flex-wrap">
-            {[
-              { n: "3,847", label: "families waiting" },
-              { n: "4.9★", label: "satisfaction" },
-              { n: "Free", label: "to start" },
-            ].map((s, i) => (
-              <div key={i} className="text-center">
-                <div className="text-lg font-serif font-bold" style={{ color: AMBER }}>{s.n}</div>
-                <div className="text-xs text-white/50 font-sans">{s.label}</div>
+            <Card className="border-white/14 bg-[rgba(250,248,242,0.92)] p-6 shadow-[0_28px_80px_rgba(0,0,0,0.22)] backdrop-blur-xl md:p-8">
+              <div className="mb-5 flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: SAGE }}>
+                    Day one interview
+                  </p>
+                  <h2 className="mt-2 font-serif text-2xl text-[#2d1a08] md:text-3xl">
+                    Who should hear this first?
+                  </h2>
+                </div>
+                <div className="rounded-full px-3 py-1 text-xs font-semibold" style={{ background: `${AMBER}18`, color: AMBER }}>
+                  {mode === "letter" ? "Drafting a letter" : "Recording a memory"}
+                </div>
               </div>
-            ))}
-          </div>
-        </motion.div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none" style={{ background: "linear-gradient(to bottom, transparent, hsl(var(--background)))" }} />
+              <div className="mb-4 flex flex-wrap gap-2">
+                {RECIPIENTS.map((value) => (
+                  <button
+                    key={value}
+                    type="button"
+                    onClick={() => setRecipient(value)}
+                    className="rounded-full border px-4 py-2 text-sm font-medium transition"
+                    style={{
+                      borderColor: recipient === value ? AMBER : "rgba(156,175,136,0.28)",
+                      background: recipient === value ? `${AMBER}14` : "transparent",
+                      color: recipient === value ? "#2d1a08" : "#5d6558",
+                    }}
+                  >
+                    {value}
+                  </button>
+                ))}
+              </div>
+
+              <AnimatePresence mode="wait">
+                {!saved ? (
+                  <motion.form key="draft-form" onSubmit={handleMicroAction} exit={{ opacity: 0, y: -8 }} className="space-y-4">
+                    <div>
+                      <label className="mb-2 block text-sm font-medium text-[#2d1a08]">
+                        What is one thing you want {recipient} to know forever?
+                      </label>
+                      <textarea
+                        value={message}
+                        onChange={(event) => setMessage(event.target.value)}
+                        rows={6}
+                        placeholder={
+                          mode === "letter"
+                            ? "Start with a memory, a promise, or a message for a future day."
+                            : "Tell us a story, a lesson, or a voice note you want preserved."
+                        }
+                        className="w-full rounded-3xl border border-border/70 bg-white/92 px-5 py-4 text-base leading-relaxed outline-none transition focus:border-[rgba(210,127,20,0.65)]"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                      <Button
+                        type="submit"
+                        size="lg"
+                        disabled={saving}
+                        className="rounded-full px-7 text-white font-semibold"
+                        style={{ background: AMBER, boxShadow: `0 10px 30px ${AMBER}32` }}
+                      >
+                        {saving ? <Loader2 className="h-5 w-5 animate-spin" /> : "Draft my first future letter"}
+                        {!saving && <ArrowRight className="ml-2 h-4 w-4" />}
+                      </Button>
+                      <Button
+                        type="button"
+                        size="lg"
+                        variant="outline"
+                        className="rounded-full px-7 font-semibold"
+                        onClick={() => setMode((current) => (current === "letter" ? "memory" : "letter"))}
+                      >
+                        {mode === "letter" ? "Record a 60-second memory" : "Switch to letter mode"}
+                      </Button>
+                    </div>
+
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                      No account required to begin. We use the first answer to guide the interview, then bring in a human
+                      concierge when the vault or logistics are needed.
+                    </p>
+                  </motion.form>
+                ) : (
+                  <motion.div
+                    key="draft-success"
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="rounded-3xl border p-6"
+                    style={{ background: `${SAGE}14`, borderColor: `${SAGE}30` }}
+                  >
+                    <div className="mb-4 flex items-center gap-3">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: `${SAGE}24` }}>
+                        <CheckCircle className="h-6 w-6" style={{ color: SAGE }} />
+                      </div>
+                      <div>
+                        <p className="font-serif text-xl text-[#2d1a08]">Your first draft is ready.</p>
+                        <p className="text-sm text-muted-foreground">A guide can shape this into a future letter, memory, or handoff packet.</p>
+                      </div>
+                    </div>
+                    <div className="rounded-2xl bg-background p-4">
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: SAGE }}>
+                        Preview
+                      </p>
+                      <p className="mt-2 text-sm leading-relaxed text-foreground/80">
+                        For {recipient}, {mode === "memory" ? "record" : "write"}:
+                      </p>
+                      <p className="mt-1 font-serif text-lg italic text-[#2d1a08]">“{message.trim()}”</p>
+                    </div>
+                    <Button className="mt-5 rounded-full text-white" style={{ background: AMBER }} onClick={() => setSaved(false)}>
+                      Draft another message
+                    </Button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Card>
+          </motion.div>
+        </div>
       </section>
 
-      {/* ── GROWING TREE ─────────────────────────────────────────────────── */}
       <GrowingTree />
 
-      {/* ── PHILOSOPHY ──────────────────────────────────────────────────── */}
       <section
-        className="py-28 px-6 md:px-16"
-        style={{ background: `linear-gradient(160deg, ${SAGE}12 0%, ${AMBER}08 100%)` }}
-        ref={(el) => { sectionsRef.current[0] = el; }}
+        className="py-24 px-6 md:px-12"
+        style={{ background: `linear-gradient(160deg, ${SAGE}10 0%, ${AMBER}08 100%)` }}
+        ref={(el) => {
+          sectionsRef.current[0] = el;
+        }}
       >
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
           <div>
-            <p className="text-xs font-sans font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: SAGE }}>Our philosophy</p>
-            <h2 className="text-4xl md:text-5xl font-serif mb-6 leading-tight">
-              Don't prepare for death.<br />
-              <span style={{ color: AMBER }}>Preserve a life.</span>
-            </h2>
-            <p className="text-lg text-foreground/70 leading-relaxed font-sans">
-              Silicon Valley avoids death. That's exactly why no one has built this yet. Heartloom is the end-of-life companion built on warmth, permanence, and love — not checklists and legal forms.
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: SAGE }}>
+              How it works
             </p>
-          </div>
-          <div className="space-y-4">
-            {[
-              { color: AMBER, label: "Lead with joy, not admin", desc: "The first thing you do is record a favorite memory — not fill out a DNR." },
-              { color: SAGE, label: "Family onboarding first", desc: "Adult children set it up as an act of love. Not something done to someone — done for them." },
-              { color: AMBER, label: "Progress framed as a gift", desc: "\"Your family knows 3 more things about you today.\" Not a grim task list." },
-            ].map((item, i) => (
-              <div key={i} className="flex gap-4 p-5 rounded-xl bg-background border border-border/40">
-                <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5" style={{ background: `${item.color}18` }}>
-                  <Heart className="w-4 h-4" style={{ color: item.color }} />
-                </div>
-                <div>
-                  <p className="font-serif font-semibold mb-1">{item.label}</p>
-                  <p className="text-sm text-muted-foreground font-sans">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── FEATURES GRID ────────────────────────────────────────────────── */}
-      <section
-        className="py-28 px-6 md:px-16"
-        ref={(el) => { sectionsRef.current[1] = el; }}
-      >
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="text-xs font-sans font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: SAGE }}>Everything included</p>
-            <h2 className="text-4xl md:text-5xl font-serif mb-4">Six ways Heartloom<br />serves your family</h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                icon: Send,
-                color: AMBER,
-                title: "Future Letters",
-                desc: "Write letters to be delivered on specific future dates — weddings, graduations, first days of school, or \"open when you need me.\"",
-                badge: "Fan favorite",
-              },
-              {
-                icon: Mic,
-                color: SAGE,
-                title: "Memory Vault",
-                desc: "Capture stories through gentle guided prompts via text or audio. Your grandchildren will know your voice, your humor, your wisdom.",
-                badge: null,
-              },
-              {
-                icon: FileText,
-                color: AMBER,
-                title: "Document Vault",
-                desc: "Wills, trusts, DNRs, account lists, insurance — organized, encrypted, and ready for your family exactly when they need them.",
-                badge: null,
-              },
-              {
-                icon: UserCheck,
-                color: SAGE,
-                title: "Legacy Concierge",
-                desc: "A dedicated Legacy Guide holds your hand through the entire process — video calls, guided sessions, and a personal legacy book at the end.",
-                badge: "Premium",
-              },
-              {
-                icon: Clock,
-                color: AMBER,
-                title: "Life Timeline",
-                desc: "Build a beautiful visual history of your life — places lived, milestones reached, chapters opened and closed — in chronological story form.",
-                badge: null,
-              },
-              {
-                icon: Users,
-                color: SAGE,
-                title: "Family Sharing",
-                desc: "Invite family members to contribute memories, see your letters (when released), and carry on the legacy themselves.",
-                badge: null,
-              },
-            ].map((feature, i) => (
-              <motion.div key={i} whileHover={{ y: -6 }} transition={{ type: "spring", stiffness: 280 }}>
-                <Card className="p-7 h-full flex flex-col relative overflow-hidden border-border/40">
-                  {feature.badge && (
-                    <span
-                      className="absolute top-4 right-4 text-xs font-sans font-semibold px-2.5 py-1 rounded-full text-white"
-                      style={{ background: feature.color }}
-                    >
-                      {feature.badge}
-                    </span>
-                  )}
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
-                    style={{ background: `${feature.color}15` }}
-                  >
-                    <feature.icon className="w-5 h-5" style={{ color: feature.color }} />
-                  </div>
-                  <h3 className="font-serif text-xl mb-3">{feature.title}</h3>
-                  <p className="text-sm text-muted-foreground font-sans leading-relaxed flex-grow">{feature.desc}</p>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CONCIERGE SPOTLIGHT ──────────────────────────────────────────── */}
-      <section
-        className="py-28 px-6 md:px-16"
-        style={{ background: `linear-gradient(135deg, ${SAGE}22 0%, ${SAGE}10 100%)` }}
-        ref={(el) => { sectionsRef.current[2] = el; }}
-      >
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          <div>
-            <span
-              className="inline-block text-xs font-sans font-semibold tracking-[0.2em] uppercase px-4 py-2 rounded-full mb-6"
-              style={{ background: `${SAGE}22`, color: "#4a6e3a", border: `1px solid ${SAGE}40` }}
-            >
-              Premium Feature
-            </span>
-            <h2 className="text-4xl md:text-5xl font-serif mb-5 leading-tight">
-              Your personal<br />
-              <span style={{ color: SAGE }}>Legacy Concierge.</span>
+            <h2 className="max-w-2xl font-serif text-4xl leading-tight md:text-5xl">
+              Three pillars that turn sentiment into something families can use today.
             </h2>
-            <p className="text-lg text-foreground/70 leading-relaxed mb-6 font-sans">
-              Not everyone wants to do this alone — and they shouldn't have to. Your Legacy Guide is a trained companion who meets with you via video call, draws out your stories through conversation, and builds your legacy book on your behalf.
-            </p>
-            <ul className="space-y-3 mb-8">
-              {[
-                "Three 60-minute video sessions to capture your stories",
-                "Professionally written legacy narrative from your sessions",
-                "Beautifully designed physical legacy book delivered to your home",
-                "Complete document organization and family notification plan",
-                "Ongoing support as your family grows and life evolves",
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm font-sans">
-                  <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: SAGE }} />
-                  <span className="text-foreground/80">{item}</span>
-                </li>
-              ))}
-            </ul>
-            <Button className="rounded-full px-8 text-white font-semibold" style={{ background: SAGE }}>
-              Learn About Concierge <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
-
-          <div className="space-y-4">
-            <div className="rounded-2xl p-8 bg-background shadow-lg border border-border/30">
-              <div className="flex items-center gap-4 mb-5">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-serif font-bold" style={{ background: SAGE }}>
-                  M
-                </div>
-                <div>
-                  <p className="font-serif font-semibold">Maya R.</p>
-                  <p className="text-xs text-muted-foreground font-sans">Legacy Concierge Guide</p>
-                </div>
-              </div>
-              <Quote className="h-8 w-8 mb-3 opacity-15" style={{ color: SAGE }} />
-              <p className="font-serif text-lg italic leading-relaxed text-foreground/85 mb-4">
-                "Most of my clients start thinking this is about death. By our third session, they realize it's one of the most life-affirming things they've ever done."
-              </p>
-              <div className="flex gap-0.5">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-current" style={{ color: AMBER }} />)}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { stat: "94%", label: "say it exceeded expectations" },
-                { stat: "3 hrs", label: "average session time" },
-              ].map((s, i) => (
-                <div key={i} className="rounded-xl p-5 text-center bg-background border border-border/30">
-                  <div className="text-2xl font-serif font-bold mb-1" style={{ color: SAGE }}>{s.stat}</div>
-                  <div className="text-xs text-muted-foreground font-sans">{s.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS ─────────────────────────────────────────────────── */}
-      <section
-        className="py-28 px-6 md:px-16"
-        ref={(el) => { sectionsRef.current[3] = el; }}
-      >
-        <div className="max-w-5xl mx-auto text-center">
-          <p className="text-xs font-sans font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: AMBER }}>Get started</p>
-          <h2 className="text-4xl font-serif mb-16">Three steps to your legacy</h2>
-          <div className="grid md:grid-cols-3 gap-12 relative">
-            <div className="hidden md:block absolute top-8 left-1/4 right-1/4 h-px" style={{ background: `linear-gradient(to right, ${AMBER}, ${SAGE})`, opacity: 0.3 }} />
-            {[
-              { icon: BookOpen, color: AMBER, num: "01", title: "Record a Memory", desc: "Answer gentle prompts via text or audio. Start with your favorite story. No tech skills needed." },
-              { icon: Send, color: SAGE, num: "02", title: "Write Future Letters", desc: "Set messages to unlock on future milestones — weddings, birthdays, graduations, or just because." },
-              { icon: Shield, color: AMBER, num: "03", title: "Handle the Logistics", desc: "Organize wills, DNRs, and the documents your family needs — all secure, private, and easy to find." },
-            ].map((step, i) => (
-              <div key={i} className="flex flex-col items-center">
-                <div className="relative mb-5">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center border-2" style={{ background: `${step.color}12`, borderColor: step.color }}>
-                    <step.icon className="h-6 w-6" style={{ color: step.color }} />
-                  </div>
-                  <span className="absolute -bottom-2 -right-2 text-xs font-bold font-sans px-1.5 py-0.5 rounded-full text-white" style={{ background: step.color, fontSize: "0.6rem" }}>{step.num}</span>
-                </div>
-                <h3 className="text-xl font-serif mb-3">{step.title}</h3>
-                <p className="text-sm text-muted-foreground font-sans leading-relaxed">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── WAITLIST ─────────────────────────────────────────────────────── */}
-      <section
-        ref={waitlistRef}
-        className="py-32 px-6 md:px-16 relative overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #1a0d04 0%, #2c1608 50%, #1a2210 100%)" }}
-      >
-        <div
-          className="absolute inset-0 opacity-20 pointer-events-none"
-          style={{ backgroundImage: `radial-gradient(circle at 20% 50%, ${AMBER} 0%, transparent 55%), radial-gradient(circle at 80% 50%, ${SAGE} 0%, transparent 55%)` }}
-        />
-
-        <div className="relative z-10 max-w-5xl mx-auto">
-          <div className="text-center mb-14">
-            <span className="inline-block text-xs font-sans font-semibold tracking-[0.2em] uppercase px-4 py-2 rounded-full mb-6 border" style={{ color: SAGE, borderColor: `${SAGE}40`, background: `${SAGE}12` }}>
-              Early Access
-            </span>
-            <h2 className="text-5xl md:text-6xl font-serif text-white mb-5 leading-tight">
-              Thousands of families<br />
-              <em style={{ color: AMBER }}>already waiting.</em>
-            </h2>
-            <p className="text-xl text-white/65 font-sans max-w-xl mx-auto">
-              We're building with real families, in the open. Reserve your spot and be among the first to start building your legacy.
-            </p>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-5 justify-center mb-14">
-            {[
-              { stat: displayCount.toLocaleString(), label: "Families on waitlist" },
-              { stat: "4.9★", label: "Avg. satisfaction score" },
-              { stat: "Day 1", label: "Access for early members" },
-            ].map((item, i) => (
-              <div key={i} className="flex-1 text-center py-8 px-6 rounded-2xl border" style={{ background: "rgba(255,255,255,0.04)", borderColor: "rgba(255,255,255,0.07)" }}>
-                <div className="text-5xl font-serif font-bold mb-2" style={{ color: AMBER }}>{item.stat}</div>
-                <div className="text-sm font-sans text-white/55 tracking-wide">{item.label}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="max-w-xl mx-auto">
-            <AnimatePresence mode="wait">
-              {!waitlistSubmitted ? (
-                <motion.form key="form" exit={{ opacity: 0, y: -8 }} onSubmit={handleWaitlist} className="flex flex-col sm:flex-row gap-3">
-                  <input
-                    type="email" required value={waitlistEmail} onChange={(e) => setWaitlistEmail(e.target.value)}
-                    placeholder="Enter your email address"
-                    className="flex-1 px-6 py-4 rounded-full text-foreground outline-none font-sans text-base"
-                    style={{ background: "rgba(255,255,255,0.95)", border: "none" }}
-                  />
-                  <Button type="submit" size="lg" disabled={loading} className="px-8 py-4 rounded-full text-white font-semibold whitespace-nowrap" style={{ background: AMBER }}>
-                    {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <>Reserve My Spot <ArrowRight className="ml-2 h-4 w-4" /></>}
-                  </Button>
-                </motion.form>
-              ) : (
-                <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-8 px-6 rounded-2xl border" style={{ background: `${SAGE}12`, borderColor: `${SAGE}30` }}>
-                  <CheckCircle className="h-10 w-10 mx-auto mb-4" style={{ color: SAGE }} />
-                  <p className="font-serif text-xl text-white mb-2">You're on the list.</p>
-                  <p className="text-white/55 font-sans text-sm">We'll reach out personally when we're ready for you.</p>
+            <div className="mt-10 grid gap-5">
+              {PILLARS.map((pillar) => (
+                <motion.div key={pillar.title} whileHover={{ y: -4 }} transition={{ type: "spring", stiffness: 260 }}>
+                  <Card className="border-border/40 p-6">
+                    <div className="flex gap-4">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: `${AMBER}16` }}>
+                        <pillar.icon className="h-5 w-5" style={{ color: AMBER }} />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-serif text-2xl">{pillar.title}</h3>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{pillar.desc}</p>
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {pillar.points.map((point) => (
+                            <span
+                              key={point}
+                              className="rounded-full border px-3 py-1 text-xs font-semibold"
+                              style={{ borderColor: `${SAGE}40`, color: "#49603a", background: `${SAGE}12` }}
+                            >
+                              {point}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
                 </motion.div>
-              )}
-            </AnimatePresence>
-            <p className="text-center text-white/30 text-xs font-sans mt-4">No spam. No pressure. Just a warm note when we're ready.</p>
+              ))}
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-4 mt-14">
-            {[
-              { quote: "I've been waiting for something like this for years.", name: "Sarah T.", location: "Austin, TX" },
-              { quote: "Finally someone building for the sandwich generation.", name: "Michael R.", location: "Portland, OR" },
-              { quote: "Signed up for my mom. She cried when I showed her.", name: "Eleanor J.", location: "Nashville, TN" },
-            ].map((t, i) => (
-              <div key={i} className="p-6 rounded-xl" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
-                <Quote className="h-5 w-5 mb-3 opacity-30" style={{ color: AMBER }} />
-                <p className="font-serif text-white/80 italic text-sm leading-relaxed mb-4">"{t.quote}"</p>
-                <p className="text-white/55 text-xs font-sans font-semibold">{t.name} · {t.location}</p>
+          <Card className="overflow-hidden border-border/40 bg-[#f8f4eb] p-0 shadow-[0_24px_60px_rgba(0,0,0,0.08)]">
+            <div className="border-b border-border/40 px-6 py-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: SAGE }}>
+                Vault architecture
+              </p>
+              <h3 className="mt-2 font-serif text-3xl text-[#2d1a08]">A digital safety deposit box with human context.</h3>
+            </div>
+            <div className="grid gap-4 p-6 md:grid-cols-[1.1fr_0.9fr]">
+              <div className="space-y-4 rounded-3xl border border-[#d8ceb9] bg-white p-5">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: SAGE }}>
+                      Legacy Vault • $299 one-time
+                    </p>
+                    <p className="mt-1 font-serif text-xl text-[#2d1a08]">Vellum Nodal Matrix</p>
+                  </div>
+                  <div className="rounded-full px-3 py-1 text-xs font-semibold" style={{ background: `${AMBER}18`, color: AMBER }}>
+                    Secure archive
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  {[
+                    { label: "Bronze Delivery Hallmark", value: "Verified letter release" },
+                    { label: "Executor lane", value: "Role-based access" },
+                    { label: "Document core", value: "Wills, DNRs, account maps" },
+                    { label: "Audit layer", value: "Every handoff tracked" },
+                  ].map((item) => (
+                    <div key={item.label} className="rounded-2xl border border-[#ddd3c1] bg-[#faf7f0] p-4">
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em]" style={{ color: SAGE }}>
+                        {item.label}
+                      </p>
+                      <p className="mt-2 text-sm leading-relaxed text-[#2d1a08]">{item.value}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
+
+              <div className="space-y-4 rounded-3xl border border-[#d8ceb9] bg-[#f5efe4] p-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: AMBER }}>
+                  Concierge dashboard preview
+                </p>
+                <div className="space-y-3">
+                  {DASHBOARD_ITEMS.map((item, index) => (
+                    <div key={item} className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-sm">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: index % 2 === 0 ? `${AMBER}16` : `${SAGE}16` }}>
+                        <CheckCircle className="h-4 w-4" style={{ color: index % 2 === 0 ? AMBER : SAGE }} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-[#2d1a08]">{item}</p>
+                        <p className="text-xs text-muted-foreground">Clear next steps, not buried paperwork.</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Card>
         </div>
       </section>
 
-      {/* ── PRICING ──────────────────────────────────────────────────────── */}
-      <section className="py-28 px-6 md:px-16" ref={(el) => { sectionsRef.current[4] = el; }}>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="text-xs font-sans font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: AMBER }}>Pricing</p>
-            <h2 className="text-4xl font-serif mb-4">Simple, transparent pricing</h2>
-            <p className="text-lg text-muted-foreground">Start free. Upgrade when you're ready.</p>
+      <section
+        className="py-24 px-6 md:px-12"
+        ref={(el) => {
+          sectionsRef.current[1] = el;
+        }}
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12 text-center">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: AMBER }}>
+              Transparent pricing
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl">Simple plans with no hidden death tax.</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+              Start with a gift, move into active concierge support, or anchor the family archive with a permanent vault.
+            </p>
           </div>
-          <div className="grid md:grid-cols-4 gap-5">
-            {[
-              { name: "Free", price: "$0", period: "", desc: "Get started", features: ["3 future letters", "Basic memory prompts", "Document storage (1GB)"], color: SAGE },
-              { name: "Family", price: "$15", period: "/mo", desc: "Most popular", features: ["20 future letters", "Unlimited memory prompts", "Document vault (10GB)", "Life Timeline"], color: AMBER, recommended: true },
-              { name: "Lineage", price: "$50", period: "/mo", desc: "For the whole family", features: ["Unlimited letters", "Multiple family members", "Priority support", "Annual legacy report"], color: SAGE },
-              { name: "Concierge", price: "$299", period: "one-time", desc: "White-glove service", features: ["3 guided video sessions", "Professional legacy writing", "Physical legacy book", "Complete document setup"], color: AMBER },
-            ].map((plan, i) => (
-              <Card key={i} className="p-7 flex flex-col relative" style={plan.recommended ? { borderColor: AMBER, borderWidth: 2, boxShadow: `0 8px 32px ${AMBER}20` } : {}}>
+
+          <div className="grid gap-5 lg:grid-cols-3">
+            {PLANS.map((plan) => (
+              <Card
+                key={plan.name}
+                className="relative flex h-full flex-col p-7"
+                style={plan.recommended ? { borderColor: AMBER, borderWidth: 2, boxShadow: `0 18px 45px ${AMBER}1f` } : undefined}
+              >
                 {plan.recommended && (
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1 rounded-full text-xs font-semibold tracking-wide uppercase text-white" style={{ background: AMBER }}>
-                    Most Popular
+                  <div
+                    className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full px-4 py-1 text-xs font-semibold uppercase tracking-wide text-white"
+                    style={{ background: AMBER }}
+                  >
+                    Recommended
                   </div>
                 )}
-                <div className="w-2 h-2 rounded-full mb-4" style={{ background: plan.color }} />
-                <h3 className="font-serif text-xl mb-1">{plan.name}</h3>
-                <div className="flex items-end gap-1 mb-1">
-                  <span className="text-3xl font-bold font-sans">{plan.price}</span>
-                  <span className="text-muted-foreground text-sm mb-1">{plan.period}</span>
+                <div className="mb-4 h-2 w-10 rounded-full" style={{ background: plan.color }} />
+                <h3 className="font-serif text-2xl">{plan.name}</h3>
+                <div className="mt-3 flex items-end gap-2">
+                  <span className="font-sans text-4xl font-bold text-[#2d1a08]">{plan.price}</span>
+                  <span className="pb-1 text-sm text-muted-foreground">{plan.period}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mb-5">{plan.desc}</p>
-                <ul className="space-y-2.5 mb-7 flex-grow">
-                  {plan.features.map((f, j) => (
-                    <li key={j} className="flex items-start text-sm font-sans text-foreground/80">
-                      <CheckCircle className="h-3.5 w-3.5 mr-2 flex-shrink-0 mt-0.5" style={{ color: plan.color }} /> {f}
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{plan.desc}</p>
+                <ul className="mt-6 space-y-3">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3 text-sm text-foreground/80">
+                      <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: plan.color }} />
+                      <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
-                <Button className="w-full rounded-full text-white" style={{ background: plan.recommended ? AMBER : plan.color }} variant={plan.recommended ? "default" : "outline"}>
-                  {plan.recommended ? "Join Waitlist" : "Get Started"}
+                <Button className="mt-7 w-full rounded-full text-white" style={{ background: plan.recommended ? AMBER : plan.color }}>
+                  {plan.recommended ? "Choose Family Tier" : plan.name === "Legacy Vault" ? "Start the vault" : "Send as a gift"}
                 </Button>
               </Card>
             ))}
           </div>
+
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            Organizations, hospice partners, and care teams can add onboarding and multi-seat support after launch.
+          </p>
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ─────────────────────────────────────────────────── */}
       <section
-        className="py-28 px-6 md:px-16"
+        className="py-24 px-6 md:px-12"
         style={{ background: `linear-gradient(160deg, ${AMBER}08 0%, ${SAGE}10 100%)` }}
-        ref={(el) => { sectionsRef.current[5] = el; }}
+        ref={(el) => {
+          sectionsRef.current[2] = el;
+        }}
       >
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="text-xs font-sans font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: SAGE }}>Stories of love</p>
-            <h2 className="text-4xl font-serif">What families are saying</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { quote: "When my father passed, finding his letters on Heartloom felt like he was still holding my hand.", author: "Sarah T.", role: "Daughter" },
-              { quote: "It changed the way we talk about the end. It's no longer scary — it's just another chapter of our family's story.", author: "Michael R.", role: "Father of three" },
-              { quote: "I recorded memories I hadn't thought about in decades. It was one of the most beautiful afternoons of my life.", author: "Eleanor J.", role: "Grandmother" },
-            ].map((t, i) => (
-              <Card key={i} className="p-8 border-border/30 shadow-sm relative overflow-hidden">
-                <Quote className="absolute top-4 right-4 h-14 w-14 opacity-[0.06]" style={{ color: i % 2 === 0 ? AMBER : SAGE }} />
-                <div className="flex gap-1 mb-5">
-                  {[...Array(5)].map((_, s) => <Star key={s} className="w-3.5 h-3.5 fill-current" style={{ color: AMBER }} />)}
-                </div>
-                <p className="font-serif text-lg text-foreground/85 italic mb-5 leading-relaxed">"{t.quote}"</p>
-                <div>
-                  <p className="text-sm font-semibold font-sans">{t.author}</p>
-                  <p className="text-xs text-muted-foreground font-sans">{t.role}</p>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+          <div>
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: SAGE }}>
+              Trust hallmarks
+            </p>
+            <h2 className="font-serif text-4xl leading-tight md:text-5xl">
+              Scientific rigor and compassion belong in the same room.
+            </h2>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
+              Heartloom is designed for families who need emotional clarity, legal clarity, and a product they can trust
+              under pressure.
+            </p>
 
-      {/* ── WHO IT'S FOR ─────────────────────────────────────────────────── */}
-      <section className="py-28 px-6 md:px-16" ref={(el) => { sectionsRef.current[6] = el; }}>
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="flex justify-center mb-6">
-            <div className="flex items-center gap-2 px-5 py-2 rounded-full text-sm font-sans font-semibold" style={{ background: `${SAGE}18`, color: "#4a6e3a" }}>
-              <Users className="h-4 w-4" /> For the Sandwich Generation
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {[
+                { name: "Stanford", note: "Founding research pedigree" },
+                { name: "NASA", note: "Systems thinking and reliability" },
+                { name: "Berkeley", note: "Human-centered research" },
+              ].map((item) => (
+                <div key={item.name} className="rounded-2xl border border-border/40 bg-background p-5 text-center shadow-sm">
+                  <p className="font-serif text-2xl text-[#2d1a08]">{item.name}</p>
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{item.note}</p>
+                </div>
+              ))}
             </div>
           </div>
-          <h2 className="text-4xl md:text-5xl font-serif mb-8 leading-tight">
-            Built for adults who are<br />managing it all
-          </h2>
-          <p className="text-xl text-foreground/70 leading-relaxed font-sans mb-8">
-            You're raising your kids and caring for your parents — at the same time. Heartloom gives you peace of mind, and gives your parents the profound gift of knowing their story will outlast them.
-          </p>
-          <Button variant="link" className="font-medium text-lg gap-2" style={{ color: SAGE }}>
-            Read our letter to caregivers <ArrowRight className="h-4 w-4" />
-          </Button>
+
+          <Card className="border-border/40 p-6 md:p-8">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: AMBER }}>
+                  Security vault
+                </p>
+                <h3 className="mt-2 font-serif text-3xl">What families see when they open the vault.</h3>
+              </div>
+              <div className="rounded-full px-3 py-1 text-xs font-semibold" style={{ background: `${SAGE}18`, color: "#49603a" }}>
+                Accessibility-first
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <div className="rounded-3xl border border-border/40 bg-[#f7f3ea] p-5">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl" style={{ background: `${AMBER}16` }}>
+                    <Shield className="h-5 w-5" style={{ color: AMBER }} />
+                  </div>
+                  <div>
+                    <p className="font-serif text-lg text-[#2d1a08]">Encrypted by default</p>
+                    <p className="text-xs text-muted-foreground">The vault is built for sensitive, high-stakes access.</p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    "Document audit trail",
+                    "Family permissions",
+                    "Executor access lane",
+                    "Support handoff",
+                  ].map((item) => (
+                    <span key={item} className="rounded-full border border-border/50 px-3 py-1 text-xs font-semibold text-[#2d1a08]">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-3xl border border-border/40 bg-[#f7f3ea] p-5">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl" style={{ background: `${SAGE}18` }}>
+                    <Heart className="h-5 w-5" style={{ color: SAGE }} />
+                  </div>
+                  <div>
+                    <p className="font-serif text-lg text-[#2d1a08]">Warm by design</p>
+                    <p className="text-xs text-muted-foreground">The interface feels calm when the subject is not.</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 text-amber-600">
+                  {[...Array(5)].map((_, index) => (
+                    <Star key={index} className="h-4 w-4 fill-current" />
+                  ))}
+                </div>
+                <p className="mt-3 text-sm italic leading-relaxed text-foreground/80">
+                  “They can leave behind themselves.” That promise is easier to believe when the product feels precise.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              {[
+                { icon: Calendar, label: "Future delivery", copy: "Milestones and open-when letters" },
+                { icon: Clock, label: "Time-sensitive care", copy: "Hospice and logistics when needed" },
+                { icon: BookOpen, label: "Story preservation", copy: "The family history stays usable" },
+              ].map((item) => (
+                <div key={item.label} className="rounded-2xl border border-border/40 bg-background p-4">
+                  <item.icon className="h-5 w-5" style={{ color: AMBER }} />
+                  <p className="mt-3 font-serif text-lg text-[#2d1a08]">{item.label}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{item.copy}</p>
+                </div>
+              ))}
+            </div>
+          </Card>
         </div>
       </section>
 
-      {/* ── FOOTER CTA ───────────────────────────────────────────────────── */}
-      <section
-        className="py-32 px-6 md:px-16 text-center text-white"
-        style={{ background: `linear-gradient(135deg, #1a0d04 0%, ${SAGE}80 200%)` }}
-        ref={(el) => { sectionsRef.current[7] = el; }}
-      >
-        <div className="max-w-3xl mx-auto">
-          <img src={logoImage} alt="Heartloom" className="h-16 w-auto mx-auto mb-6 opacity-90" />
-          <h2 className="text-5xl font-serif mb-6 leading-tight text-white">Your family's story<br />deserves to be told.</h2>
-          <p className="text-xl opacity-80 mb-10 font-sans">Start building your legacy today. It takes less than five minutes.</p>
-          <AnimatePresence mode="wait">
-            {!submitted ? (
-              <motion.form key="footer-form" exit={{ opacity: 0 }} onSubmit={handleFooter} className="flex flex-col sm:flex-row justify-center items-center gap-3 max-w-md mx-auto">
-                <input
-                  type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="w-full px-6 py-4 rounded-full text-foreground outline-none font-sans"
-                  style={{ background: "rgba(255,255,255,0.95)", border: "none" }}
-                />
-                <Button type="submit" size="lg" className="w-full sm:w-auto px-8 py-4 rounded-full font-semibold whitespace-nowrap text-white" style={{ background: AMBER }}>
-                  Begin Now
-                </Button>
-              </motion.form>
-            ) : (
-              <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center justify-center gap-3">
-                <CheckCircle className="h-7 w-7 text-white" />
-                <span className="font-serif text-xl text-white">You're on the list. We'll be in touch.</span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </section>
-
-      {/* ── FOOTER ───────────────────────────────────────────────────────── */}
-      <footer className="py-12 px-6 md:px-16 border-t border-border bg-background">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+      <footer className="border-t border-border bg-background px-6 py-12 md:px-12">
+        <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-3">
             <img src={logoImage} alt="Heartloom" className="h-10 w-auto" />
             <div>
-              <span className="font-serif text-xl block leading-tight" style={{ color: "#2d1a08" }}>Heartloom</span>
-              <span className="text-xs font-sans" style={{ color: SAGE }}>Legacy Guides</span>
+              <span className="block font-serif text-xl leading-tight" style={{ color: "#2d1a08" }}>
+                Heartloom
+              </span>
+              <span className="text-xs font-sans" style={{ color: SAGE }}>
+                Legacy Guides
+              </span>
             </div>
           </div>
-          <div className="flex gap-8 text-sm font-sans text-muted-foreground">
-            {["About", "Privacy", "Terms", "Contact"].map((l) => (
-              <a key={l} href="#" className="hover:text-foreground transition-colors">{l}</a>
-            ))}
+
+          <div className="flex flex-wrap items-center gap-3">
+            <Button className="rounded-full px-6 font-semibold text-white" style={{ background: AMBER }}>
+              Draft your first future letter
+            </Button>
+            <Button variant="outline" className="rounded-full px-6 font-semibold">
+              View pricing
+            </Button>
           </div>
         </div>
-        <div className="mt-8 text-center text-xs text-muted-foreground/45 font-sans">
+        <div className="mx-auto mt-8 max-w-7xl text-center text-xs text-muted-foreground/60">
           © {new Date().getFullYear()} Heartloom Legacy Guides · tryheartloom.com
         </div>
       </footer>
