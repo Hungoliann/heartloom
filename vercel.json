@@ -1,14 +1,7 @@
 {
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "buildCommand": "pnpm --filter @workspace/heartloom build",
-        "distDir": "artifacts/heartloom/dist/public"
-      }
-    }
-  ],
+  "buildCommand": "corepack pnpm install --frozen-lockfile && corepack pnpm --filter @workspace/heartloom build",
+  "installCommand": "corepack pnpm install --frozen-lockfile",
+  "outputDirectory": "artifacts/heartloom/dist/public",
   "routes": [
     {
       "handle": "filesystem"
