@@ -5,7 +5,7 @@
       "use": "@vercel/static-build",
       "config": {
         "buildCommand": "corepack pnpm install --frozen-lockfile && corepack pnpm build",
-        "distDir": "dist/public"
+        "distDir": "artifacts/heartloom/dist/public"
       }
     }
   ],
