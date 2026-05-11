@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
@@ -105,13 +104,13 @@ export default function Home() {
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 md:px-12"
         style={{ background: "rgba(250,248,242,0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(156,175,136,0.15)" }}
       >
-        <Link href="/" className="flex items-center gap-3">
+        <a href="/" className="flex items-center gap-3">
           <img src={logoImage} alt="Heartloom" className="h-10 w-auto" />
           <div>
             <span className="font-serif text-xl font-semibold block leading-tight" style={{ color: "#2d1a08" }}>Heartloom</span>
             <span className="text-xs font-sans" style={{ color: SAGE }}>Legacy Guides</span>
           </div>
-        </Link>
+        </a>
         <div className="flex items-center gap-3">
           <Button variant="ghost" className="text-sm hidden sm:inline-flex" style={{ color: "#2d1a08" }}>Log In</Button>
           <Button className="rounded-full px-5 text-sm text-white font-semibold" style={{ background: AMBER }}>
@@ -650,7 +649,7 @@ export default function Home() {
           </div>
           <div className="flex gap-8 text-sm font-sans text-muted-foreground">
             {["About", "Privacy", "Terms", "Contact"].map((l) => (
-              <Link key={l} href="#" className="hover:text-foreground transition-colors">{l}</Link>
+              <a key={l} href="#" className="hover:text-foreground transition-colors">{l}</a>
             ))}
           </div>
         </div>
