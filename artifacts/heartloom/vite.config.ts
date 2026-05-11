@@ -40,6 +40,18 @@ export default defineConfig({
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
     sourcemap: false,
+    rollupOptions: {
+      onwarn(warning, warn) {
+        if (
+          warning.code === "SOURCEMAP_ERROR" &&
+          warning.message.includes("tooltip.tsx")
+        ) {
+          return;
+        }
+
+        warn(warning);
+      },
+    },
   },
   server: {
     port,
