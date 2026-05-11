@@ -4,6 +4,8 @@
   "license": "MIT",
   "scripts": {
     "preinstall": "node -e \"const fs=require('fs'); const ua=process.env.npm_config_user_agent||''; for (const file of ['package-lock.json','yarn.lock']) { try { fs.rmSync(file); } catch {} } if (ua && !ua.includes('pnpm')) { console.error('Use pnpm instead'); process.exit(1); }\"",
+    "dev:frontend": "pnpm --filter @workspace/heartloom dev",
+    "dev:backend": "pnpm --filter @workspace/backend dev",
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
     "typecheck:libs": "tsc --build",
     "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
