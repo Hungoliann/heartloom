@@ -2,13 +2,10 @@
   "buildCommand": "corepack pnpm --filter @workspace/heartloom build",
   "installCommand": "corepack pnpm install --frozen-lockfile",
   "outputDirectory": "public",
-  "routes": [
+  "rewrites": [
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/artifacts/heartloom/dist/public/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
