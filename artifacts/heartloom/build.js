@@ -6,6 +6,19 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const src = path.join(__dirname, 'dist/public');
 const dest = path.join(__dirname, '..', '..', 'public');
 
+console.log('Build script debug info:');
+console.log(`  __dirname: ${__dirname}`);
+console.log(`  src: ${src}`);
+console.log(`  dest: ${dest}`);
+console.log(`  process.cwd(): ${process.cwd()}`);
+console.log(`  src exists: ${fs.existsSync(src)}`);
+console.log(`  dest parent exists: ${fs.existsSync(path.dirname(dest))}`);
+
+if (fs.existsSync(src)) {
+  const files = fs.readdirSync(src, { recursive: true }).slice(0, 20);
+  console.log(`  src contents (first 20): ${JSON.stringify(files)}`);
+}
+
 try {
   if (!fs.existsSync(src)) {
     console.error(`Error: Source directory not found: ${src}`);
