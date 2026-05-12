@@ -122,13 +122,11 @@ export default function Home() {
         </section>
 
         <section className="py-10 border-y bg-[color:var(--card-white)]" style={{ borderColor: "var(--border-warm)" }}>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center gap-4 md:gap-16 opacity-70 text-center">
-            <span className="text-xs sm:text-sm font-semibold tracking-[0.22em] uppercase text-[color:var(--muted-text)]">Founded by researchers from</span>
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 sm:gap-x-8 md:gap-16">
-              <span className="font-serif text-lg sm:text-xl md:text-2xl font-semibold tracking-tight text-primary">Stanford</span>
-              <span className="font-serif text-lg sm:text-xl md:text-2xl font-bold tracking-widest text-primary">NASA</span>
-              <span className="font-serif text-lg sm:text-xl md:text-2xl font-semibold tracking-tight text-primary">UC Berkeley</span>
-            </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-center gap-2 sm:gap-3 md:gap-4 opacity-70 text-center whitespace-nowrap overflow-x-auto">
+            <span className="text-[10px] sm:text-xs md:text-sm font-semibold tracking-[0.22em] uppercase text-[color:var(--muted-text)]">Founded by researchers from</span>
+            <span className="font-serif text-base sm:text-lg md:text-2xl font-semibold tracking-tight text-primary">Stanford</span>
+            <span className="font-serif text-base sm:text-lg md:text-2xl font-semibold tracking-tight text-primary">NASA</span>
+            <span className="font-serif text-base sm:text-lg md:text-2xl font-semibold tracking-tight text-primary">UC Berkeley</span>
           </div>
         </section>
 
