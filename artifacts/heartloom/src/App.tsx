@@ -1,8 +1,8 @@
 import { Switch, Route, Router as WouterRouter } from "wouter";
-import Home from "@/pages/home";
-import Concierge from "@/pages/Concierge";
-import Letters from "@/pages/Letters";
-import NotFound from "@/pages/not-found";
+import Home from "./pages/home";
+import Concierge from "./pages/Concierge";
+import Letters from "./pages/Letters";
+import NotFound from "./pages/not-found";
 
 function Router() {
   return (

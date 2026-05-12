@@ -32,15 +32,16 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <nav className="fixed top-0 w-full z-50 transition-all duration-300 border-b bg-background/80 backdrop-blur-md border-transparent">
+    <div className="min-h-screen bg-[color:var(--parchment)] text-[color:var(--charcoal)]">
+      <nav className="fixed top-0 w-full z-50 transition-all duration-300 border-b backdrop-blur-md"
+        style={{ backgroundColor: "color-mix(in srgb, var(--card-white) 92%, transparent)", borderColor: "var(--border-warm)" }}>
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <a href="/" className="font-serif text-2xl font-semibold text-primary tracking-tight">
             Heartloom.
           </a>
 
           <div className="flex items-center gap-8">
-            <div className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
+            <div className="hidden md:flex items-center gap-6 text-sm font-medium text-[color:var(--muted-text)]">
               <a href="/" className="transition-colors hover:text-accent">Home</a>
               <a href="/letters" className="transition-colors hover:text-accent">Letters</a>
               <a href="/concierge" className="transition-colors hover:text-accent">Concierge</a>
@@ -54,7 +55,7 @@ export default function Home() {
       </nav>
 
       <main>
-        <section className="pt-32 pb-20 md:pt-48 md:pb-32 px-6">
+        <section className="pt-32 pb-20 md:pt-48 md:pb-32 px-6 bg-[linear-gradient(180deg,var(--parchment)_0%,var(--card-white)_100%)]">
           <div className="max-w-4xl mx-auto text-center space-y-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -66,7 +67,7 @@ export default function Home() {
                 <br />
                 and Wisdom
               </h1>
-              <p className="mt-6 text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              <p className="mt-6 text-xl text-[color:var(--muted-text)] max-w-2xl mx-auto leading-relaxed">
                 A secure vault for your legacy. Leave behind the guidance, stories,
                 and letters that matter most to the people you love.
               </p>
@@ -76,7 +77,8 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-              className="max-w-2xl mx-auto bg-card rounded-2xl p-2 md:p-3 shadow-xl border border-border/50 flex flex-col md:flex-row gap-3"
+              className="max-w-2xl mx-auto bg-[color:var(--card-white)] rounded-2xl p-2 md:p-3 shadow-xl border flex flex-col md:flex-row gap-3"
+              style={{ borderColor: "var(--border-warm)" }}
             >
               <Input
                 value={memoryDraft}
@@ -100,11 +102,11 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
-              className="flex items-center justify-center gap-3 text-sm font-medium text-muted-foreground pt-4"
+              className="flex items-center justify-center gap-3 text-sm font-medium text-[color:var(--muted-text)] pt-4"
             >
               <div className="flex -space-x-2">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="w-8 h-8 rounded-full bg-muted border-2 border-background flex items-center justify-center text-xs overflow-hidden">
+                  <div key={i} className="w-8 h-8 rounded-full bg-[color:var(--muted)] border-2 border-[color:var(--parchment)] flex items-center justify-center text-xs overflow-hidden">
                     <img src={`https://api.dicebear.com/7.x/notionists/svg?seed=${i}&backgroundColor=e2e8f0`} alt="Avatar" className="w-full h-full object-cover" />
                   </div>
                 ))}
@@ -114,9 +116,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-10 border-y border-border/50 bg-card/50">
+        <section className="py-10 border-y bg-[color:var(--card-white)]" style={{ borderColor: "var(--border-warm)" }}>
           <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 opacity-70">
-            <span className="text-sm font-semibold tracking-widest uppercase text-muted-foreground">Founded by researchers from</span>
+            <span className="text-sm font-semibold tracking-widest uppercase text-[color:var(--muted-text)]">Founded by researchers from</span>
             <div className="flex items-center gap-8 md:gap-16">
               <span className="font-serif text-xl md:text-2xl font-semibold tracking-tight text-primary">Stanford</span>
               <span className="font-serif text-xl md:text-2xl font-bold tracking-widest text-primary">NASA</span>
@@ -128,23 +130,23 @@ export default function Home() {
         {/* Keep the old tree animation and place it right after the trust bar. */}
         <GrowingTree />
 
-        <section className="py-24 md:py-32 px-6">
+        <section className="py-24 md:py-32 px-6 bg-[linear-gradient(180deg,var(--card-white)_0%,var(--parchment)_100%)]">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-serif text-primary">Preserving the human thread.</h2>
-              <p className="mt-4 text-lg text-muted-foreground">Dignity, security, and guidance in one place.</p>
+              <p className="mt-4 text-lg text-[color:var(--muted-text)]">Dignity, security, and guidance in one place.</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
-                <Card className="h-full bg-primary text-primary-foreground border-transparent shadow-xl">
+                <Card className="h-full bg-[color:var(--charcoal)] text-[color:var(--parchment)] border-transparent shadow-xl">
                   <CardContent className="p-8 space-y-6">
-                    <div className="w-12 h-12 bg-primary-foreground/10 rounded-xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-[color:var(--parchment)]/10 rounded-xl flex items-center justify-center">
                       <Lock className="w-6 h-6 text-accent" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-serif mb-3 text-primary-foreground">The Vault</h3>
-                      <p className="text-primary-foreground/70 leading-relaxed">
+                      <h3 className="text-2xl font-serif mb-3 text-[color:var(--parchment)]">The Vault</h3>
+                      <p className="text-[color:var(--parchment)]/70 leading-relaxed">
                         Secure, biometric-grade storage for legal documents. Keep your
                         Wills, DNRs, and Medical Directives safe yet instantly accessible
                         to designated successors.
@@ -155,14 +157,14 @@ export default function Home() {
               </motion.div>
 
               <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
-                <Card className="h-full bg-card border-border/50 shadow-md">
+                <Card className="h-full bg-[color:var(--card-white)] shadow-md" style={{ borderColor: "var(--border-warm)" }}>
                   <CardContent className="p-8 space-y-6">
                     <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
                       <Mail className="w-6 h-6 text-secondary" />
                     </div>
                     <div>
                       <h3 className="text-2xl font-serif mb-3 text-primary">The Thread</h3>
-                      <p className="text-muted-foreground leading-relaxed">
+                      <p className="text-[color:var(--muted-text)] leading-relaxed">
                         Scheduled delivery of letters and recordings. Birthday wishes,
                         graduation notes, wedding day wisdom - delivered exactly when
                         they are needed most.
@@ -173,14 +175,14 @@ export default function Home() {
               </motion.div>
 
               <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
-                <Card className="h-full bg-card border-border/50 shadow-md">
+                <Card className="h-full bg-[color:var(--card-white)] shadow-md" style={{ borderColor: "var(--border-warm)" }}>
                   <CardContent className="p-8 space-y-6">
                     <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
                       <Users className="w-6 h-6 text-accent" />
                     </div>
                     <div>
                       <h3 className="text-2xl font-serif mb-3 text-primary">The Concierge</h3>
-                      <p className="text-muted-foreground leading-relaxed">
+                      <p className="text-[color:var(--muted-text)] leading-relaxed">
                         Human assistance through estate, hospice, and Medicare logistics.
                         Expert guidance from real specialists, not automated chatbots.
                       </p>
@@ -192,14 +194,14 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-24 bg-card px-6 border-y border-border/50">
+        <section className="py-24 px-6 border-y bg-[color:var(--parchment)]" style={{ borderColor: "var(--border-warm)" }}>
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
             <div className="flex-1 space-y-8">
               <Badge variant="outline" className="text-accent border-accent/30 bg-accent/5 px-3 py-1">Concierge Access</Badge>
               <h2 className="text-4xl md:text-5xl font-serif text-primary leading-tight">
                 Your legacy, beautifully organized.
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-lg text-[color:var(--muted-text)] leading-relaxed">
                 Step inside a premium dashboard designed to give you total control and
                 peace of mind. From document storage to Medicare optimization, everything
                 is managed securely in one place.
@@ -232,29 +234,29 @@ export default function Home() {
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-card border rounded-xl p-4 space-y-2">
-                      <p className="text-sm font-medium text-muted-foreground">Medicare Benefit Optimization</p>
+                    <div className="bg-[color:var(--card-white)] border rounded-xl p-4 space-y-2" style={{ borderColor: "var(--border-warm)" }}>
+                      <p className="text-sm font-medium text-[color:var(--muted-text)]">Medicare Benefit Optimization</p>
                       <div className="flex items-end justify-between">
-                        <span className="text-2xl font-serif text-primary">$4,240<span className="text-sm font-sans text-muted-foreground">/yr saved</span></span>
+                        <span className="text-2xl font-serif text-[color:var(--charcoal)]">$4,240<span className="text-sm font-sans text-[color:var(--muted-text)]">/yr saved</span></span>
                         <span className="text-xs font-medium text-accent">Score: 94/100</span>
                       </div>
                     </div>
 
-                    <div className="bg-card border rounded-xl p-4 space-y-2">
-                      <p className="text-sm font-medium text-muted-foreground">Switch Verification</p>
+                    <div className="bg-[color:var(--card-white)] border rounded-xl p-4 space-y-2" style={{ borderColor: "var(--border-warm)" }}>
+                      <p className="text-sm font-medium text-[color:var(--muted-text)]">Switch Verification</p>
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-                        <span className="text-sm font-medium">Active Monitoring</span>
+                        <span className="text-sm font-medium text-[color:var(--charcoal)]">Active Monitoring</span>
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-3">
-                    <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Vaulted Documents</h4>
+                    <h4 className="text-sm font-semibold text-[color:var(--muted-text)] uppercase tracking-wider">Vaulted Documents</h4>
                     {["Last Will & Testament", "Medical Directive"].map((doc, i) => (
-                      <div key={i} className="flex items-center justify-between p-3 border rounded-lg bg-card">
+                      <div key={i} className="flex items-center justify-between p-3 border rounded-lg bg-[color:var(--card-white)]" style={{ borderColor: "var(--border-warm)" }}>
                         <div className="flex items-center gap-3">
-                          <Shield className="w-4 h-4 text-muted-foreground" />
+                          <Shield className="w-4 h-4 text-[color:var(--muted-text)]" />
                           <span className="font-medium text-sm">{doc}</span>
                         </div>
                         <Badge variant="outline" className="text-xs font-mono tracking-widest bg-primary/5">SEALED</Badge>
@@ -267,20 +269,20 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-24 md:py-32 px-6">
+        <section className="py-24 md:py-32 px-6 bg-[color:var(--card-white)]">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-serif text-primary">Simple, transparent pricing</h2>
-              <p className="mt-4 text-lg text-muted-foreground">Choose the level of guidance you need.</p>
+              <p className="mt-4 text-lg text-[color:var(--muted-text)]">Choose the level of guidance you need.</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8 items-center">
-              <Card className="bg-card border-border/50">
+              <Card className="bg-[color:var(--card-white)]" style={{ borderColor: "var(--border-warm)" }}>
                 <CardContent className="p-8">
                   <h3 className="text-xl font-serif font-semibold mb-2">Legacy Starter</h3>
                   <div className="mb-6">
                     <span className="text-4xl font-serif text-primary">$49</span>
-                    <span className="text-muted-foreground"> one-time</span>
+                    <span className="text-[color:var(--muted-text)]"> one-time</span>
                   </div>
                   <ul className="space-y-4 mb-8">
                     <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-secondary" /> 5 Future Letters</li>
@@ -291,15 +293,15 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-primary text-primary-foreground border-transparent shadow-2xl relative transform md:-translate-y-4">
+                <Card className="bg-[color:var(--charcoal)] text-[color:var(--parchment)] border-transparent shadow-2xl relative transform md:-translate-y-4">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent text-accent-foreground px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
                   Featured
                 </div>
                 <CardContent className="p-8">
-                  <h3 className="text-xl font-serif font-semibold mb-2 text-primary-foreground">Concierge</h3>
+                  <h3 className="text-xl font-serif font-semibold mb-2 text-[color:var(--parchment)]">Concierge</h3>
                   <div className="mb-6">
                     <span className="text-5xl font-serif text-accent">$15</span>
-                    <span className="text-primary-foreground/70"> /mo</span>
+                    <span className="text-[color:var(--parchment)]/70"> /mo</span>
                   </div>
                   <ul className="space-y-4 mb-8">
                     <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-accent" /> Monthly Guided Sessions</li>
@@ -311,12 +313,12 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-card border-border/50">
+              <Card className="bg-[color:var(--card-white)]" style={{ borderColor: "var(--border-warm)" }}>
                 <CardContent className="p-8">
                   <h3 className="text-xl font-serif font-semibold mb-2">Infinity Vault</h3>
                   <div className="mb-6">
                     <span className="text-4xl font-serif text-primary">$299</span>
-                    <span className="text-muted-foreground"> one-time</span>
+                    <span className="text-[color:var(--muted-text)]"> one-time</span>
                   </div>
                   <ul className="space-y-4 mb-8">
                     <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-secondary" /> Unlimited Letters</li>
@@ -330,21 +332,20 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-24 md:py-32 bg-primary text-primary-foreground px-6 text-center overflow-hidden">
+        <section className="py-24 md:py-32 px-6 text-center overflow-hidden" style={{ backgroundColor: "var(--charcoal)", color: "var(--parchment)" }}>
           <div className="max-w-4xl mx-auto space-y-8">
             <p className="text-3xl md:text-4xl font-serif italic leading-relaxed">
               "The best time to plant a tree was 20 years ago. The second best time is today."
             </p>
             <div className="flex items-center justify-center gap-4">
-              <div className="w-10 h-px bg-accent" />
-              <div className="font-serif text-lg tracking-widest text-primary-foreground/70">HEARTLOOM.</div>
+              <div className="w-10 h-px bg-[color:var(--brand-amber)]" />
+              <div className="font-serif text-lg tracking-widest text-[color:var(--parchment)]/70">HEARTLOOM.</div>
             </div>
-            <p className="text-primary-foreground/60 text-lg leading-relaxed max-w-md mx-auto">
+            <p className="text-[color:var(--parchment)]/60 text-lg leading-relaxed max-w-md mx-auto">
               Every day you wait is a day your family will not have. Start preserving what matters most.
             </p>
             <button
-              className="px-8 py-3 rounded-xl font-semibold text-sm tracking-wide transition-all"
-              style={{ background: "var(--brand-amber)", color: "var(--parchment)" }}
+              className="px-8 py-3 rounded-xl font-semibold text-sm tracking-wide transition-all bg-accent text-accent-foreground hover:bg-accent/90"
               data-testid="button-quote-cta"
             >
               Begin Your Legacy Today
@@ -353,21 +354,21 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="bg-card border-t py-16 text-center md:text-left">
+      <footer className="bg-[color:var(--card-white)] border-t py-16 text-center md:text-left" style={{ borderColor: "var(--border-warm)" }}>
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="space-y-4">
-            <a href="#" className="font-serif text-2xl font-semibold text-primary tracking-tight">
+            <a href="#" className="font-serif text-2xl font-semibold text-[color:var(--charcoal)] tracking-tight">
               Heartloom.
             </a>
-            <p className="text-sm text-muted-foreground max-w-xs">
+            <p className="text-sm text-[color:var(--muted-text)] max-w-xs">
               Preserving the human thread. Secure, dignified legacy planning for
               the ones you love most.
             </p>
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-semibold text-primary">Platform</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h4 className="font-semibold text-[color:var(--charcoal)]">Platform</h4>
+            <ul className="space-y-2 text-sm text-[color:var(--muted-text)]">
               <li><a href="#" className="hover:text-accent transition-colors">The Concierge</a></li>
               <li><a href="#" className="hover:text-accent transition-colors">Memory Vault</a></li>
               <li><a href="#" className="hover:text-accent transition-colors">Estate Access</a></li>
@@ -375,8 +376,8 @@ export default function Home() {
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-semibold text-primary">Company</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h4 className="font-semibold text-[color:var(--charcoal)]">Company</h4>
+            <ul className="space-y-2 text-sm text-[color:var(--muted-text)]">
               <li><a href="#" className="hover:text-accent transition-colors">Research Methodology</a></li>
               <li><a href="#" className="hover:text-accent transition-colors">About Us</a></li>
               <li><a href="#" className="hover:text-accent transition-colors">Contact</a></li>
@@ -384,8 +385,8 @@ export default function Home() {
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-semibold text-primary">Legal</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h4 className="font-semibold text-[color:var(--charcoal)]">Legal</h4>
+            <ul className="space-y-2 text-sm text-[color:var(--muted-text)]">
               <li><a href="#" className="hover:text-accent transition-colors">Privacy Policy</a></li>
               <li><a href="#" className="hover:text-accent transition-colors">Terms of Service</a></li>
               <li><a href="#" className="hover:text-accent transition-colors">Security</a></li>
@@ -393,7 +394,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+        <div className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[color:var(--muted-text)]" style={{ borderColor: "var(--border-warm)" }}>
           <p>(c) {new Date().getFullYear()} Heartloom. All rights reserved.</p>
           <p>Built with care for the future.</p>
         </div>
