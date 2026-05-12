@@ -14,9 +14,14 @@ export function Navbar() {
           : "bg-background border-border/40"
       )}
     >
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <Link href="/" className="font-serif text-2xl font-semibold text-primary tracking-tight">
-          Heartloom.
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-4">
+        <Link href="/" className="flex items-center gap-3 min-w-0">
+          <img src="/heartloom-logo.png" alt="Heartloom" className="h-8 sm:h-10 w-auto shrink-0" />
+          <div className="min-w-0">
+            <div className="font-serif text-xl sm:text-2xl font-semibold text-primary tracking-tight leading-none">
+              Heartloom.
+            </div>
+          </div>
         </Link>
 
         <div className="hidden md:flex items-center gap-6 text-sm font-medium">

@@ -35,19 +35,24 @@ export default function Home() {
     <div className="min-h-screen bg-[color:var(--parchment)] text-[color:var(--charcoal)]">
       <nav className="fixed top-0 w-full z-50 transition-all duration-300 border-b backdrop-blur-md"
         style={{ backgroundColor: "color-mix(in srgb, var(--card-white) 92%, transparent)", borderColor: "var(--border-warm)" }}>
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <a href="/" className="font-serif text-2xl font-semibold text-primary tracking-tight">
-            Heartloom.
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-3">
+          <a href="/" className="flex items-center gap-3 min-w-0">
+            <img src="/heartloom-logo.png" alt="Heartloom" className="h-8 sm:h-10 w-auto shrink-0" />
+            <div className="min-w-0">
+              <div className="font-serif text-xl sm:text-2xl font-semibold text-primary tracking-tight leading-none">
+                Heartloom.
+              </div>
+            </div>
           </a>
 
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-2 sm:gap-4 md:gap-8">
             <div className="hidden md:flex items-center gap-6 text-sm font-medium text-[color:var(--muted-text)]">
               <a href="/" className="transition-colors hover:text-accent">Home</a>
               <a href="/letters" className="transition-colors hover:text-accent">Letters</a>
               <a href="/concierge" className="transition-colors hover:text-accent">Concierge</a>
             </div>
 
-            <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
+            <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 px-3 sm:px-4">
               Join Waitlist
             </Button>
           </div>
@@ -55,19 +60,19 @@ export default function Home() {
       </nav>
 
       <main>
-        <section className="pt-32 pb-20 md:pt-48 md:pb-32 px-6 bg-[linear-gradient(180deg,var(--parchment)_0%,var(--card-white)_100%)]">
-          <div className="max-w-4xl mx-auto text-center space-y-10">
+        <section className="pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-48 md:pb-32 px-4 sm:px-6 bg-[linear-gradient(180deg,var(--parchment)_0%,var(--card-white)_100%)]">
+          <div className="max-w-4xl mx-auto text-center space-y-8 sm:space-y-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: "easeOut" }}
             >
-              <h1 className="text-5xl md:text-7xl font-serif text-primary tracking-tight leading-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif text-primary tracking-tight leading-tight">
                 Preserve Your Words
                 <br />
                 and Wisdom
               </h1>
-              <p className="mt-6 text-xl text-[color:var(--muted-text)] max-w-2xl mx-auto leading-relaxed">
+              <p className="mt-5 sm:mt-6 text-lg sm:text-xl text-[color:var(--muted-text)] max-w-2xl mx-auto leading-relaxed">
                 A secure vault for your legacy. Leave behind the guidance, stories,
                 and letters that matter most to the people you love.
               </p>
@@ -84,14 +89,14 @@ export default function Home() {
                 value={memoryDraft}
                 onChange={(e) => setMemoryDraft(e.target.value)}
                 placeholder="What is one thing you want your family to know forever?"
-                className="border-0 bg-transparent text-lg focus-visible:ring-0 shadow-none px-4 h-14"
+                className="border-0 bg-transparent text-base sm:text-lg focus-visible:ring-0 shadow-none px-4 h-12 sm:h-14"
               />
-              <div className="flex gap-2 shrink-0 p-2 md:p-0">
-                <Button variant="secondary" size="lg" className="h-12 w-full md:w-auto" onClick={handleRecord}>
+              <div className="flex flex-col sm:flex-row gap-2 shrink-0 p-2 md:p-0">
+                <Button variant="secondary" size="lg" className="h-12 w-full sm:w-auto" onClick={handleRecord}>
                   <Mic className="w-4 h-4 mr-2" />
                   Record Voice
                 </Button>
-                <Button size="lg" className="h-12 w-full md:w-auto bg-accent hover:bg-accent/90 text-primary-foreground" onClick={handleDraft}>
+                <Button size="lg" className="h-12 w-full sm:w-auto bg-accent hover:bg-accent/90 text-primary-foreground" onClick={handleDraft}>
                   <PenLine className="w-4 h-4 mr-2" />
                   Draft Letter
                 </Button>
@@ -102,27 +107,27 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
-              className="flex items-center justify-center gap-3 text-sm font-medium text-[color:var(--muted-text)] pt-4"
+              className="flex flex-col sm:flex-row items-center justify-center gap-3 text-sm font-medium text-[color:var(--muted-text)] pt-4"
             >
-              <div className="flex -space-x-2">
+              <div className="flex -space-x-2 shrink-0">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="w-8 h-8 rounded-full bg-[color:var(--muted)] border-2 border-[color:var(--parchment)] flex items-center justify-center text-xs overflow-hidden">
                     <img src={`https://api.dicebear.com/7.x/notionists/svg?seed=${i}&backgroundColor=e2e8f0`} alt="Avatar" className="w-full h-full object-cover" />
                   </div>
                 ))}
               </div>
-              <span>4,200+ Families preserving their priceless memories</span>
+              <span className="max-w-[18rem] sm:max-w-none text-center sm:text-left">4,200+ Families preserving their priceless memories</span>
             </motion.div>
           </div>
         </section>
 
         <section className="py-10 border-y bg-[color:var(--card-white)]" style={{ borderColor: "var(--border-warm)" }}>
-          <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 opacity-70">
-            <span className="text-sm font-semibold tracking-widest uppercase text-[color:var(--muted-text)]">Founded by researchers from</span>
-            <div className="flex items-center gap-8 md:gap-16">
-              <span className="font-serif text-xl md:text-2xl font-semibold tracking-tight text-primary">Stanford</span>
-              <span className="font-serif text-xl md:text-2xl font-bold tracking-widest text-primary">NASA</span>
-              <span className="font-serif text-xl md:text-2xl italic text-primary">UC Berkeley</span>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center gap-4 md:gap-16 opacity-70 text-center">
+            <span className="text-xs sm:text-sm font-semibold tracking-[0.22em] uppercase text-[color:var(--muted-text)]">Founded by researchers from</span>
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 sm:gap-x-8 md:gap-16">
+              <span className="font-serif text-lg sm:text-xl md:text-2xl font-semibold tracking-tight text-primary">Stanford</span>
+              <span className="font-serif text-lg sm:text-xl md:text-2xl font-bold tracking-widest text-primary">NASA</span>
+              <span className="font-serif text-lg sm:text-xl md:text-2xl font-semibold tracking-tight text-primary">UC Berkeley</span>
             </div>
           </div>
         </section>
