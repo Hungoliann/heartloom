@@ -9,4 +9,4 @@
 *.gif binary
 *.ico binary
 *.zip binary
-*.gz binaryattached_assets/Creative-Render-Studio_1778099747485.zip filter=lfs diff=lfs merge=lfs -text
+*.gz binary
