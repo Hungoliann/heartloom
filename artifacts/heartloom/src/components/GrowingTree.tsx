@@ -584,9 +584,9 @@ export function GrowingTree() {
       style={{ height: "100dvh", background: "linear-gradient(160deg,#faf9f5 0%,#f0ece0 100%)" }}
     >
       <div className="absolute inset-0 pointer-events-none opacity-20"
-        style={{ backgroundImage: "radial-gradient(circle,#9CAF8830 1px,transparent 1px)", backgroundSize: "38px 38px" }} />
+        style={{ backgroundImage: "radial-gradient(circle,var(--brand-sage-30) 1px,transparent 1px)", backgroundSize: "38px 38px" }} />
 
-      <p className="relative z-10 text-xs font-sans font-semibold tracking-[0.22em] uppercase mb-4" style={{ color: "#9CAF88" }}>
+      <p className="relative z-10 text-xs font-sans font-semibold tracking-[0.22em] uppercase mb-4" style={{ color: "var(--brand-sage)" }}>
         Scroll to grow your legacy
       </p>
 
@@ -596,7 +596,7 @@ export function GrowingTree() {
           {LEFT_FEATURES.map((f) => (
             <div key={f.index} ref={el => { labelRefs.current[f.index] = el; }} className="text-right max-w-[190px]">
               <div className="text-2xl mb-1">{f.icon}</div>
-              <p className="font-serif text-base font-semibold leading-snug" style={{ color: "#D27F14" }}>{f.title}</p>
+              <p className="font-serif text-base font-semibold leading-snug" style={{ color: "var(--brand-amber)" }}>{f.title}</p>
               <p className="text-xs font-sans leading-snug mt-0.5" style={{ color: "#6b7c5a" }}>{f.sub}</p>
             </div>
           ))}
@@ -612,7 +612,7 @@ export function GrowingTree() {
           {RIGHT_FEATURES.map((f) => (
             <div key={f.index} ref={el => { labelRefs.current[f.index] = el; }} className="text-left max-w-[190px]">
               <div className="text-2xl mb-1">{f.icon}</div>
-              <p className="font-serif text-base font-semibold leading-snug" style={{ color: "#D27F14" }}>{f.title}</p>
+              <p className="font-serif text-base font-semibold leading-snug" style={{ color: "var(--brand-amber)" }}>{f.title}</p>
               <p className="text-xs font-sans leading-snug mt-0.5" style={{ color: "#6b7c5a" }}>{f.sub}</p>
             </div>
           ))}

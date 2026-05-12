@@ -115,6 +115,9 @@
   --app-font-sans: 'Inter', sans-serif;
   --app-font-serif: 'Playfair Display', serif;
   --app-font-mono: Menlo, monospace;
+  --brand-amber: #D27F14;
+  --brand-sage: #9CAF88;
+  --brand-sage-30: #9CAF8830;
   --radius: .5rem; /* 8px */
   --shadow-2xs: 0px 2px 0px 0px hsl(35 25% 85% / 0.1);
   --shadow-xs: 0px 2px 0px 0px hsl(35 25% 85% / 0.1);

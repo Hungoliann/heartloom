@@ -35,15 +35,15 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <nav className="fixed top-0 w-full z-50 transition-all duration-300 border-b bg-background/80 backdrop-blur-md border-transparent">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <a href="#" className="font-serif text-2xl font-semibold text-primary tracking-tight">
+          <a href="/" className="font-serif text-2xl font-semibold text-primary tracking-tight">
             Heartloom.
           </a>
 
           <div className="flex items-center gap-8">
             <div className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
-              <a href="#" className="transition-colors hover:text-accent">Home</a>
-              <a href="#" className="transition-colors hover:text-accent">Letters</a>
-              <a href="#" className="transition-colors hover:text-accent">Concierge</a>
+              <a href="/" className="transition-colors hover:text-accent">Home</a>
+              <a href="/letters" className="transition-colors hover:text-accent">Letters</a>
+              <a href="/concierge" className="transition-colors hover:text-accent">Concierge</a>
             </div>
 
             <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
