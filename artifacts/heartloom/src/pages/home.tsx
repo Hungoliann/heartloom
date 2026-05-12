@@ -344,7 +344,7 @@ export default function Home() {
             </p>
             <button
               className="px-8 py-3 rounded-xl font-semibold text-sm tracking-wide transition-all"
-              style={{ background: "hsl(34 83% 45%)", color: "hsl(37 33% 96%)" }}
+              style={{ background: "var(--brand-amber)", color: "var(--parchment)" }}
               data-testid="button-quote-cta"
             >
               Begin Your Legacy Today

@@ -581,7 +581,7 @@ export function GrowingTree() {
     <div
       ref={sectionRef}
       className="relative w-full flex flex-col items-center justify-center overflow-hidden"
-      style={{ height: "100dvh", background: "linear-gradient(160deg,#faf9f5 0%,#f0ece0 100%)" }}
+      style={{ height: "100dvh", background: `linear-gradient(160deg, ${"var(--parchment)"} 0%, ${"var(--parchment-2)"} 100%)` }}
     >
       <div className="absolute inset-0 pointer-events-none opacity-20"
         style={{ backgroundImage: "radial-gradient(circle,var(--brand-sage-30) 1px,transparent 1px)", backgroundSize: "38px 38px" }} />
@@ -597,7 +597,7 @@ export function GrowingTree() {
             <div key={f.index} ref={el => { labelRefs.current[f.index] = el; }} className="text-right max-w-[190px]">
               <div className="text-2xl mb-1">{f.icon}</div>
               <p className="font-serif text-base font-semibold leading-snug" style={{ color: "var(--brand-amber)" }}>{f.title}</p>
-              <p className="text-xs font-sans leading-snug mt-0.5" style={{ color: "#6b7c5a" }}>{f.sub}</p>
+              <p className="text-xs font-sans leading-snug mt-0.5" style={{ color: "var(--muted-text)" }}>{f.sub}</p>
             </div>
           ))}
         </div>
@@ -613,17 +613,17 @@ export function GrowingTree() {
             <div key={f.index} ref={el => { labelRefs.current[f.index] = el; }} className="text-left max-w-[190px]">
               <div className="text-2xl mb-1">{f.icon}</div>
               <p className="font-serif text-base font-semibold leading-snug" style={{ color: "var(--brand-amber)" }}>{f.title}</p>
-              <p className="text-xs font-sans leading-snug mt-0.5" style={{ color: "#6b7c5a" }}>{f.sub}</p>
+              <p className="text-xs font-sans leading-snug mt-0.5" style={{ color: "var(--muted-text)" }}>{f.sub}</p>
             </div>
           ))}
         </div>
       </div>
 
       <div ref={headingRef} className="relative z-10 text-center mt-6 px-6 max-w-2xl">
-        <h2 className="text-3xl md:text-4xl font-serif mb-2" style={{ color: "#2d1a08" }}>
+        <h2 className="text-3xl md:text-4xl font-serif mb-2" style={{ color: "var(--charcoal)" }}>
           Your legacy grows with every story you share.
         </h2>
-        <p className="text-sm font-sans" style={{ color: "#6b7c5a" }}>
+        <p className="text-sm font-sans" style={{ color: "var(--muted-text)" }}>
           From a single memory to a full family history — Heartloom grows with you.
         </p>
       </div>

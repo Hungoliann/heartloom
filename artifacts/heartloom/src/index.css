@@ -118,6 +118,13 @@
   --brand-amber: #D27F14;
   --brand-sage: #9CAF88;
   --brand-sage-30: #9CAF8830;
+  --parchment: #F5F0E8;
+  --parchment-2: #F0ECE0;
+  --card-white: #FBF8F4;
+  --charcoal: #2C2820;
+  --muted-text: #6B655B;
+  --border-warm: #EDE6DE;
+  --destructive: #E53E3E;
   --radius: .5rem; /* 8px */
   --shadow-2xs: 0px 2px 0px 0px hsl(35 25% 85% / 0.1);
   --shadow-xs: 0px 2px 0px 0px hsl(35 25% 85% / 0.1);
