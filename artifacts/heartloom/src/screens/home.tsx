@@ -63,8 +63,17 @@ export default function Home() {
       </nav>
 
       <main>
-        <section className="pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-48 md:pb-32 px-4 sm:px-6 bg-[linear-gradient(180deg,var(--parchment)_0%,var(--card-white)_100%)]">
-          <div className="max-w-4xl mx-auto text-center space-y-8 sm:space-y-10">
+        <section className="pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-48 md:pb-32 px-4 sm:px-6 relative overflow-hidden bg-[color:var(--parchment)] isolate">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover -z-10 pointer-events-none"
+          >
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
+          <div className="max-w-4xl mx-auto text-center space-y-8 sm:space-y-10 relative z-10 bg-white/40 backdrop-blur-xl rounded-3xl p-8 sm:p-12 md:p-16 shadow-3xl border border-white/60" style={{ boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37), inset 0 1px 2px 0 rgba(255, 255, 255, 0.5)' }}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -85,21 +94,20 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-              className="max-w-2xl mx-auto bg-[color:var(--card-white)] rounded-2xl p-2 md:p-3 shadow-xl border flex flex-col gap-3"
-              style={{ borderColor: "var(--border-warm)" }}
+              className="max-w-2xl mx-auto bg-white/30 backdrop-blur-xl rounded-2xl p-2 md:p-3 shadow-lg border border-white/50 flex flex-col gap-3"
             >
               <Textarea
                 value={memoryDraft}
                 onChange={(e) => setMemoryDraft(e.target.value)}
                 placeholder="What is one thing you want your family to know forever?"
-                className="border-0 bg-transparent text-base sm:text-lg focus-visible:ring-0 shadow-none px-4 py-4 min-h-28 sm:min-h-32 resize-none placeholder-gray-400"
+                className="border-0 bg-white/40 text-base sm:text-lg focus-visible:ring-0 shadow-none px-4 py-4 min-h-28 sm:min-h-32 resize-none placeholder-gray-500 backdrop-blur-md rounded-lg"
               />
               <div className="flex flex-col sm:flex-row gap-2 shrink-0 p-2 md:p-0 md:self-end">
                 <Button
                   asChild
                   variant="secondary"
                   size="lg"
-                  className="h-12 w-full sm:w-auto rounded-xl border border-black/10 bg-[color:var(--card-white)] text-[color:var(--charcoal)] shadow-[0_6px_0_rgba(0,0,0,0.14)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_0_rgba(0,0,0,0.18)] active:translate-y-0 active:shadow-[0_2px_0_rgba(0,0,0,0.12)]"
+                  className="h-12 w-full sm:w-auto rounded-xl border border-white/40 bg-white/20 backdrop-blur-md text-[color:var(--charcoal)] shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/30 hover:shadow-xl active:translate-y-0 active:shadow-md"
                 >
                   <Link href="/waitlist" className="inline-flex items-center justify-center">
                     <Mic className="w-4 h-4 mr-2" />
@@ -123,7 +131,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-3 text-sm font-medium text-[color:var(--muted-text)] pt-4"
+              className="flex flex-col sm:flex-row items-center justify-center gap-3 text-sm font-medium text-[color:var(--muted-text)] pt-4 w-full"
             >
               <div className="flex -space-x-2 shrink-0">
                 {[1, 2, 3, 4].map((i) => (
@@ -132,17 +140,17 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <span className="max-w-[18rem] sm:max-w-none text-center sm:text-left">4,200+ Families preserving their priceless memories</span>
+              <span className="text-center">4,200+ Families preserving their priceless memories</span>
             </motion.div>
           </div>
         </section>
 
-        <section className="py-10 border-y bg-[color:var(--card-white)]" style={{ borderColor: "var(--border-warm)" }}>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-center gap-2 sm:gap-3 md:gap-4 opacity-70 text-center whitespace-nowrap overflow-x-auto">
-            <span className="text-[10px] sm:text-xs md:text-sm font-semibold tracking-[0.22em] uppercase text-[color:var(--muted-text)]">Founded by researchers from</span>
-            <span className="font-serif text-base sm:text-lg md:text-2xl font-semibold tracking-tight text-primary">Stanford</span>
-            <span className="font-serif text-base sm:text-lg md:text-2xl font-semibold tracking-tight text-primary">NASA</span>
-            <span className="font-serif text-base sm:text-lg md:text-2xl font-semibold tracking-tight text-primary">UC Berkeley</span>
+        <section className="pt-8 pb-0 -mb-8 border-y bg-[color:var(--card-white)]" style={{ borderColor: "var(--border-warm)" }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-center gap-10 sm:gap-2 md:gap-4 opacity-85 text-center">
+            <span className="text-[10px] sm:text-xs md:text-sm font-semibold tracking-[0.22em] uppercase text-[color:var(--muted-text)] w-full">Founded by researchers from</span>
+            <img src="/stanford-logo.png" alt="Stanford University" className="h-40 sm:h-48 md:h-56 w-40 sm:w-48 md:w-56 object-contain -mt-13" />
+            <img src="/nasa-logo.png" alt="NASA" className="h-8 sm:h-20 md:h-24 w-16 sm:w-20 md:w-24 object-contain -mt-13" />
+            <img src="/berkeley-logo.png" alt="UC Berkeley" className="h-10 sm:h-48 md:h-56 w-40 sm:w-48 md:w-56 object-contain -mt-13" />
           </div>
         </section>
 
