@@ -37,6 +37,13 @@ yarn-error.log
 testem.log
 /typings
 
+# generated app artifacts
+**/.env.local
+**/.next/
+**/next-env.d.ts
+.data/
+**/.data/
+
 # System Files
 .DS_Store
 Thumbs.db

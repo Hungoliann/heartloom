@@ -13,7 +13,7 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query";
 
-import type { HealthStatus } from "./api.schemas";
+import type { HealthStatus, WaitlistRequest, WaitlistResponse } from "./api.schemas";
 
 import { customFetch } from "../custom-fetch";
 import type { ErrorType } from "../custom-fetch";
@@ -99,3 +99,26 @@ export function useHealthCheck<
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
+
+/**
+ * Submit a waitlist entry
+ * @summary Join the waitlist
+ */
+export const getSubmitWaitlistUrl = () => {
+  return `/api/waitlist`;
+};
+
+export const submitWaitlist = async (
+  waitlistRequest: WaitlistRequest,
+  options?: RequestInit,
+): Promise<WaitlistResponse> => {
+  return customFetch<WaitlistResponse>(getSubmitWaitlistUrl(), {
+    ...options,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    body: JSON.stringify(waitlistRequest),
+  });
+};

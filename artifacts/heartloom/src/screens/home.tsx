@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -10,9 +12,10 @@ import {
   ChevronRight,
   Lock,
 } from "lucide-react";
+import Link from "next/link";
 import { GrowingTree } from "@/components/GrowingTree";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -52,8 +55,8 @@ export default function Home() {
               <a href="/concierge" className="transition-colors hover:text-accent">Concierge</a>
             </div>
 
-            <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 px-3 sm:px-4">
-              Join Waitlist
+            <Button asChild size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 px-3 sm:px-4">
+              <Link href="/waitlist">Join Waitlist</Link>
             </Button>
           </div>
         </div>
@@ -82,23 +85,36 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-              className="max-w-2xl mx-auto bg-[color:var(--card-white)] rounded-2xl p-2 md:p-3 shadow-xl border flex flex-col md:flex-row gap-3"
+              className="max-w-2xl mx-auto bg-[color:var(--card-white)] rounded-2xl p-2 md:p-3 shadow-xl border flex flex-col gap-3"
               style={{ borderColor: "var(--border-warm)" }}
             >
-              <Input
+              <Textarea
                 value={memoryDraft}
                 onChange={(e) => setMemoryDraft(e.target.value)}
                 placeholder="What is one thing you want your family to know forever?"
-                className="border-0 bg-transparent text-base sm:text-lg focus-visible:ring-0 shadow-none px-4 h-12 sm:h-14"
+                className="border-0 bg-transparent text-base sm:text-lg focus-visible:ring-0 shadow-none px-4 py-4 min-h-28 sm:min-h-32 resize-none placeholder-gray-400"
               />
-              <div className="flex flex-col sm:flex-row gap-2 shrink-0 p-2 md:p-0">
-                <Button variant="secondary" size="lg" className="h-12 w-full sm:w-auto" onClick={handleRecord}>
-                  <Mic className="w-4 h-4 mr-2" />
-                  Record Voice
+              <div className="flex flex-col sm:flex-row gap-2 shrink-0 p-2 md:p-0 md:self-end">
+                <Button
+                  asChild
+                  variant="secondary"
+                  size="lg"
+                  className="h-12 w-full sm:w-auto rounded-xl border border-black/10 bg-[color:var(--card-white)] text-[color:var(--charcoal)] shadow-[0_6px_0_rgba(0,0,0,0.14)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_0_rgba(0,0,0,0.18)] active:translate-y-0 active:shadow-[0_2px_0_rgba(0,0,0,0.12)]"
+                >
+                  <Link href="/waitlist" className="inline-flex items-center justify-center">
+                    <Mic className="w-4 h-4 mr-2" />
+                    Record Voice
+                  </Link>
                 </Button>
-                <Button size="lg" className="h-12 w-full sm:w-auto bg-accent hover:bg-accent/90 text-primary-foreground" onClick={handleDraft}>
-                  <PenLine className="w-4 h-4 mr-2" />
-                  Draft Letter
+                <Button
+                  asChild
+                  size="lg"
+                  className="h-12 w-full sm:w-auto rounded-xl bg-accent text-primary-foreground border border-black/10 shadow-[0_6px_0_rgba(0,0,0,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent/90 hover:shadow-[0_8px_0_rgba(0,0,0,0.22)] active:translate-y-0 active:shadow-[0_2px_0_rgba(0,0,0,0.14)]"
+                >
+                  <Link href="/waitlist" className="inline-flex items-center justify-center">
+                    <PenLine className="w-4 h-4 mr-2" />
+                    Draft Letter
+                  </Link>
                 </Button>
               </div>
             </motion.div>
@@ -292,7 +308,9 @@ export default function Home() {
                     <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-secondary" /> 2GB Media Storage</li>
                     <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-secondary" /> Basic Vault Access</li>
                   </ul>
-                  <Button variant="outline" className="w-full">Get Started</Button>
+                  <Button asChild variant="outline" className="w-full">
+                    <Link href="/waitlist">Join Waitlist</Link>
+                  </Button>
                 </CardContent>
               </Card>
 
@@ -312,7 +330,9 @@ export default function Home() {
                     <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-accent" /> Family Onboarding</li>
                     <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-accent" /> Priority Verification</li>
                   </ul>
-                  <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground border-0">Begin Trial</Button>
+                  <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground border-0">
+                    <Link href="/waitlist">Join Waitlist</Link>
+                  </Button>
                 </CardContent>
               </Card>
 
@@ -328,7 +348,9 @@ export default function Home() {
                     <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-secondary" /> 100GB Media Storage</li>
                     <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-secondary" /> Heirloom Physical Cards</li>
                   </ul>
-                  <Button variant="outline" className="w-full">Get Started</Button>
+                  <Button asChild variant="outline" className="w-full">
+                    <Link href="/waitlist">Join Waitlist</Link>
+                  </Button>
                 </CardContent>
               </Card>
             </div>
@@ -347,12 +369,9 @@ export default function Home() {
             <p className="text-[color:var(--parchment)]/60 text-lg leading-relaxed max-w-md mx-auto">
               Every day you wait is a day your family will not have. Start preserving what matters most.
             </p>
-            <button
-              className="px-8 py-3 rounded-xl font-semibold text-sm tracking-wide transition-all bg-accent text-accent-foreground hover:bg-accent/90"
-              data-testid="button-quote-cta"
-            >
-              Begin Your Legacy Today
-            </button>
+            <Button asChild className="px-8 py-3 rounded-xl font-semibold text-sm tracking-wide transition-all bg-accent text-accent-foreground hover:bg-accent/90" data-testid="button-quote-cta">
+              <Link href="/waitlist">Begin Your Legacy Today</Link>
+            </Button>
           </div>
         </section>
       </main>

@@ -7,3 +7,7 @@
  */
 
 export * from "./healthStatus";
+export * from "./waitlistEntry";
+export * from "./waitlistRequest";
+export * from "./waitlistResponse";
+export * from "./errorResponse";

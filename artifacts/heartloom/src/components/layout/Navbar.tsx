@@ -1,8 +1,11 @@
-import { Link, useLocation } from "wouter";
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
-  const [location] = useLocation();
+  const location = usePathname();
   const isLanding = location === "/";
 
   return (

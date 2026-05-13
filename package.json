@@ -1,6 +1,7 @@
 {
   "name": "workspace",
   "version": "0.0.0",
+  "type": "module",
   "license": "MIT",
   "scripts": {
     "preinstall": "node -e \"const fs=require('fs'); const ua=process.env.npm_config_user_agent||''; for (const file of ['package-lock.json','yarn.lock']) { try { fs.rmSync(file); } catch {} } if (ua && !ua.includes('pnpm')) { console.error('Use pnpm instead'); process.exit(1); }\"",

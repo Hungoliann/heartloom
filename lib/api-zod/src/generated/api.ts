@@ -14,3 +14,29 @@ import * as zod from "zod";
 export const HealthCheckResponse = zod.object({
   status: zod.string(),
 });
+
+export const WaitlistEntry = zod.object({
+  id: zod.string(),
+  email: zod.string().email(),
+  name: zod.string().nullable(),
+  source: zod.string(),
+  createdAt: zod.string(),
+});
+
+export const WaitlistResponse = zod.object({
+  message: zod.string(),
+  created: zod.boolean(),
+  total: zod.number().int(),
+  entry: WaitlistEntry,
+});
+
+export const WaitlistRequest = zod.object({
+  email: zod.string().email(),
+  name: zod.string().optional(),
+  source: zod.string().optional(),
+});
+
+export const ErrorResponse = zod.object({
+  message: zod.string(),
+  code: zod.string(),
+});
