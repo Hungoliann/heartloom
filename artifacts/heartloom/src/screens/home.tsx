@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import PageFooter from "@/components/layout/PageFooter";
 
 export default function Home() {
   const [memoryDraft, setMemoryDraft] = useState("");
@@ -384,51 +385,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="bg-[color:var(--card-white)] border-t py-16 text-center md:text-left" style={{ borderColor: "var(--border-warm)" }}>
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
-          <div className="space-y-4">
-            <a href="#" className="font-serif text-2xl font-semibold text-[color:var(--charcoal)] tracking-tight">
-              Heartloom.
-            </a>
-            <p className="text-sm text-[color:var(--muted-text)] max-w-xs">
-              Preserving the human thread. Secure, dignified legacy planning for
-              the ones you love most.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="font-semibold text-[color:var(--charcoal)]">Platform</h4>
-            <ul className="space-y-2 text-sm text-[color:var(--muted-text)]">
-              <li><a href="#" className="hover:text-accent transition-colors">The Concierge</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Memory Vault</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Estate Access</a></li>
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="font-semibold text-[color:var(--charcoal)]">Company</h4>
-            <ul className="space-y-2 text-sm text-[color:var(--muted-text)]">
-              <li><a href="#" className="hover:text-accent transition-colors">Research Methodology</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Contact</a></li>
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="font-semibold text-[color:var(--charcoal)]">Legal</h4>
-            <ul className="space-y-2 text-sm text-[color:var(--muted-text)]">
-              <li><a href="#" className="hover:text-accent transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Security</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[color:var(--muted-text)]" style={{ borderColor: "var(--border-warm)" }}>
-          <p>(c) {new Date().getFullYear()} Heartloom. All rights reserved.</p>
-          <p>Built with care for the future.</p>
-        </div>
-      </footer>
+      <PageFooter />
     </div>
   );
 }
