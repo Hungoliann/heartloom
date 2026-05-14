@@ -78,7 +78,7 @@ export default function ResearchPage() {
                     <p className="text-xs uppercase tracking-[0.28em] text-secondary font-semibold mb-3">Pillar II</p>
                     <h2 className="font-serif text-3xl text-primary mb-4">The Security of the Vault</h2>
                     <p className="text-[color:var(--muted-text)] leading-relaxed">
-                      Implementing NASA-level AES-256 encryption with quantum-resistant keys. Memories remain shards of a private reality, reconstructed only through authorized biometric multi-sig keys.
+                      Your memories are protected by multiple layers of encryption, accessible only to you. We're architecturally prevented from reading your data. You hold the only key.
                     </p>
                     <div className="mt-6 inline-flex items-center gap-3 rounded-full bg-secondary px-4 py-2 text-white text-sm">
                       <Shield className="h-4 w-4" /> Concierge Chip
