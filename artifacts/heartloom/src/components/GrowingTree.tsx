@@ -595,10 +595,12 @@ export function GrowingTree() {
         createdTriggers.push(st);
       },
       "(max-width: 767px)": () => {
+        // On mobile, use the section's actual height + extra scroll space
+        const sectionHeight = section.offsetHeight || window.innerHeight;
         const st = ScrollTrigger.create({
           trigger: section,
-          start: "top top",
-          end: "+=3000",
+          start: "top center",
+          end: `+=${sectionHeight * 2}`,
           pin: false,
           scrub: 1.5,
           onUpdate: (self) => {
@@ -627,8 +629,11 @@ export function GrowingTree() {
   return (
     <div
       ref={sectionRef}
-      className="relative w-full flex flex-col items-center justify-center overflow-hidden"
-      style={{ height: "100dvh", background: `linear-gradient(160deg, ${"var(--parchment)"} 0%, ${"var(--parchment-2)"} 100%)` }}
+      className="relative w-full flex flex-col items-center justify-center md:overflow-hidden"
+      style={{ 
+        minHeight: "100dvh",
+        background: `linear-gradient(160deg, ${"var(--parchment)"} 0%, ${"var(--parchment-2)"} 100%)`
+      }}
     >
       <div className="absolute inset-0 pointer-events-none opacity-20"
         style={{ backgroundImage: "radial-gradient(circle,var(--brand-sage-30) 1px,transparent 1px)", backgroundSize: "38px 38px" }} />
