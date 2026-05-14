@@ -1,11 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { ArrowRight, History, Shield, Users, Lock, ScanLine, Sparkles } from "lucide-react";
 import PageFooter from "@/components/layout/PageFooter";
 
-function Section({ eyebrow, title, children }: { eyebrow: string; title: string; children: React.ReactNode; }) {
+function Section({ id, eyebrow, title, children }: { id: string; eyebrow: string; title: string; children: React.ReactNode; }) {
   return (
-    <section className="rounded-3xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] p-6 sm:p-8 md:p-10 shadow-sm">
+    <section id={id} className="research-section rounded-3xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] p-6 sm:p-8 md:p-10 shadow-sm">
       <p className="text-xs uppercase tracking-[0.28em] text-secondary font-semibold mb-4">{eyebrow}</p>
       <h2 className="font-serif text-3xl sm:text-4xl text-primary mb-6">{title}</h2>
       <div className="space-y-4 text-[color:var(--muted-text)] leading-relaxed">{children}</div>
@@ -13,7 +16,36 @@ function Section({ eyebrow, title, children }: { eyebrow: string; title: string;
   );
 }
 
+const sections = [
+  { id: "pillar-1", label: "I. The Psychology of Legacy" },
+  { id: "pillar-2", label: "II. The Security of the Vault" },
+  { id: "pillar-3", label: "III. Longevity of Assets" },
+];
+
 export default function ResearchPage() {
+  const [activeSection, setActiveSection] = useState<string>(sections[0].id);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => (a.boundingClientRect.top > b.boundingClientRect.top ? 1 : -1))[0];
+
+        if (visibleEntry) {
+          setActiveSection(visibleEntry.target.id);
+        }
+      },
+      { root: null, rootMargin: "-20% 0px -60% 0px", threshold: 0.2 }
+    );
+
+    const elements = sections.map((section) => document.getElementById(section.id)).filter(Boolean) as HTMLElement[];
+    elements.forEach((element) => observer.observe(element));
+
+    return () => {
+      elements.forEach((element) => observer.unobserve(element));
+    };
+  }, []);
   return (
     <div className="min-h-screen bg-[color:var(--parchment)] text-[color:var(--charcoal)]">
       <Navbar />
@@ -34,18 +66,32 @@ export default function ResearchPage() {
 
         <section className="px-4 sm:px-6 pb-20">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-8 items-start">
-            <aside className="lg:col-span-3 rounded-2xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] p-5 sm:p-6 sticky top-32 h-fit">
-              <p className="text-xs uppercase tracking-[0.28em] text-secondary font-semibold mb-4">Table of Articles</p>
-              <ol className="space-y-3 text-sm text-[color:var(--muted-text)]">
-                <li className="text-primary">I. The Psychology of Legacy</li>
-                <li>II. The Security of the Vault</li>
-                <li>III. Longevity of Assets</li>
+<aside className="lg:col-span-3 rounded-2xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] p-5 sm:p-6 sticky top-28 h-fit">
+                <p className="text-xs uppercase tracking-[0.28em] text-secondary font-semibold mb-4">Table of Articles</p>
+                <ol className="space-y-3 text-sm">
+                  {sections.map((section) => {
+                    const isActive = section.id === activeSection;
+                    return (
+                      <li
+                        key={section.id}
+                        className={`transition-colors duration-200 ${
+                          isActive
+                            ? "text-primary font-semibold"
+                            : "text-[color:var(--muted-text)] hover:text-primary"
+                        }`}
+                      >
+                        <a href={`#${section.id}`} className="block rounded-md px-2 py-1">
+                          {section.label}
+                        </a>
+                      </li>
+                    );
+                  })}
               </ol>
             </aside>
 
             <div className="lg:col-span-9 space-y-8">
               <div className="grid md:grid-cols-[1fr_1.5fr] gap-8 items-center">
-                <Section eyebrow="Pillar I" title="The Psychology of Legacy">
+                <Section id="pillar-1" eyebrow="Pillar I" title="The Psychology of Legacy">
                   <p>
                     In partnership with leading researchers, we analyze the cognitive impact of legacy preservation. Our systems mirror associative memory pathways to help families retrieve shared histories naturally.
                   </p>
@@ -72,35 +118,52 @@ export default function ResearchPage() {
                 <p className="mt-4 text-xs uppercase tracking-[0.28em] text-outline">— Stanford Medicine Behavioral Study</p>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="md:col-span-2 rounded-3xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] overflow-hidden shadow-sm grid md:grid-cols-2">
+              <div className="grid md:grid-cols-3 gap-6 items-stretch">
+                <div id="pillar-2" className="rounded-3xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] overflow-hidden shadow-sm h-full">
                   <div className="p-6 sm:p-8">
                     <p className="text-xs uppercase tracking-[0.28em] text-secondary font-semibold mb-3">Pillar II</p>
                     <h2 className="font-serif text-3xl text-primary mb-4">The Security of the Vault</h2>
                     <p className="text-[color:var(--muted-text)] leading-relaxed">
-                      Your memories are protected by multiple layers of encryption, accessible only to you. We're architecturally prevented from reading your data. You hold the only key.
+                      Your memories are protected by multiple layers of encryption and access controls that keep your legacy safe. We are architecturally prevented from reading your data. You hold the only key.
                     </p>
                     <div className="mt-6 inline-flex items-center gap-3 rounded-full bg-secondary px-4 py-2 text-white text-sm">
-                      <Shield className="h-4 w-4" /> Concierge Chip
+                      <Shield className="h-4 w-4" /> Concierge Chip · Status: Secure
                     </div>
-                  </div>
-                  <div className="bg-[color:var(--surface-container-highest)] min-h-[260px]">
-                    <img
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuDabs8Btv10okWxsK-OIIMZlPIjpfvptue73CcmoMoR9YNjcgtbeUt6dEQJxeOyWJ8hmB89rf1XFSVOX-oNKs6Q9qRjhwFbs-7TZr-C3rY0jZQlRj-cdOTwua_j1Fc-kOZaPHKo0Grw4Dn7laisTEsVi_uzzofFDvTdHDfNeUK-W91miW01-zW09ttCBTrp8OvYmC6NndbbEvL535BS5XYo0TYNicNdUoIzhHVjWFBl1B-GxxbHPS_JFQkWdMr_rEO3mh28x-GfRQY"
-                      alt="Encrypted data cube"
-                      className="w-full h-full object-cover"
-                    />
                   </div>
                 </div>
 
-                <Section eyebrow="Pillar III" title="Longevity of Assets">
-                  <p>
-                    Our proprietary Living Format protocol ensures that digital media stays accessible regardless of evolving software standards.
+                <div className="rounded-3xl border border-[color:var(--border-warm)] overflow-hidden shadow-xl h-full">
+                  <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDabs8Btv10okWxsK-OIIMZlPIjpfvptue73CcmoMoR9YNjcgtbeUt6dEQJxeOyWJ8hmB89rf1XFSVOX-oNKs6Q9qRjhwFbs-7TZr-C3rY0jZQlRj-cdOTwua_j1Fc-kOZaPHKo0Grw4Dn7laisTEsVi_uzzofFDvTdHDfNeUK-W91miW01-zW09ttCBTrp8OvYmC6NndbbEvL535BS5XYo0TYNicNdUoIzhHVjWFBl1B-GxxbHPS_JFQkWdMr_rEO3mh28x-GfRQY"
+                    alt="Encrypted data cube"
+                    className="w-full h-full min-h-[320px] object-cover"
+                  />
+                </div>
+
+                <div className="rounded-3xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] p-6 sm:p-8 shadow-sm h-full">
+                  <h2 className="font-serif text-3xl text-primary mb-4">Zero-Knowledge Architecture</h2>
+                  <p className="text-[color:var(--muted-text)] leading-relaxed">
+                    We do not just protect your data. We are built so that even we cannot access it. Your memories live behind layers of encryption that only you can unlock. You hold the only map to your kingdom.
                   </p>
-                  <p>
-                    We treat every pixel like a physical artifact, maintaining color integrity and structural metadata for centuries.
+                </div>
+              </div>
+
+              <div id="pillar-3" className="relative overflow-hidden rounded-3xl border border-[rgba(255,255,255,0.14)] bg-[linear-gradient(180deg,rgba(89,64,33,0.95),rgba(31,20,11,0.95))] p-8 sm:p-10 shadow-2xl">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.08),transparent_30%)]" />
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.02),transparent_45%)]" />
+                <div className="relative">
+                  <p className="text-xs uppercase tracking-[0.28em] text-[rgba(255,220,150,0.95)] font-semibold mb-4">Pillar III</p>
+                  <h2 className="font-serif text-4xl text-[rgba(255,210,120,0.98)] mb-5">Longevity of Assets</h2>
+                  <blockquote className="font-serif text-2xl italic text-[rgba(255,255,255,0.92)] leading-relaxed border-l-2 border-[rgba(255,255,255,0.18)] pl-5 mb-6">
+                    “Smithsonian-grade digital archiving is not about storage. It is about translation across the centuries.”
+                  </blockquote>
+                  <p className="text-[rgba(255,255,255,0.88)] leading-relaxed mb-4">
+                    Our proprietary Living Format protocol ensures your digital media stays accessible regardless of how software standards evolve.
                   </p>
-                </Section>
+                  <p className="text-[rgba(255,255,255,0.88)] leading-relaxed">
+                    Every pixel is treated like a physical artifact, with color integrity and structural metadata preserved for 500 or more years.
+                  </p>
+                </div>
               </div>
 
               <div className="rounded-3xl border border-[color:var(--border-warm)] bg-[linear-gradient(180deg,#fbf2e8_0%,#fff8f3_100%)] p-6 sm:p-8 md:p-10 text-center shadow-sm">

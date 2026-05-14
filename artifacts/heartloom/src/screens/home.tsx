@@ -19,6 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import PageFooter from "@/components/layout/PageFooter";
+import { Navbar } from "@/components/layout/Navbar";
 
 export default function Home() {
   const [memoryDraft, setMemoryDraft] = useState("");
@@ -37,31 +38,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[color:var(--parchment)] text-[color:var(--charcoal)]">
-      <nav className="fixed top-0 w-full z-50 transition-all duration-300 border-b backdrop-blur-md"
-        style={{ backgroundColor: "color-mix(in srgb, var(--card-white) 92%, transparent)", borderColor: "var(--border-warm)" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-3">
-          <a href="/" className="flex items-center gap-3 min-w-0">
-            <img src="/heartloomlogo-nobg.png" alt="Heartloom" className="h-8 sm:h-10 w-auto shrink-0" />
-            <div className="min-w-0">
-              <div className="font-serif text-xl sm:text-2xl font-semibold text-primary tracking-tight leading-none">
-                Heartloom.
-              </div>
-            </div>
-          </a>
-
-          <div className="flex items-center gap-2 sm:gap-4 md:gap-8">
-            <div className="hidden md:flex items-center gap-6 text-sm font-medium text-[color:var(--muted-text)]">
-              <a href="/" className="transition-colors hover:text-accent">Home</a>
-              <a href="/letters" className="transition-colors hover:text-accent">Letters</a>
-              <a href="/concierge" className="transition-colors hover:text-accent">Concierge</a>
-            </div>
-
-            <Button asChild size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 px-3 sm:px-4">
-              <Link href="/waitlist">Join Waitlist</Link>
-            </Button>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       <main>
         <section className="pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-48 md:pb-32 px-4 sm:px-6 relative overflow-hidden bg-[color:var(--parchment)] isolate">

@@ -1,10 +1,11 @@
-import Link from "next/link";
+"use client";
+
+import { useState, type ChangeEvent, type FormEvent, type ReactNode, type ComponentType } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Globe, Mail, Phone, Users, ArrowRight } from "lucide-react";
-import type { ComponentType } from "react";
 import PageFooter from "@/components/layout/PageFooter";
 
-function ContactCard({ icon: Icon, title, value }: { icon: ComponentType<{ className?: string }>; title: string; value: string; }) {
+function ContactCard({ icon: Icon, title, value }: { icon: ComponentType<{ className?: string }>; title: string; value: ReactNode; }) {
   return (
     <div className="rounded-2xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] p-6 sm:p-8 shadow-sm transition-colors hover:border-secondary/60">
       <Icon className="mb-6 h-8 w-8 text-secondary" />
@@ -16,6 +17,37 @@ function ContactCard({ icon: Icon, title, value }: { icon: ComponentType<{ class
 }
 
 export default function ContactPage() {
+  const companyEmail = "hey@tryheartloom.com";
+  const [name, setName] = useState("");
+  const [familyName, setFamilyName] = useState("");
+  const [emailInput, setEmailInput] = useState("");
+  const [contactMethod, setContactMethod] = useState("Email");
+  const [timing, setTiming] = useState("Immediate");
+  const [intent, setIntent] = useState("");
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!name.trim() || !emailInput.trim() || !intent.trim()) {
+      alert("Please include your name, email, and a short message before submitting.");
+      return;
+    }
+
+    const subject = `Heartloom contact request from ${name}`;
+    const body = [
+      `Name: ${name}`,
+      `Family / Legacy Title: ${familyName || "N/A"}`,
+      `Email: ${emailInput}`,
+      `Preferred Method: ${contactMethod}`,
+      `Timing of Need: ${timing}`,
+      "",
+      "Message:",
+      intent,
+    ].join("\n");
+
+    window.location.href = `mailto:${companyEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
   return (
     <div className="min-h-screen bg-[color:var(--parchment)] text-[color:var(--charcoal)]">
       <Navbar />
@@ -37,19 +69,15 @@ export default function ContactPage() {
           <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-8">
             <div className="lg:col-span-5 space-y-6">
               <ContactCard icon={Phone} title="Private Line" value="650-760-8902" />
-              <ContactCard icon={Mail} title="Correspondence" value="hey@tryheartloom.com" />
+              <ContactCard
+                icon={Mail}
+                title="Correspondence"
+                value={<a href="mailto:hey@tryheartloom.com" className="text-primary underline decoration-primary/30 hover:decoration-primary">hey@tryheartloom.com</a>}
+              />
               <ContactCard icon={Globe} title="Global Presence" value="@tryheartloom" />
             </div>
 
-            <div className="lg:col-span-7 rounded-3xl border border-[color:var(--border-warm)] bg-[linear-gradient(180deg,#eae1d7_0%,#f6ece3_100%)] p-6 sm:p-10 md:p-14 shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 h-32 w-32 opacity-10 pointer-events-none">
-                <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc3XkznvVSoVDuDB6VpibHJq0cOfdfyH_imEpnsPEF8aO98t1Rs2mqdmfoFYYsmt3zqsgDt6LAJ1K5SX77WvZj1JmEM5UCA4agSRmM6Ozoh_58OsR6HRM1UaIRvU0w_eS9l3Xw3sMeAtp6JuDdRgoLTohFnZYzuA8bggmIoqkwOtMrd9W6a-87mNA0EL46pvIRv9fa4Hg6D_qN0jIXKstNOceHK5xtrSqkRG454tgS5WBFF6HUgs2VSdrrsVU8bx1YmEMxzv5axng"
-                  alt="Wax seal detail"
-                  className="h-full w-full object-contain"
-                />
-              </div>
-
+            <div className="lg:col-span-7 rounded-3xl border border-[color:var(--border-warm)] bg-white p-6 sm:p-10 md:p-14 shadow-2xl relative overflow-hidden">
               <div className="relative z-10">
                 <h2 className="font-serif text-3xl sm:text-4xl text-primary">Request an Invitation</h2>
                 <p className="mt-3 max-w-2xl text-[color:var(--muted-text)] leading-relaxed">
@@ -58,36 +86,45 @@ export default function ContactPage() {
 
                 <form className="mt-10 space-y-8">
                   {[
-                    { id: "name", label: "Full Name", type: "text" },
-                    { id: "family_name", label: "Family Name / Legacy Title", type: "text" },
-                    { id: "email", label: "Email Address", type: "email" },
+                    { id: "name", label: "Full Name", type: "text", value: name, onChange: (event: ChangeEvent<HTMLInputElement>) => setName(event.target.value) },
+                    { id: "family_name", label: "Family Name / Legacy Title", type: "text", value: familyName, onChange: (event: ChangeEvent<HTMLInputElement>) => setFamilyName(event.target.value) },
+                    { id: "email", label: "Email Address", type: "email", value: emailInput, onChange: (event: ChangeEvent<HTMLInputElement>) => setEmailInput(event.target.value) },
                   ].map((field) => (
-                    <div key={field.id} className="relative group">
+                    <div key={field.id} className="space-y-3">
+                      <label htmlFor={field.id} className="block text-xs uppercase tracking-[0.28em] text-outline font-semibold pl-4">
+                        {field.label}
+                      </label>
                       <input
                         id={field.id}
                         type={field.type}
-                        placeholder=" "
-                        className="peer w-full bg-transparent border-0 border-b border-[color:var(--border-warm)] px-0 py-3 font-medium text-[color:var(--charcoal)] placeholder-transparent focus:border-primary focus:ring-0"
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder={field.label}
+                        className="w-full rounded-3xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] px-4 py-4 text-base text-[color:var(--charcoal)] shadow-sm transition duration-200 placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-[rgba(133,97,50,0.12)] focus:outline-none"
                       />
-                      <label
-                        htmlFor={field.id}
-                        className="absolute left-0 -top-4 text-xs uppercase tracking-[0.28em] text-outline transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-placeholder-shown:tracking-normal peer-focus:-top-4 peer-focus:text-xs peer-focus:text-primary peer-focus:tracking-[0.28em]"
-                      >
-                        {field.label}
-                      </label>
                     </div>
                   ))}
 
                   <div className="space-y-4">
-                    <p className="text-xs uppercase tracking-[0.28em] text-outline font-semibold">Preferred Method of Contact</p>
-                    <div className="flex flex-wrap gap-6 text-sm text-[color:var(--charcoal)]">
+                    <p className="text-xs uppercase tracking-[0.28em] text-outline font-semibold pl-4">Preferred Method of Contact</p>
+                    <div className="grid sm:grid-cols-3 gap-4 text-sm text-[color:var(--charcoal)]">
                       {[
                         "Email",
                         "Phone",
                         "Concierge Visit",
                       ].map((item) => (
-                        <label key={item} className="flex items-center gap-3 cursor-pointer">
-                          <input type="radio" name="contact_method" className="h-4 w-4 accent-[color:var(--brand-amber)]" />
+                        <label
+                          key={item}
+                          className="group flex items-center gap-3 rounded-[28px] border border-[rgba(173,141,99,0.22)] bg-[color:var(--card-white)] px-4 py-3 shadow-sm transition duration-200 hover:border-secondary hover:bg-[color:var(--surface-container-low)] cursor-pointer"
+                        >
+                          <input
+                            type="radio"
+                            name="contact_method"
+                            value={item}
+                            checked={contactMethod === item}
+                            onChange={() => setContactMethod(item)}
+                            className="h-4 w-4 accent-[color:var(--brand-amber)]"
+                          />
                           <span>{item}</span>
                         </label>
                       ))}
@@ -95,38 +132,47 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-4">
-                    <p className="text-xs uppercase tracking-[0.28em] text-outline font-semibold">Timing of Need</p>
-                    <div className="flex flex-wrap gap-6 text-sm text-[color:var(--charcoal)]">
+                    <p className="text-xs uppercase tracking-[0.28em] text-outline font-semibold pl-4">Timing of Need</p>
+                    <div className="grid sm:grid-cols-3 gap-4 text-sm text-[color:var(--charcoal)]">
                       {[
                         "Immediate",
                         "Planning for Future",
                         "Gift for Another",
                       ].map((item) => (
-                        <label key={item} className="flex items-center gap-3 cursor-pointer">
-                          <input type="radio" name="timing" className="h-4 w-4 accent-[color:var(--brand-amber)]" />
+                        <label
+                          key={item}
+                          className="group flex items-center gap-3 rounded-[28px] border border-[rgba(173,141,99,0.22)] bg-[color:var(--card-white)] px-4 py-3 shadow-sm transition duration-200 hover:border-secondary hover:bg-[color:var(--surface-container-low)] cursor-pointer"
+                        >
+                          <input
+                            type="radio"
+                            name="timing"
+                            value={item}
+                            checked={timing === item}
+                            onChange={() => setTiming(item)}
+                            className="h-4 w-4 accent-[color:var(--brand-amber)]"
+                          />
                           <span>{item}</span>
                         </label>
                       ))}
                     </div>
                   </div>
 
-                  <div className="relative group">
+                  <div className="space-y-3">
+                    <label htmlFor="intent" className="block text-xs uppercase tracking-[0.28em] text-outline font-semibold pl-4">
+                      Your Legacy Intent
+                    </label>
                     <textarea
                       id="intent"
                       rows={5}
-                      placeholder=" "
-                      className="peer w-full resize-none bg-transparent border-0 border-b border-[color:var(--border-warm)] px-0 py-3 font-medium text-[color:var(--charcoal)] placeholder-transparent focus:border-primary focus:ring-0"
+                      placeholder="Describe your intent"
+                      value={intent}
+                      onChange={(event: ChangeEvent<HTMLTextAreaElement>) => setIntent(event.target.value)}
+                      className="w-full resize-none rounded-3xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] px-4 py-4 text-base text-[color:var(--charcoal)] shadow-sm transition duration-200 placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-[rgba(133,97,50,0.12)] focus:outline-none"
                     />
-                    <label
-                      htmlFor="intent"
-                      className="absolute left-0 -top-4 text-xs uppercase tracking-[0.28em] text-outline transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-placeholder-shown:tracking-normal peer-focus:-top-4 peer-focus:text-xs peer-focus:text-primary peer-focus:tracking-[0.28em]"
-                    >
-                      Your Legacy Intent
-                    </label>
                   </div>
 
-                  <button className="w-full rounded-xl bg-primary-container px-6 py-4 font-semibold uppercase tracking-[0.2em] text-on-primary shadow-lg transition-transform hover:-translate-y-0.5">
-                    Formal Submission
+                  <button type="submit" className="w-full rounded-xl bg-primary-container px-6 py-4 font-semibold uppercase tracking-[0.2em] text-on-primary shadow-lg transition-transform hover:-translate-y-0.5">
+                    Send Request
                   </button>
                 </form>
 
@@ -158,7 +204,7 @@ export default function ContactPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--parchment)] via-transparent to-transparent" />
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center px-6 w-full max-w-3xl">
               <p className="font-serif text-xl sm:text-2xl italic text-[color:var(--charcoal)] drop-shadow-sm">
-                "The past is not behind us; it is the ground we walk upon."
+                "Your history is not an archive. It is a gift to everyone who comes after you."
               </p>
             </div>
           </div>

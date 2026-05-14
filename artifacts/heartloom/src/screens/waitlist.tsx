@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Mail, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Navbar } from "@/components/layout/Navbar";
 
 export default function Waitlist() {
   const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
@@ -46,6 +47,7 @@ export default function Waitlist() {
 
   return (
     <div className="min-h-screen bg-[linear-gradient(180deg,var(--parchment)_0%,var(--card-white)_100%)] text-[color:var(--charcoal)]">
+      <Navbar />
       <main className="max-w-5xl mx-auto px-6 py-24 md:py-32">
         <div className="max-w-2xl space-y-6">
           <p className="text-sm font-semibold tracking-[0.28em] uppercase text-[color:var(--muted-text)]">Heartloom waitlist</p>

@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { type ComponentType } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { ArrowRight, Building2, Leaf, ShieldCheck, PlayCircle, Landmark } from "lucide-react";
 import PageFooter from "@/components/layout/PageFooter";
 
-function Tile({ icon: Icon, title, text }: { icon: React.ComponentType<{ className?: string }>; title: string; text: string }) {
+function Tile({ icon: Icon, title, text }: { icon: ComponentType<{ className?: string }>; title: string; text: string }) {
   return (
     <div className="rounded-2xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] p-6 shadow-sm">
       <div className="mb-4 h-11 w-11 rounded-full bg-secondary-container text-secondary flex items-center justify-center">
@@ -24,7 +25,7 @@ export default function EstateAccessPage() {
         <section className="relative min-h-[78vh] flex items-center overflow-hidden">
           <div className="absolute inset-0">
             <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqPxyZeCeOHCDdvx6jkuCD3b74uAVmeLJWpGIPHqOXjmcMaAzmNNJlVkxN9wbcz_WmuGkxmTrPC3RF9aQj5dq3TkhtLfhwPn0fIFlycHTB6vclOKLdLyc6jcdVEaAs1bPjxj5SFUTYwrNT_znQlDEQvmVN9huPAE58M88wL5GKHUx7Xgg7awAYEGQfdYJtY468eDDEmaRyZfYyH56jQJAgPM99MFvtFakBAOOwE_Db5XuSgXDCKfmIRN-pQnldXytCmtejdVaW6ps"
+              src="/estatehero.jpg"
               alt="Stone monument in willow grove"
               className="w-full h-full object-cover grayscale-[20%] sepia-[10%] brightness-[0.85]"
             />
@@ -39,14 +40,14 @@ export default function EstateAccessPage() {
               <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl leading-tight text-primary mb-6">
                 The Final <span className="italic">Sanctuary</span>
               </h1>
-              <p className="text-lg sm:text-xl text-[color:var(--muted-text)] leading-relaxed max-w-xl">
+              <p className="text-lg sm:text-xl text-primary leading-relaxed max-w-xl">
                 A bridge between the stories we leave behind and the earth that holds them. We curate physical resting places that honor the weight of a digital legacy.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-4 sm:gap-6">
                 <button className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-white font-medium hover:opacity-90 transition-opacity">
                   Explore Estates
                 </button>
-                <button className="inline-flex items-center justify-center gap-2 text-secondary font-medium hover:underline">
+                <button className="inline-flex items-center justify-center gap-2 text-primary font-medium hover:underline">
                   <PlayCircle className="h-5 w-5" />
                   Watch the Philosophy
                 </button>
@@ -70,7 +71,7 @@ export default function EstateAccessPage() {
             <div className="grid md:grid-cols-3 gap-6">
               <div className="md:col-span-2 rounded-3xl overflow-hidden border border-[color:var(--border-warm)] shadow-xl relative group">
                 <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-Q4NvTgSFto5c0D3fG2uL8dLIk88ic40GzTPoj-SPDwkJFnvbyQhWp7DSXfxiI9MjA-Tr_bm4RuN_zXvNa3kGFSbdOfgWYLF6G9lkxVc2-cCAxEHwiPlKOjQulM0bpZfujYfP-flY7J9R4cqkAGzoQZOi1eJaAF52Ld5uUVkjMF_bx1FWWA5Ip_1zPcC9cci-Gd5RimzJi0Jalol5eB4-Eq6LATE8JCu2qVfu9pxKd10XVq8cEggRxi3Meb_Vy4S3ohIWY6lbJYo"
+                  src="/highland.jpg"
                   alt="Conservation estate on misty lakeside"
                   className="w-full h-[420px] object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -84,7 +85,7 @@ export default function EstateAccessPage() {
 
               <div className="rounded-3xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] p-6 shadow-sm">
                 <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAIiAc3syTTaJhj8Kk1r2slgmka658wcVAQfkd5vbZqI8bA8vmITn3au-wLb3GTxLA2veXyc6bTeS3UHEvcnx6ZhftDWBfsM017JdruDFEMHVH9GpYV30HKyvrTwH22dGon4xJBdmQwyYRj84RbzMglBA2OBOugWm7sEMY1rM2e5Hz59pf3haTPO2pS_eOPCzwkOv5Bollc-y0Vv-6f7jphO3-4r-2Yz-ZrR9Nf9zK4JBBufbji__fMQlI9aCrELj7ydoksvTCII0"
+                  src="/ancestralgarden.png"
                   alt="Woodland memorial park"
                   className="w-full h-48 object-cover rounded-2xl"
                 />
@@ -103,7 +104,7 @@ export default function EstateAccessPage() {
           <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
             <div className="relative">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuATtX0PCVTMJ2hfHDtaBqqDK6cjq6MZ20fWW80H_PtuTCB1ONdBO64YVcxjwGm4XSoPgfUTUpFoBaiQmKbDy989kayPZoixUfZAggRfgiZqTjCaAl7NsnxI-JIsVp1628P-mitoOtRv1MYqgVSBj2V7uY4AZF8jNvSnVHnT1mNlDNF8x-HFmQcqQV1CMw8mwHI6QQ7Tf07-rbpgOU6WxkI8EVUhq-ERe2lJh8fCmYIKNk0mWGRda0HRx3rbe8nrbkiGMqDxDUeADzw"
+                src="estatepartner.jpg"
                 alt="Estate and forest at twilight"
                 className="w-full aspect-[4/5] object-cover rounded-3xl border border-[color:var(--border-warm)] shadow-xl"
               />
@@ -136,25 +137,43 @@ export default function EstateAccessPage() {
             </div>
             <form className="space-y-8">
               <div className="grid sm:grid-cols-2 gap-8">
-                <div>
-                  <label className="block text-sm text-[color:var(--muted-text)] mb-2">Full Name</label>
-                  <input className="w-full bg-transparent border-0 border-b border-[color:var(--border-warm)] px-0 py-2 focus:ring-0 focus:border-primary" placeholder="Julian Vane" />
+                <div className="space-y-3">
+                  <label className="block text-sm text-[color:var(--charcoal)] font-semibold pl-5">Full Name</label>
+                  <input
+                    className="h-14 w-full rounded-[28px] border border-[rgba(173,141,99,0.22)] bg-[color:var(--card-white)] px-5 text-base text-[color:var(--charcoal)] shadow-sm shadow-[rgba(0,0,0,0.04)] transition duration-200 placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-[rgba(133,97,50,0.14)] focus:outline-none"
+                    placeholder="Julian Vane"
+                  />
                 </div>
-                <div>
-                  <label className="block text-sm text-[color:var(--muted-text)] mb-2">Estate Name</label>
-                  <input className="w-full bg-transparent border-0 border-b border-[color:var(--border-warm)] px-0 py-2 focus:ring-0 focus:border-primary" placeholder="The Willow Gables" />
+                <div className="space-y-3">
+                  <label className="block text-sm text-[color:var(--charcoal)] font-semibold pl-5">Estate Name</label>
+                  <input
+                    className="h-14 w-full rounded-[28px] border border-[rgba(173,141,99,0.22)] bg-[color:var(--card-white)] px-5 text-base text-[color:var(--charcoal)] shadow-sm shadow-[rgba(0,0,0,0.04)] transition duration-200 placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-[rgba(133,97,50,0.14)] focus:outline-none"
+                    placeholder="The Willow Gables"
+                  />
                 </div>
               </div>
-              <div>
-                <label className="block text-sm text-[color:var(--muted-text)] mb-2">Location</label>
-                <input className="w-full bg-transparent border-0 border-b border-[color:var(--border-warm)] px-0 py-2 focus:ring-0 focus:border-primary" placeholder="The Cotswolds, United Kingdom" />
+              <div className="space-y-3">
+                <label className="block text-sm text-[color:var(--charcoal)] font-semibold pl-5">Location</label>
+                <input
+                  className="h-14 w-full rounded-[28px] border border-[rgba(173,141,99,0.22)] bg-[color:var(--card-white)] px-5 text-base text-[color:var(--charcoal)] shadow-sm shadow-[rgba(0,0,0,0.04)] transition duration-200 placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-[rgba(133,97,50,0.14)] focus:outline-none"
+                  placeholder="The Cotswolds, United Kingdom"
+                />
               </div>
-              <div>
-                <label className="block text-sm text-[color:var(--muted-text)] mb-2">Vision for Preservation</label>
-                <textarea rows={4} className="w-full bg-transparent border-0 border-b border-[color:var(--border-warm)] px-0 py-2 resize-none focus:ring-0 focus:border-primary" placeholder="Briefly describe the legacy you wish to protect..." />
+              <div className="space-y-3">
+                <label className="block text-sm text-[color:var(--charcoal)] font-semibold pl-5">Vision for Preservation</label>
+                <textarea
+                  rows={5}
+                  className="min-h-[170px] w-full resize-none rounded-[28px] border border-[rgba(173,141,99,0.22)] bg-[color:var(--card-white)] px-5 py-4 text-base text-[color:var(--charcoal)] shadow-sm shadow-[rgba(0,0,0,0.04)] transition duration-200 placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-[rgba(133,97,50,0.14)] focus:outline-none"
+                  placeholder="Briefly describe the legacy you wish to protect..."
+                />
               </div>
               <div className="text-center">
-                <button type="button" className="rounded-full bg-primary px-8 py-3 text-white font-medium hover:opacity-90 transition-opacity">Initiate Conversation</button>
+                <Link
+                  href="/contact"
+                  className="inline-flex rounded-full bg-primary px-10 py-3 text-white font-semibold tracking-[0.04em] shadow-lg shadow-[rgba(52,33,0,0.18)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[rgba(52,33,0,0.24)]"
+                >
+                  Initiate Conversation
+                </Link>
               </div>
             </form>
           </div>

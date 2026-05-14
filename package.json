@@ -1,20 +1,18 @@
 {
   "name": "workspace",
   "version": "0.0.0",
-  "type": "module",
   "license": "MIT",
   "scripts": {
     "preinstall": "node -e \"const fs=require('fs'); const ua=process.env.npm_config_user_agent||''; for (const file of ['package-lock.json','yarn.lock']) { try { fs.rmSync(file); } catch {} } if (ua && !ua.includes('pnpm')) { console.error('Use pnpm instead'); process.exit(1); }\"",
-    "dev": "pnpm --parallel --filter @workspace/backend --filter @workspace/heartloom run dev",
-    "dev:frontend": "pnpm --filter @workspace/heartloom dev",
-    "dev:backend": "pnpm --filter @workspace/backend dev",
-    "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "dev": "corepack pnpm --parallel --filter @workspace/backend --filter @workspace/heartloom run dev",
+    "dev:frontend": "corepack pnpm --filter @workspace/heartloom dev",
+    "dev:backend": "corepack pnpm --filter @workspace/backend dev",
+    "build": "corepack pnpm run typecheck && corepack pnpm -r --if-present run build",
     "typecheck:libs": "tsc --build",
-    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
+    "typecheck": "corepack pnpm run typecheck:libs && corepack pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
   },
   "private": true,
   "devDependencies": {
-    "next": "^15.3.3",
     "typescript": "~5.9.2",
     "prettier": "^3.8.1"
   }

@@ -526,25 +526,41 @@ export function GrowingTree() {
   const progressRef = useRef(0);
   const labelRefs   = useRef<(HTMLDivElement | null)[]>([]);
   const headingRef  = useRef<HTMLDivElement>(null);
+  const featureList = [...LEFT_FEATURES, ...RIGHT_FEATURES].sort((a, b) => a.index - b.index);
 
   useEffect(() => {
     const canvas  = canvasRef.current;
     const section = sectionRef.current;
     if (!canvas || !section) return;
 
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const W = 500, H = 580;
-    canvas.width  = W * dpr;
-    canvas.height = H * dpr;
-    const ctx = canvas.getContext("2d")!;
-    ctx.scale(dpr, dpr);
+    const aspect = 580 / 500;
+
+    const resizeCanvas = () => {
+      const rect = canvas.getBoundingClientRect();
+      const width = Math.round(Math.min(rect.width, 520));
+      const height = Math.round(width * aspect);
+      const scale = width / 500;
+
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = "100%";
+      canvas.style.height = "auto";
+
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.setTransform(dpr * scale, 0, 0, dpr * scale, 0, 0);
+      drawTree(ctx, progressRef.current);
+    };
 
     gsap.set(labelRefs.current.filter(Boolean), { opacity: 0, y: 14 });
     gsap.set(headingRef.current, { opacity: 0, y: 24 });
 
     function paint() {
-      ctx.clearRect(0, 0, W, H);
-      drawTree(ctx, progressRef.current);
+      resizeCanvas();
     }
 
     function syncLabels(p: number) {
@@ -560,21 +576,52 @@ export function GrowingTree() {
         gsap.to(headingRef.current, { opacity: p >= 0.93 ? 1 : 0, y: p >= 0.93 ? 0 : 24, duration: 0.45, overwrite: true });
     }
 
-    const st = ScrollTrigger.create({
-      trigger: section,
-      start: "top top",
-      end: "+=4000",
-      pin: true,
-      scrub: 1.5,
-      onUpdate: (self) => {
-        progressRef.current = self.progress;
-        paint();
-        syncLabels(self.progress);
+    const createdTriggers: any[] = [];
+
+    ScrollTrigger.matchMedia({
+      "(min-width: 768px)": () => {
+        const st = ScrollTrigger.create({
+          trigger: section,
+          start: "top top",
+          end: "+=4000",
+          pin: true,
+          scrub: 1.5,
+          onUpdate: (self) => {
+            progressRef.current = self.progress;
+            paint();
+            syncLabels(self.progress);
+          },
+        });
+        createdTriggers.push(st);
+      },
+      "(max-width: 767px)": () => {
+        const st = ScrollTrigger.create({
+          trigger: section,
+          start: "top top",
+          end: "+=3000",
+          pin: false,
+          scrub: 1.5,
+          onUpdate: (self) => {
+            progressRef.current = self.progress;
+            paint();
+            syncLabels(self.progress);
+          },
+        });
+        createdTriggers.push(st);
       },
     });
 
+    const resizeObserver = new ResizeObserver(() => {
+      resizeCanvas();
+      ScrollTrigger.refresh();
+    });
+    resizeObserver.observe(canvas);
+
     paint();
-    return () => st.kill();
+    return () => {
+      resizeObserver.disconnect();
+      createdTriggers.forEach((trigger) => trigger?.kill?.());
+    };
   }, []);
 
   return (
@@ -603,8 +650,11 @@ export function GrowingTree() {
         </div>
 
         {/* Canvas */}
-        <div className="flex-shrink-0">
-          <canvas ref={canvasRef} style={{ width: 500, height: 580, display: "block" }} />
+        <div className="flex-shrink-0 w-full max-w-[520px]">
+          <canvas
+            ref={canvasRef}
+            style={{ width: "100%", maxWidth: "520px", aspectRatio: "500 / 580", display: "block" }}
+          />
         </div>
 
         {/* Right labels */}
@@ -617,6 +667,22 @@ export function GrowingTree() {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="mt-8 grid gap-4 md:hidden w-full max-w-[520px]">
+        {featureList.map((f) => (
+          <div key={f.index} className="rounded-3xl border border-[color:var(--border-warm)] bg-white/90 p-4 shadow-sm">
+            <div className="flex items-start gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[color:var(--brand-amber)]/15 text-2xl">
+                {f.icon}
+              </div>
+              <div>
+                <p className="font-serif text-base font-semibold" style={{ color: "var(--brand-amber)" }}>{f.title}</p>
+                <p className="text-xs text-[color:var(--muted-text)] leading-relaxed mt-1">{f.sub}</p>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       <div ref={headingRef} className="relative z-10 text-center mt-6 px-6 max-w-2xl">

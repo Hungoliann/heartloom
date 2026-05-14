@@ -173,12 +173,18 @@ export default function SecurityPage() {
                 Speak with an Architecture Specialist to design a custom preservation plan tailored to your family&apos;s unique narrative.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <Link href="/contact" className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 font-medium text-white transition-opacity hover:opacity-90">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 font-medium text-white transition-opacity hover:opacity-90"
+                >
                   Request Security Audit
                 </Link>
-                <a href="#" className="inline-flex items-center justify-center rounded-full border border-[color:var(--border-warm)] px-6 py-3 font-medium text-[color:var(--charcoal)] transition-colors hover:bg-white/60">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--border-warm)] px-6 py-3 font-medium text-[color:var(--charcoal)] transition-colors hover:bg-white/60"
+                >
                   Download Architecture Whitepaper
-                </a>
+                </Link>
               </div>
             </div>
           </div>
