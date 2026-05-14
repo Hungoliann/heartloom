@@ -17,7 +17,7 @@ function ContactCard({ icon: Icon, title, value }: { icon: ComponentType<{ class
 }
 
 export default function ContactPage() {
-  const companyEmail = "hey@tryheartloom.com";
+  const companyEmail = "heartloomllc@gmail.com";
   const [name, setName] = useState("");
   const [familyName, setFamilyName] = useState("");
   const [emailInput, setEmailInput] = useState("");
@@ -72,7 +72,7 @@ export default function ContactPage() {
               <ContactCard
                 icon={Mail}
                 title="Correspondence"
-                value={<a href="mailto:hey@tryheartloom.com" className="text-primary underline decoration-primary/30 hover:decoration-primary">hey@tryheartloom.com</a>}
+                value={<a href="mailto:heartloomllc@gmail.com" className="text-primary underline decoration-primary/30 hover:decoration-primary">heartloomllc@gmail.com</a>}
               />
               <ContactCard icon={Globe} title="Global Presence" value="@tryheartloom" />
             </div>

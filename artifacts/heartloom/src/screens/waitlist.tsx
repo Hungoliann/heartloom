@@ -109,7 +109,7 @@ export default function Waitlist() {
                 </div>
 
                 <Button asChild size="lg" className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                  <a href="mailto:hello@heartloom.com?subject=Heartloom%20waitlist">
+                  <a href="mailto:heartloomllc@gmail.com?subject=Heartloom%20waitlist">
                     Email the team <Mail className="w-4 h-4 ml-2" />
                   </a>
                 </Button>
