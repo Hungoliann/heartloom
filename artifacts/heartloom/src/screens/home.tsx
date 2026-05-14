@@ -123,7 +123,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="pt-8 pb-0 -mb-8 border-y bg-[color:var(--card-white)]" style={{ borderColor: "var(--border-warm)" }}>
+        <section className="pt-8 pb-8 border-y bg-[color:var(--card-white)] overflow-visible" style={{ borderColor: "var(--border-warm)" }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-center gap-10 sm:gap-2 md:gap-4 opacity-85 text-center">
             <span className="text-[10px] sm:text-xs md:text-sm font-semibold tracking-[0.22em] uppercase text-[color:var(--muted-text)] w-full">Founded by researchers from</span>
             <img src="/stanford-logo.png" alt="Stanford University" className="h-40 sm:h-48 md:h-56 w-40 sm:w-48 md:w-56 object-contain -mt-13" />

@@ -595,13 +595,12 @@ export function GrowingTree() {
         createdTriggers.push(st);
       },
       "(max-width: 767px)": () => {
-        // On mobile, use the section's actual height + extra scroll space
-        const sectionHeight = section.offsetHeight || window.innerHeight;
+        // On mobile, pin the section so the animation plays while scrolling
         const st = ScrollTrigger.create({
           trigger: section,
-          start: "top center",
-          end: `+=${sectionHeight * 2}`,
-          pin: false,
+          start: "top top",
+          end: "+=3500",
+          pin: true,
           scrub: 1.5,
           onUpdate: (self) => {
             progressRef.current = self.progress;
