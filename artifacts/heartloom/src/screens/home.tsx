@@ -361,6 +361,8 @@ export default function Home() {
           </div>
         </section>
 
+        <GrowingTree />
+
         <section className="py-24 md:py-32 px-6 text-center overflow-hidden" style={{ backgroundColor: "var(--charcoal)", color: "var(--parchment)" }}>
           <div className="max-w-4xl mx-auto space-y-8">
             <p className="text-3xl md:text-4xl font-serif italic leading-relaxed">
@@ -378,8 +380,6 @@ export default function Home() {
             </Button>
           </div>
         </section>
-
-        <GrowingTree />
       </main>
 
       <PageFooter />
