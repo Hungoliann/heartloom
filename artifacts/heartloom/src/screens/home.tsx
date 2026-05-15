@@ -13,6 +13,7 @@ import {
   Lock,
 } from "lucide-react";
 import Link from "next/link";
+import { GrowingTree } from "@/components/GrowingTree";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
@@ -377,6 +378,8 @@ export default function Home() {
             </Button>
           </div>
         </section>
+
+        <GrowingTree />
       </main>
 
       <PageFooter />
