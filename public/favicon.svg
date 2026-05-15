@@ -1,3 +1,60 @@
+<<<<<<< ours
 <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="180" height="180" rx="36" fill="#FF3C00"/>
+=======
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<<<<<<< ours
+<<<<<<< ours
+  <rect width="64" height="64" rx="12" fill="#D27F14"/>
+  <path
+    d="M32 55C31.32 55 30.7 54.75 30.18 54.28C17.72 42.9 7 33.12 7 21.68C7 12.88 13.76 6 22.56 6C27.12 6 30.18 8.22 32 10.78C33.82 8.22 36.88 6 41.44 6C50.24 6 57 12.88 57 21.68C57 33.12 46.28 42.9 33.82 54.28C33.3 54.75 32.68 55 32 55Z"
+    fill="#F5F0E8"
+  />
+  <path
+    d="M32 49V16"
+    stroke="#2C2820"
+    stroke-width="6"
+    stroke-linecap="round"
+  />
+  <path
+    d="M32 31C37.5 25.8 43.2 23.9 51 25"
+    stroke="#9CAF88"
+    stroke-width="6"
+    stroke-linecap="round"
+  />
+  <path
+    d="M32 37C26.5 31.8 20.8 29.9 13 31"
+    stroke="#9CAF88"
+    stroke-width="6"
+=======
+=======
+>>>>>>> theirs
+  <rect width="64" height="64" rx="14" fill="#F5F0E8"/>
+  <path
+    d="M32 52C31.3 52 30.7 51.75 30.16 51.25C18.42 40.48 10 32.72 10 23.2C10 15.64 15.64 10 23.08 10C27.1 10 30.36 11.78 32 14.52C33.64 11.78 36.9 10 40.92 10C48.36 10 54 15.64 54 23.2C54 32.72 45.58 40.48 33.84 51.25C33.3 51.75 32.7 52 32 52Z"
+    fill="#D27F14"
+  />
+  <path
+    d="M32 48V20"
+    stroke="#2C2820"
+    stroke-width="4.5"
+    stroke-linecap="round"
+  />
+  <path
+    d="M32 31C37.6 26.8 42.4 25.4 48 26"
+    stroke="#9CAF88"
+    stroke-width="4.5"
+    stroke-linecap="round"
+  />
+  <path
+    d="M32 36C26.4 31.8 21.6 30.4 16 31"
+    stroke="#9CAF88"
+    stroke-width="4.5"
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+    stroke-linecap="round"
+  />
+>>>>>>> theirs
 </svg>

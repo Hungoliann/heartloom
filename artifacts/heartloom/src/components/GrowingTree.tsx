@@ -710,7 +710,7 @@ export function GrowingTree() {
         </div>
       </div>
 
-      <div ref={headingRef} className="relative z-10 text-center mt-20 md:mt-6 px-6 max-w-2xl">
+      <div ref={headingRef} className="relative z-10 text-center mt-7 md:mt-6 px-6 max-w-2xl">
         <h2 className="text-3xl md:text-4xl font-serif mb-2" style={{ color: "var(--charcoal)" }}>
           Your legacy grows with every story you share.
         </h2>

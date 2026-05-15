@@ -27,20 +27,21 @@ export default function EstateAccessPage() {
             <img
               src="/estatehero.jpg"
               alt="Stone monument in willow grove"
-              className="w-full h-full object-cover grayscale-[20%] sepia-[10%] brightness-[0.85]"
+              className="w-full h-full object-cover grayscale-[20%] sepia-[10%] brightness-[0.80]"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--parchment)]/85 via-[color:var(--parchment)]/25 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--parchment)] via-[color:var(--parchment)]/55 to-[color:var(--parchment)]/10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--parchment)]/20 via-transparent to-transparent" />
           </div>
 
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full">
-            <div className="max-w-2xl">
-              <span className="inline-block px-4 py-1.5 rounded-full bg-secondary text-white text-xs sm:text-sm uppercase tracking-[0.2em] mb-6">
+            <div className="max-w-2xl py-20 sm:py-24">
+              <span className="inline-block px-4 py-1.5 rounded-full bg-secondary text-white text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] mb-6 shadow-sm">
                 Digital &amp; Physical Continuity
               </span>
-              <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl leading-tight text-primary mb-6">
+              <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl leading-[1.05] text-primary mb-6 [text-shadow:0_2px_18px_rgba(245,240,232,0.92)]">
                 The Final <span className="italic">Sanctuary</span>
               </h1>
-              <p className="text-lg sm:text-xl text-primary leading-relaxed max-w-xl">
+              <p className="text-lg sm:text-xl text-[color:var(--charcoal)] font-medium leading-8 sm:leading-9 max-w-xl [text-shadow:0_1px_14px_rgba(245,240,232,0.9)]">
                 A bridge between the stories we leave behind and the earth that holds them. We curate physical resting places that honor the weight of a digital legacy.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-4 sm:gap-6">

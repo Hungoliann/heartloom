@@ -18,6 +18,7 @@ function ContactCard({ icon: Icon, title, value }: { icon: ComponentType<{ class
 
 export default function ContactPage() {
   const companyEmail = "heartloomllc@gmail.com";
+  const supportEmail = "hey@tryheartloom.com";
   const [name, setName] = useState("");
   const [familyName, setFamilyName] = useState("");
   const [emailInput, setEmailInput] = useState("");
@@ -72,7 +73,16 @@ export default function ContactPage() {
               <ContactCard
                 icon={Mail}
                 title="Correspondence"
-                value={<a href="mailto:heartloomllc@gmail.com" className="text-primary underline decoration-primary/30 hover:decoration-primary">heartloomllc@gmail.com</a>}
+                value={
+                  <span className="flex flex-col gap-2">
+                    <a href={`mailto:${companyEmail}`} className="text-primary underline decoration-primary/30 hover:decoration-primary">
+                      {companyEmail}
+                    </a>
+                    <a href={`mailto:${supportEmail}`} className="text-primary underline decoration-primary/30 hover:decoration-primary">
+                      {supportEmail}
+                    </a>
+                  </span>
+                }
               />
               <ContactCard icon={Globe} title="Global Presence" value="@tryheartloom" />
             </div>
@@ -84,7 +94,7 @@ export default function ContactPage() {
                   Submit your details to begin a conversation with our legacy architects.
                 </p>
 
-                <form className="mt-10 space-y-8">
+                <form onSubmit={handleSubmit} className="mt-10 space-y-8">
                   {[
                     { id: "name", label: "Full Name", type: "text", value: name, onChange: (event: ChangeEvent<HTMLInputElement>) => setName(event.target.value) },
                     { id: "family_name", label: "Family Name / Legacy Title", type: "text", value: familyName, onChange: (event: ChangeEvent<HTMLInputElement>) => setFamilyName(event.target.value) },
@@ -111,7 +121,6 @@ export default function ContactPage() {
                       {[
                         "Email",
                         "Phone",
-                        "Concierge Visit",
                       ].map((item) => (
                         <label
                           key={item}
@@ -171,7 +180,7 @@ export default function ContactPage() {
                     />
                   </div>
 
-                  <button type="submit" className="w-full rounded-xl bg-primary-container px-6 py-4 font-semibold uppercase tracking-[0.2em] text-on-primary shadow-lg transition-transform hover:-translate-y-0.5">
+                  <button type="submit" className="w-full rounded-xl bg-primary px-6 py-4 font-semibold uppercase tracking-[0.2em] text-primary-foreground shadow-lg transition-transform hover:-translate-y-0.5 hover:bg-primary/90">
                     Send Request
                   </button>
                 </form>
@@ -197,7 +206,7 @@ export default function ContactPage() {
         <section className="px-4 sm:px-6 pb-20">
           <div className="max-w-7xl mx-auto overflow-hidden rounded-3xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] shadow-xl relative">
             <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYaRJ5WfaF15iQcHZ-vjrtbSpajWaU8lSkyUHhARddVlhhd5_dNeETHYwmT0UEa75HQz_EttgLuVJtkYIZuLHKz5FDABCFqHAc-2jzuD7wON3N2Ch10L_hhg9vD4RAKbRirmDE7Ver-18iuBAJBJggumIhPPF92qbsyyqyLsgYzwJaqKqnvbsEunMrPBe04IJt9cmZ21Uie2nvLagzlAWDcZiPp7YYcQTWBGDlkF0_pwT6jwOvLKRgJm0k9_8Rta0ICoHZ3-HoUWw"
+              src="/contactphoto.jpg"
               alt="High-end library interior"
               className="h-[280px] sm:h-[360px] md:h-[520px] w-full object-cover"
             />

@@ -118,17 +118,17 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <span className="text-center">4,200+ Families preserving their priceless memories</span>
+              <span className="text-center">20+ Families preserving their priceless memories</span>
             </motion.div>
           </div>
         </section>
 
         <section className="pt-8 pb-8 border-y bg-[color:var(--card-white)] overflow-visible" style={{ borderColor: "var(--border-warm)" }}>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-center gap-10 sm:gap-2 md:gap-4 opacity-85 text-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 sm:gap-2 md:gap-4 opacity-85 text-center">
             <span className="text-[10px] sm:text-xs md:text-sm font-semibold tracking-[0.22em] uppercase text-[color:var(--muted-text)] w-full">Founded by researchers from</span>
-            <img src="/stanford-logo.png" alt="Stanford University" className="h-40 sm:h-48 md:h-56 w-40 sm:w-48 md:w-56 object-contain -mt-13" />
-            <img src="/nasa-logo.png" alt="NASA" className="h-8 sm:h-20 md:h-24 w-16 sm:w-20 md:w-24 object-contain -mt-13" />
-            <img src="/berkeley-logo.png" alt="UC Berkeley" className="h-10 sm:h-48 md:h-56 w-40 sm:w-48 md:w-56 object-contain -mt-13" />
+            <img src="/stanford-logo.png" alt="Stanford University" className="h-44 sm:h-48 md:h-56 w-44 sm:w-48 md:w-56 object-contain -mt-10 sm:-mt-13" />
+            <img src="/nasa-logo.png" alt="NASA" className="h-24 sm:h-20 md:h-24 w-32 sm:w-20 md:w-24 object-contain -mt-8 sm:-mt-13" />
+            <img src="/berkeley-logo.png" alt="UC Berkeley" className="h-36 sm:h-48 md:h-56 w-44 sm:w-48 md:w-56 object-contain -mt-8 sm:-mt-13" />
           </div>
         </section>
 
@@ -206,8 +206,8 @@ export default function Home() {
                     <div>
                       <h3 className="text-2xl font-serif mb-3 text-primary">The Concierge</h3>
                       <p className="text-[color:var(--muted-text)] leading-relaxed">
-                        Human assistance through estate, hospice, and Medicare logistics.
-                        Expert guidance from real specialists, not automated chatbots.
+                        We provide a 24/7 digital concierge designed to navigate the complexities of estate planning and healthcare logistics with surgical precision. 
+                        Our platform delivers high-level expertise at the moment of need, ensuring you are never left searching for answers in the dark.
                       </p>
                     </div>
                   </CardContent>
@@ -242,7 +242,7 @@ export default function Home() {
                 ))}
               </ul>
               <Button size="lg" className="mt-4 bg-primary text-primary-foreground hover:bg-primary/90">
-                Preview Dashboard <ChevronRight className="w-4 h-4 ml-2" />
+                <Link href="/concierge">Preview Dashboard</Link>
               </Button>
             </div>
 

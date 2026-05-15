@@ -7,22 +7,27 @@ export const metadata: Metadata = {
   title: "Heartloom.",
   description: "Preserve your words and wisdom.",
   icons: {
-    icon: '/favicon.svg',
+    icon: [
+      {
+        url: "/favicon.svg?v=6",
+        type: "image/svg+xml",
+        sizes: "64x64",
+      },
+    ],
+    shortcut: "/favicon.svg?v=6",
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
   const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
-  const content = clerkPublishableKey ? (
-    <ClerkProvider publishableKey={clerkPublishableKey}>{children}</ClerkProvider>
-  ) : (
-    children
-  );
+  const content = clerkPublishableKey
+    ? await ClerkProvider({ publishableKey: clerkPublishableKey, children })
+    : children;
 
   return (
     <html lang="en">

@@ -48,6 +48,7 @@ export default function LegalPage() {
               </p>
             </Section>
 
+            {/*
             <Section icon={Lock} title="Archival Encryption">
               <p>
                 The intimacy of a voice recording or the warmth of a video message requires a level of protection that exceeds commercial standards.
@@ -63,7 +64,8 @@ export default function LegalPage() {
                 </div>
               </div>
             </Section>
-
+            */}
+            
             <Section icon={History} title="Legacy Succession">
               <p>
                 Privacy extends beyond your lifetime. Our Succession Protocol allows you to designate Heirs and Beneficiaries who will receive specific keys to your Heartloom upon a verifiable life event.
