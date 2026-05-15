@@ -574,6 +574,19 @@ export function GrowingTree() {
       show(4, 0.87); show(5, 0.87);
       if (headingRef.current)
         gsap.to(headingRef.current, { opacity: p >= 0.93 ? 1 : 0, y: p >= 0.93 ? 0 : 24, duration: 0.45, overwrite: true });
+
+      // Mobile feature cards - show them progressively during animation
+      const mobileCards = document.querySelectorAll('.mobile-feature-card');
+      mobileCards.forEach((card, idx) => {
+        const thresholds = [0.52, 0.52, 0.67, 0.67, 0.87, 0.87];
+        const threshold = thresholds[idx] || 0.5;
+        gsap.to(card, {
+          opacity: p >= threshold ? 1 : 0,
+          y: p >= threshold ? 0 : 20,
+          duration: 0.35,
+          overwrite: true
+        });
+      });
     }
 
     const createdTriggers: any[] = [];
@@ -595,11 +608,11 @@ export function GrowingTree() {
         createdTriggers.push(st);
       },
       "(max-width: 767px)": () => {
-        // On mobile, pin the section so the animation plays while scrolling
+        const mobileEnd = Math.max(window.innerHeight * 2.5, 3000);
         const st = ScrollTrigger.create({
           trigger: section,
           start: "top top",
-          end: "+=3500",
+          end: `+=${Math.round(mobileEnd)}`,
           pin: true,
           scrub: 1.5,
           onUpdate: (self) => {
@@ -628,11 +641,8 @@ export function GrowingTree() {
   return (
     <div
       ref={sectionRef}
-      className="relative w-full flex flex-col items-center justify-center md:overflow-hidden"
-      style={{ 
-        minHeight: "100dvh",
-        background: `linear-gradient(160deg, ${"var(--parchment)"} 0%, ${"var(--parchment-2)"} 100%)`
-      }}
+      className="relative w-full flex flex-col items-center justify-center overflow-hidden"
+      style={{ minHeight: "100vh", background: `linear-gradient(160deg, ${"var(--parchment)"} 0%, ${"var(--parchment-2)"} 100%)` }}
     >
       <div className="absolute inset-0 pointer-events-none opacity-20"
         style={{ backgroundImage: "radial-gradient(circle,var(--brand-sage-30) 1px,transparent 1px)", backgroundSize: "38px 38px" }} />
@@ -654,11 +664,37 @@ export function GrowingTree() {
         </div>
 
         {/* Canvas */}
-        <div className="flex-shrink-0 w-full max-w-[520px]">
+        <div className="flex-shrink-0 w-full max-w-[520px] relative">
           <canvas
             ref={canvasRef}
             style={{ width: "100%", maxWidth: "520px", aspectRatio: "500 / 580", display: "block" }}
           />
+
+          {/* Mobile feature cards overlay */}
+          <div className="absolute inset-0 md:hidden pointer-events-none">
+            {featureList.map((f, idx) => (
+              <div
+                key={f.index}
+                className="mobile-feature-card absolute rounded-3xl border border-[color:var(--border-warm)] bg-white/95 backdrop-blur-sm p-3 shadow-lg opacity-0 transform translate-y-5"
+                style={{
+                  left: idx % 2 === 0 ? '10%' : 'auto',
+                  right: idx % 2 === 1 ? '10%' : 'auto',
+                  top: `${20 + (idx * 15)}%`,
+                  maxWidth: '140px'
+                }}
+              >
+                <div className="flex items-start gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[color:var(--brand-amber)]/15 text-xl flex-shrink-0">
+                    {f.icon}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-serif text-sm font-semibold leading-tight" style={{ color: "var(--brand-amber)" }}>{f.title}</p>
+                    <p className="text-xs text-[color:var(--muted-text)] leading-tight mt-0.5 line-clamp-2">{f.sub}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Right labels */}
@@ -671,22 +707,6 @@ export function GrowingTree() {
             </div>
           ))}
         </div>
-      </div>
-
-      <div className="mt-8 grid gap-4 md:hidden w-full max-w-[520px]">
-        {featureList.map((f) => (
-          <div key={f.index} className="rounded-3xl border border-[color:var(--border-warm)] bg-white/90 p-4 shadow-sm">
-            <div className="flex items-start gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[color:var(--brand-amber)]/15 text-2xl">
-                {f.icon}
-              </div>
-              <div>
-                <p className="font-serif text-base font-semibold" style={{ color: "var(--brand-amber)" }}>{f.title}</p>
-                <p className="text-xs text-[color:var(--muted-text)] leading-relaxed mt-1">{f.sub}</p>
-              </div>
-            </div>
-          </div>
-        ))}
       </div>
 
       <div ref={headingRef} className="relative z-10 text-center mt-6 px-6 max-w-2xl">
