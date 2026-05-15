@@ -527,6 +527,7 @@ export function GrowingTree() {
   const labelRefs   = useRef<(HTMLDivElement | null)[]>([]);
   const headingRef  = useRef<HTMLDivElement>(null);
   const featureList = [...LEFT_FEATURES, ...RIGHT_FEATURES].sort((a, b) => a.index - b.index);
+  const mobileCardTopOffsets = [12, 26, 40, 54, 68, 82];
 
   useEffect(() => {
     const canvas  = canvasRef.current;
@@ -664,7 +665,7 @@ export function GrowingTree() {
         </div>
 
         {/* Canvas */}
-        <div className="flex-shrink-0 w-full max-w-[520px] relative">
+        <div className="flex-shrink-0 w-full max-w-[520px] relative pb-10 md:pb-0">
           <canvas
             ref={canvasRef}
             style={{ width: "100%", maxWidth: "520px", aspectRatio: "500 / 580", display: "block" }}
@@ -679,7 +680,7 @@ export function GrowingTree() {
                 style={{
                   left: idx % 2 === 0 ? '10%' : 'auto',
                   right: idx % 2 === 1 ? '10%' : 'auto',
-                  top: `${20 + (idx * 15)}%`,
+                  top: `${mobileCardTopOffsets[idx] ?? 12}%`,
                   maxWidth: '140px'
                 }}
               >
@@ -709,7 +710,7 @@ export function GrowingTree() {
         </div>
       </div>
 
-      <div ref={headingRef} className="relative z-10 text-center mt-12 md:mt-6 px-6 max-w-2xl">
+      <div ref={headingRef} className="relative z-10 text-center mt-20 md:mt-6 px-6 max-w-2xl">
         <h2 className="text-3xl md:text-4xl font-serif mb-2" style={{ color: "var(--charcoal)" }}>
           Your legacy grows with every story you share.
         </h2>
