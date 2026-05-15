@@ -13,7 +13,6 @@ import {
   Lock,
 } from "lucide-react";
 import Link from "next/link";
-import { GrowingTree } from "@/components/GrowingTree";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
@@ -132,8 +131,26 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Keep the old tree animation and place it right after the trust bar. */}
-        <GrowingTree />
+        <section className="py-20 px-6 bg-[color:var(--card-white)]">
+          <div className="max-w-5xl mx-auto">
+            <Card className="border border-[color:var(--border-warm)] shadow-xl">
+              <CardContent className="p-10 md:p-14 text-center">
+                <p className="text-lg md:text-xl text-[color:var(--muted-text)] mb-6">
+                  Some things are too important to leave unsaid.
+                </p>
+                <h2 className="text-3xl md:text-4xl font-serif text-primary mb-6">
+                  Heartloom is a dedicated legacy and concierge platform, thoughtfully designed to be accessible to every generation.
+                </h2>
+                <p className="text-base md:text-lg leading-relaxed text-[color:var(--charcoal)] max-w-3xl mx-auto mb-8">
+                  It offers a sanctuary for the moments that matter most: a place to compose letters for a wedding day decades in the future or to preserve the warmth of your voice while recounting a cherished summer memory…
+                </p>
+                <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                  <Link href="/about">Read More</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
 
         <section className="py-24 md:py-32 px-6 bg-[linear-gradient(180deg,var(--card-white)_0%,var(--parchment)_100%)]">
           <div className="max-w-7xl mx-auto">
