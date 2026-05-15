@@ -21,7 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import PageFooter from "@/components/layout/PageFooter";
 import { Navbar } from "@/components/layout/Navbar";
 
-export default function Home() {
+export function Home() {
   const [memoryDraft, setMemoryDraft] = useState("");
 
   const handleRecord = () => {
@@ -318,7 +318,7 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-                <Card className="bg-[color:var(--charcoal)] text-[color:var(--parchment)] border-transparent shadow-2xl relative transform md:-translate-y-4">
+              <Card className="bg-[color:var(--charcoal)] text-[color:var(--parchment)] border-transparent shadow-2xl relative transform md:-translate-y-4">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent text-accent-foreground px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
                   Featured
                 </div>
@@ -386,3 +386,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;
