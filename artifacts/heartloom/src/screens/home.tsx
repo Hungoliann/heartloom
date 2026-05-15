@@ -21,7 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import PageFooter from "@/components/layout/PageFooter";
 import { Navbar } from "@/components/layout/Navbar";
 
-export function Home() {
+export default function Home() {
   const [memoryDraft, setMemoryDraft] = useState("");
 
   const handleRecord = () => {
@@ -386,5 +386,3 @@ export function Home() {
     </div>
   );
 }
-
-export default Home;
