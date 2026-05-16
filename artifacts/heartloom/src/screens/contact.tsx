@@ -25,28 +25,54 @@ export default function ContactPage() {
   const [contactMethod, setContactMethod] = useState("Email");
   const [timing, setTiming] = useState("Immediate");
   const [intent, setIntent] = useState("");
+  const [submitState, setSubmitState] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!name.trim() || !emailInput.trim() || !intent.trim()) {
-      alert("Please include your name, email, and a short message before submitting.");
+      setSubmitState("error");
+      setSubmitMessage("Please include your name, email, and a short message before submitting.");
       return;
     }
 
-    const subject = `Heartloom contact request from ${name}`;
-    const body = [
-      `Name: ${name}`,
-      `Family / Legacy Title: ${familyName || "N/A"}`,
-      `Email: ${emailInput}`,
-      `Preferred Method: ${contactMethod}`,
-      `Timing of Need: ${timing}`,
-      "",
-      "Message:",
-      intent,
-    ].join("\n");
+    setSubmitState("sending");
+    setSubmitMessage("");
 
-    window.location.href = `mailto:${companyEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          familyName,
+          email: emailInput,
+          contactMethod,
+          timing,
+          intent,
+        }),
+      });
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        throw new Error(result?.message || "Unable to send your request right now.");
+      }
+
+      setSubmitState("success");
+      setSubmitMessage(result?.message || "Your request was sent. We will be in touch soon.");
+      setName("");
+      setFamilyName("");
+      setEmailInput("");
+      setContactMethod("Email");
+      setTiming("Immediate");
+      setIntent("");
+    } catch (error) {
+      setSubmitState("error");
+      setSubmitMessage(error instanceof Error ? error.message : "Unable to send your request right now.");
+    }
   };
 
   return (
@@ -180,8 +206,26 @@ export default function ContactPage() {
                     />
                   </div>
 
-                  <button type="submit" className="w-full rounded-xl bg-primary px-6 py-4 font-semibold uppercase tracking-[0.2em] text-primary-foreground shadow-lg transition-transform hover:-translate-y-0.5 hover:bg-primary/90">
-                    Send Request
+                  {submitMessage ? (
+                    <p
+                      role="status"
+                      aria-live="polite"
+                      className={`rounded-2xl border px-4 py-3 text-sm font-medium ${
+                        submitState === "success"
+                          ? "border-secondary/30 bg-secondary-container text-secondary"
+                          : "border-red-200 bg-red-50 text-red-700"
+                      }`}
+                    >
+                      {submitMessage}
+                    </p>
+                  ) : null}
+
+                  <button
+                    type="submit"
+                    disabled={submitState === "sending"}
+                    className="w-full rounded-xl bg-primary px-6 py-4 font-semibold uppercase tracking-[0.2em] text-primary-foreground shadow-lg transition-transform hover:-translate-y-0.5 hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
+                  >
+                    {submitState === "sending" ? "Sending..." : "Send Request"}
                   </button>
                 </form>
 

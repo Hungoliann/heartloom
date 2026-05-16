@@ -20,3 +20,13 @@ To build for production:
 ```powershell
 corepack pnpm build
 ```
+
+## Contact form email
+
+The contact form posts to `/api/contact` and sends email through Resend. Configure these environment variables before deploying:
+
+```powershell
+RESEND_API_KEY=...
+CONTACT_TO_EMAIL=heartloomllc@gmail.com
+CONTACT_FROM_EMAIL="Heartloom <hello@your-domain.com>"
+```
