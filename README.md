@@ -1,31 +1,27 @@
-# heartloom
+# Heartloom
 
-## Local development
+Single Next.js app for the Heartloom website.
 
-Use Corepack to run pnpm without installing pnpm globally:
+## Local Development
 
 ```powershell
 corepack pnpm install
 corepack pnpm dev
 ```
 
-To run only the frontend:
+Open `http://localhost:3000`.
 
-```powershell
-corepack pnpm dev:frontend
-```
-
-To build for production:
+## Production Build
 
 ```powershell
 corepack pnpm build
 ```
 
-## Contact form email
+## Contact Form Email
 
 The contact form posts to `/api/contact` and sends email through Resend. Configure these environment variables before deploying:
 
-```powershell
+```env
 RESEND_API_KEY=...
 CONTACT_TO_EMAIL=heartloomllc@gmail.com
 CONTACT_FROM_EMAIL="Heartloom <hello@your-domain.com>"
