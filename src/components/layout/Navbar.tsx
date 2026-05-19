@@ -28,6 +28,7 @@ export function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-3 min-w-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/favicon.svg?v=6" alt="" className="h-8 w-8 shrink-0 object-contain sm:h-10 sm:w-10" aria-hidden="true" />
           <div className="min-w-0">
             <div className="font-serif text-xl sm:text-2xl font-semibold text-primary tracking-tight leading-none">

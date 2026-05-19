@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { contactErrorResponse, sendContactEmail } from "@/lib/contact-mailer.js";
+import { contactErrorResponse, sendContactEmail } from "@/lib/contact-mailer";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

@@ -5,29 +5,57 @@ const DEFAULT_FROM_EMAIL = "Heartloom <onboarding@resend.dev>";
 const allowedContactMethods = new Set(["Email", "Phone"]);
 const allowedTimings = new Set(["Immediate", "Planning for Future", "Gift for Another"]);
 
-function createContactError(message, statusCode = 400, code = "CONTACT_ERROR") {
-  const error = new Error(message);
-  error.statusCode = statusCode;
-  error.code = code;
-  return error;
+export interface ContactSubmission {
+  name: string;
+  familyName: string;
+  email: string;
+  contactMethod: string;
+  timing: string;
+  intent: string;
 }
 
-function normalizeText(value, maxLength) {
+export interface ContactEmail {
+  subject: string;
+  text: string;
+  html: string;
+}
+
+export interface ContactErrorResponse {
+  statusCode: number;
+  body: { message: string; code: string };
+}
+
+class ContactError extends Error {
+  statusCode: number;
+  code: string;
+
+  constructor(message: string, statusCode = 400, code = "CONTACT_ERROR") {
+    super(message);
+    this.statusCode = statusCode;
+    this.code = code;
+  }
+}
+
+function createContactError(message: string, statusCode = 400, code = "CONTACT_ERROR"): ContactError {
+  return new ContactError(message, statusCode, code);
+}
+
+function normalizeText(value: unknown, maxLength: number): string {
   return String(value ?? "")
     .replace(/\r\n/g, "\n")
     .trim()
     .slice(0, maxLength);
 }
 
-function normalizeSingleLine(value, maxLength) {
+function normalizeSingleLine(value: unknown, maxLength: number): string {
   return normalizeText(value, maxLength).replace(/\s+/g, " ");
 }
 
-function isValidEmail(email) {
+function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function escapeHtml(value) {
+function escapeHtml(value: string): string {
   return value
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -36,13 +64,14 @@ function escapeHtml(value) {
     .replace(/'/g, "&#39;");
 }
 
-export function validateContactSubmission(input) {
-  const name = normalizeSingleLine(input?.name, 120);
-  const familyName = normalizeSingleLine(input?.familyName, 160);
-  const email = normalizeSingleLine(input?.email, 254).toLowerCase();
-  const contactMethodInput = normalizeSingleLine(input?.contactMethod, 40);
-  const timingInput = normalizeSingleLine(input?.timing, 80);
-  const intent = normalizeText(input?.intent, 4000);
+export function validateContactSubmission(input: unknown): ContactSubmission {
+  const raw = input as Record<string, unknown>;
+  const name = normalizeSingleLine(raw?.name, 120);
+  const familyName = normalizeSingleLine(raw?.familyName, 160);
+  const email = normalizeSingleLine(raw?.email, 254).toLowerCase();
+  const contactMethodInput = normalizeSingleLine(raw?.contactMethod, 40);
+  const timingInput = normalizeSingleLine(raw?.timing, 80);
+  const intent = normalizeText(raw?.intent, 4000);
 
   if (!name || !email || !intent) {
     throw createContactError("Please include your name, email, and a short message.", 400, "MISSING_FIELDS");
@@ -62,7 +91,7 @@ export function validateContactSubmission(input) {
   };
 }
 
-export function buildContactEmail(submission) {
+export function buildContactEmail(submission: ContactSubmission): ContactEmail {
   const subject = `Heartloom contact request from ${submission.name}`;
   const text = [
     `Name: ${submission.name}`,
@@ -75,7 +104,7 @@ export function buildContactEmail(submission) {
     submission.intent,
   ].join("\n");
 
-  const rows = [
+  const rows: [string, string][] = [
     ["Name", submission.name],
     ["Family / Legacy Title", submission.familyName || "N/A"],
     ["Email", submission.email],
@@ -104,7 +133,16 @@ export function buildContactEmail(submission) {
   return { subject, text, html };
 }
 
-export async function sendContactEmail(input, options = {}) {
+export interface SendContactEmailOptions {
+  apiKey?: string;
+  toEmail?: string;
+  fromEmail?: string;
+}
+
+export async function sendContactEmail(
+  input: unknown,
+  options: SendContactEmailOptions = {},
+): Promise<{ id: string | null; message: string }> {
   const submission = validateContactSubmission(input);
   const apiKey = options.apiKey ?? process.env.RESEND_API_KEY;
 
@@ -151,16 +189,17 @@ export async function sendContactEmail(input, options = {}) {
   };
 }
 
-export function contactErrorResponse(error) {
-  const statusCode = error?.statusCode || 500;
+export function contactErrorResponse(error: unknown): ContactErrorResponse {
+  const err = error as Partial<ContactError>;
+  const statusCode = err?.statusCode || 500;
   const isExpected =
-    statusCode < 500 || error?.code === "EMAIL_NOT_CONFIGURED" || error?.code === "EMAIL_PROVIDER_ERROR";
+    statusCode < 500 || err?.code === "EMAIL_NOT_CONFIGURED" || err?.code === "EMAIL_PROVIDER_ERROR";
 
   return {
     statusCode,
     body: {
-      message: isExpected ? error.message : "Unable to send contact request.",
-      code: error?.code || "CONTACT_ERROR",
+      message: isExpected ? (err.message ?? "Error") : "Unable to send contact request.",
+      code: err?.code || "CONTACT_ERROR",
     },
   };
 }

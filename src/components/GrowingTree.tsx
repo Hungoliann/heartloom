@@ -590,7 +590,7 @@ export function GrowingTree() {
       });
     }
 
-    const createdTriggers: any[] = [];
+    const createdTriggers: ReturnType<typeof ScrollTrigger.create>[] = [];
 
     ScrollTrigger.matchMedia({
       "(min-width: 768px)": () => {
