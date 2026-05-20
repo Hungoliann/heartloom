@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python \".claude/skills/ui-ux-pro-max-skill-2.5.0/ui-ux-pro-max-skill-2.5.0/.claude/skills/ui-ux-pro-max/scripts/search.py\" \"legacy memoir family emotional warmth premium\" --design-system -p \"Heartloom\")"
+    ]
+  }
+}
