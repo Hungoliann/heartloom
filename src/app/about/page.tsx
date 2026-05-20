@@ -72,6 +72,7 @@ export default function AboutPage() {
                       Heartloom
                     </cite>
                   </footer>
+                  <span className="absolute -bottom-12 -right-4 sm:-right-8 text-primary/10 text-[96px] sm:text-[120px] leading-none pointer-events-none select-none">&rdquo;</span>
                 </blockquote>
               </div>
             </div>
@@ -175,26 +176,27 @@ export default function AboutPage() {
         {/* CEO Quote */}
         <section className="px-4 sm:px-6 py-24 sm:py-28">
           <div className="max-w-6xl mx-auto relative">
-            <div className="absolute inset-0 rotate-1 rounded-[2rem] bg-primary/5 border border-[color:var(--border-warm)] -z-10" />
+            <div className="absolute inset-0 -rotate-1 rounded-[2rem] bg-secondary/5 border border-[color:var(--border-warm)] -z-10" />
             <div className="grid lg:grid-cols-12 gap-8 items-center p-8 sm:p-12 lg:p-16">
               <div className="hidden lg:block lg:col-span-1">
-                <div className="h-64 w-px bg-gradient-to-b from-transparent via-secondary/30 to-transparent mx-auto" />
+                <div className="h-64 w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent mx-auto" />
               </div>
               <div className="lg:col-span-11">
                 <blockquote className="relative">
-                  <span className="absolute -top-12 -left-4 sm:-left-8 text-secondary/10 text-[96px] sm:text-[120px] leading-none pointer-events-none select-none">&ldquo;</span>
-                  <p className="relative z-10 font-serif text-2xl sm:text-3xl md:text-4xl italic leading-[1.3] text-primary max-w-4xl">
-                    When my grandmother passed, I realized that while I had her photos, I had lost the
-                    sound of her laughter and the specific wisdom only she could give. I started
-                    Heartloom so that no more family stories like her secret recipes would ever be
-                    lost to time.
+                  <span className="absolute -top-12 -left-4 sm:-left-8 text-primary/10 text-[96px] sm:text-[120px] leading-none pointer-events-none select-none">&ldquo;</span>
+                  <p className="relative z-10 font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl italic leading-[1.2] text-secondary max-w-4xl">
+                    When my grandmother passed, I realized that while I had her photos,
+                    I had lost the sound of her laughter and the specific wisdom only she could give.
+                    I started Heartloom so that no more family stories like her secret
+                    recipes would ever be lost to time.
                   </p>
                   <footer className="mt-10 flex items-center gap-4">
-                    <div className="w-12 h-px bg-secondary" />
+                    <div className="w-12 h-px bg-primary" />
                     <cite className="not-italic uppercase tracking-widest text-sm text-[color:var(--muted-text)] font-medium">
                       Heartloom CEO
                     </cite>
                   </footer>
+                  <span className="absolute -bottom-12 -right-4 sm:-right-8 text-primary/10 text-[96px] sm:text-[120px] leading-none pointer-events-none select-none">&rdquo;</span>
                 </blockquote>
               </div>
             </div>
