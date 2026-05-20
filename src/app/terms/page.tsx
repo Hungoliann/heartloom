@@ -179,7 +179,7 @@ export default function TermsPage() {
                     </p>
                   </div>
                 </div>
-                <Link href="/contact" className="inline-flex items-center justify-center rounded-full bg-[color:var(--card-white)] px-6 py-3 text-sm font-medium text-[color:var(--charcoal)] transition-opacity hover:opacity-90">
+                <Link href="/contact" className="inline-flex items-center justify-center rounded-full bg-[color:var(--card-white)] px-6 py-3 text-sm font-medium text-[color:var(--charcoal)] transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 cursor-pointer">
                   Speak with Concierge
                 </Link>
               </div>

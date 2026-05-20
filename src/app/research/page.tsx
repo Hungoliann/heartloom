@@ -172,11 +172,11 @@ export default function ResearchPage() {
                   Explore the research behind the platform or speak to a historian who can explain how the system works in plain language.
                 </p>
                 <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-                  <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-white font-medium transition-opacity hover:opacity-90">
+                  <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-white font-medium transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 cursor-pointer">
                     Explore the Research
                     <ArrowRight className="h-4 w-4" />
                   </Link>
-                  <Link href="/contact" className="inline-flex items-center justify-center rounded-full border border-secondary px-6 py-3 text-secondary font-medium transition-colors hover:bg-secondary/5">
+                  <Link href="/contact" className="inline-flex items-center justify-center rounded-full border border-secondary px-6 py-3 text-secondary font-medium transition-all duration-200 hover:bg-secondary/5 hover:-translate-y-0.5 cursor-pointer">
                     Talk to a Historian
                   </Link>
                 </div>

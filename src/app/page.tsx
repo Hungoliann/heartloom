@@ -126,11 +126,11 @@ export default function Home() {
                 <h2 className="text-3xl md:text-4xl font-serif text-primary mb-6">
                   Some things are too important to leave unsaid.
                 </h2>
-                <p className="text-base md:text-lg leading-relaxed text-[color:var(--charcoal)] max-w-3xl mx-auto mb-8">
-                  Heartloom is a dedicated legacy and concierge platform, thoughtfully designed to be accessible to every generation...
+                <p className="text-base md:text-lg leading-relaxed text-[color:var(--charcoal)] max-w-prose mx-auto mb-8">
+                  Heartloom is a dedicated legacy and concierge platform, thoughtfully designed to be accessible to every generation — a place to preserve the moments that matter most.
                 </p>
-                <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-                  <Link href="/about">Read More</Link>
+                <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full transition-all duration-200 hover:-translate-y-0.5 cursor-pointer">
+                  <Link href="/about">Our Story</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -225,7 +225,7 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Button size="lg" className="mt-4 bg-primary text-primary-foreground hover:bg-primary/90">
+              <Button asChild size="lg" className="mt-4 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full transition-all duration-200 hover:-translate-y-0.5 cursor-pointer">
                 <Link href="/concierge">Preview Dashboard</Link>
               </Button>
             </div>
@@ -309,7 +309,7 @@ export default function Home() {
                 <CardContent className="p-8">
                   <h3 className="text-xl font-serif font-semibold mb-2 text-[color:var(--parchment)]">Concierge</h3>
                   <div className="mb-6">
-                    <span className="text-5xl font-serif text-accent">$15</span>
+                    <span className="text-5xl font-serif text-accent">$20</span>
                     <span className="text-[color:var(--parchment)]/70"> /mo</span>
                   </div>
                   <ul className="space-y-4 mb-8">

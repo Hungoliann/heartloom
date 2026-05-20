@@ -13,8 +13,10 @@ export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navItems = [
     { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
     { href: "/letters", label: "Letters" },
     { href: "/concierge", label: "Concierge" },
+    { href: "/research", label: "Research" },
   ];
 
   return (

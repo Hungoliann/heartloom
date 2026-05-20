@@ -175,13 +175,13 @@ export default function SecurityPage() {
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 font-medium text-white transition-opacity hover:opacity-90"
+                  className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 font-medium text-white transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 cursor-pointer"
                 >
                   Request Security Audit
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--border-warm)] px-6 py-3 font-medium text-[color:var(--charcoal)] transition-colors hover:bg-white/60"
+                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--border-warm)] px-6 py-3 font-medium text-[color:var(--charcoal)] transition-all duration-200 hover:bg-white/60 hover:-translate-y-0.5 cursor-pointer"
                 >
                   Download Architecture Whitepaper
                 </Link>

@@ -6,8 +6,8 @@ import PageFooter from "@/components/layout/PageFooter";
 
 function Tile({ icon: Icon, title, text }: { icon: ComponentType<{ className?: string }>; title: string; text: string }) {
   return (
-    <div className="rounded-2xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] p-6 shadow-sm">
-      <div className="mb-4 h-11 w-11 rounded-full bg-secondary-container text-secondary flex items-center justify-center">
+    <div className="group rounded-2xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] p-6 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-default">
+      <div className="mb-4 h-11 w-11 rounded-full bg-secondary-container text-secondary flex items-center justify-center transition-colors duration-200 group-hover:bg-secondary group-hover:text-white">
         <Icon className="h-5 w-5" />
       </div>
       <h3 className="font-serif text-2xl text-primary mb-2">{title}</h3>
@@ -45,10 +45,10 @@ export default function EstateAccessPage() {
                 A bridge between the stories we leave behind and the earth that holds them. We curate physical resting places that honor the weight of a digital legacy.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-4 sm:gap-6">
-                <button className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-white font-medium hover:opacity-90 transition-opacity">
+                <button className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-white font-medium hover:opacity-90 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
                   Explore Estates
                 </button>
-                <button className="inline-flex items-center justify-center gap-2 text-primary font-medium hover:underline">
+                <button className="inline-flex items-center justify-center gap-2 text-primary font-medium hover:underline transition-all duration-200 cursor-pointer">
                   <PlayCircle className="h-5 w-5" />
                   Watch the Philosophy
                 </button>

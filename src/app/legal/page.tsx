@@ -92,7 +92,7 @@ export default function LegalPage() {
                   If you have questions regarding the nuances of your digital stewardship, our Concierge is always standing by to provide clarity.
                 </p>
               </div>
-              <Link href="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90">
+              <Link href="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-white transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 cursor-pointer">
                 Contact Concierge
                 <ArrowRight className="h-4 w-4" />
               </Link>

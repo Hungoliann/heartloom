@@ -7,7 +7,7 @@ import PageFooter from "@/components/layout/PageFooter";
 
 function ContactCard({ icon: Icon, title, value }: { icon: ComponentType<{ className?: string }>; title: string; value: ReactNode; }) {
   return (
-    <div className="rounded-2xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] p-6 sm:p-8 shadow-sm transition-colors hover:border-secondary/60">
+    <div className="group rounded-2xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] p-6 sm:p-8 shadow-sm transition-all duration-200 hover:border-secondary/60 hover:shadow-md hover:-translate-y-0.5 cursor-default">
       <Icon className="mb-6 h-8 w-8 text-secondary" />
       <p className="text-xs uppercase tracking-[0.28em] text-secondary font-semibold">{title}</p>
       <p className="mt-3 font-serif text-2xl sm:text-3xl text-primary">{value}</p>
@@ -101,9 +101,6 @@ export default function ContactPage() {
                 title="Correspondence"
                 value={
                   <span className="flex flex-col gap-2">
-                    <a href={`mailto:${companyEmail}`} className="text-primary underline decoration-primary/30 hover:decoration-primary">
-                      {companyEmail}
-                    </a>
                     <a href={`mailto:${supportEmail}`} className="text-primary underline decoration-primary/30 hover:decoration-primary">
                       {supportEmail}
                     </a>
