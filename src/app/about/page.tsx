@@ -11,7 +11,7 @@ export default function AboutPage() {
       <main className="pt-28">
 
         {/* Hero */}
-        <section className="px-4 sm:px-6 py-24 sm:py-32 md:py-40">
+        <section className="px-4 sm:px-6 pt-24 sm:pt-32 md:pt-40 pb-16 sm:pb-20">
           <div className="max-w-5xl mx-auto text-center space-y-8">
             <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-warm)] bg-white/60 px-4 py-2 text-xs sm:text-sm uppercase tracking-[0.24em] text-[color:var(--muted-text)]">
               <Heart className="h-4 w-4 text-secondary" />
@@ -21,9 +21,10 @@ export default function AboutPage() {
               Some things are too important to leave unsaid.
             </h1>
             <p className="text-lg sm:text-xl text-[color:var(--muted-text)] max-w-prose mx-auto leading-loose">
-              Heartloom was established to address a profound yet subtle crisis in the modern family:
-              the erosion of intangible heritage. While affection remains abundant, there exists a
-              critical scarcity of the time and the infrastructure required to preserve it.
+              Heartloom was established to address a profound yet subtle crisis in the modern family: 
+              the erosion of intangible heritage. While affection remains abundant, there exists a critical scarcity of the time and 
+              the infrastructure required to preserve it. We recognized that invaluable legacies often vanish because individuals lack the 
+              dedicated medium or the necessary impetus to document them. 
             </p>
           </div>
         </section>
@@ -34,14 +35,12 @@ export default function AboutPage() {
         </div>
 
         {/* The Problem */}
-        <section className="px-4 sm:px-6 py-20 sm:py-24">
+        <section className="px-4 sm:px-6 py-12 sm:py-16">
           <div className="max-w-3xl mx-auto space-y-6">
             <p className="text-xs uppercase tracking-[0.28em] text-secondary font-semibold text-center">The Crisis</p>
             <p className="text-lg sm:text-xl text-[color:var(--muted-text)] leading-loose max-w-prose mx-auto">
-              We recognized that invaluable legacies often vanish because individuals lack the dedicated
-              medium or the necessary impetus to document them. Consequently, vital narratives remain
-              unwritten and voices are lost to time, leaving subsequent generations to search for a
-              wisdom that was never formally anchored.
+              Consequently, vital narratives remain unwritten and voices are lost to time, leaving
+              subsequent generations to search for a wisdom that was never formally anchored.
             </p>
             <p className="text-lg sm:text-xl text-[color:var(--muted-text)] leading-loose max-w-prose mx-auto">
               Heartloom provides the essential framework to capture these histories, ensuring that
@@ -98,19 +97,27 @@ export default function AboutPage() {
               <div className="p-8 sm:p-10 md:p-16 flex flex-col justify-center space-y-6 bg-[linear-gradient(180deg,#fff8f3_0%,#f6ece3_100%)]">
                 <p className="text-xs uppercase tracking-[0.28em] text-secondary font-semibold">A sanctuary for what matters</p>
                 <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-primary leading-tight">
-                  A dedicated legacy platform, built for every generation.
+                  A dedicated legacy and concierge platform, built for every generation.
                 </h2>
                 <div className="space-y-4">
                   <p className="text-[color:var(--muted-text)] leading-relaxed">
-                    Compose letters for a wedding day decades in the future. Preserve the warmth of your
-                    voice while recounting a cherished summer memory. Organize essential documents and
-                    final wishes so your loved ones are granted the space to grieve with clarity and
-                    peace, rather than the weight of logistical confusion.
+                    Heartloom is a dedicated legacy and concierge platform, thoughtfully designed to be
+                    accessible to every generation. It offers a sanctuary for the moments that matter
+                    most: a place to compose letters for a wedding day decades in the future or to
+                    preserve the warmth of your voice while recounting a cherished summer memory. By
+                    organizing essential documents and final wishes, Heartloom ensures that your loved
+                    ones are granted the space to grieve with clarity and peace, rather than the weight
+                    of logistical confusion.
                   </p>
                   <p className="text-[color:var(--muted-text)] leading-relaxed">
                     We believe that every life, rich with its own unique stories and lessons, deserves
                     to be fully honored. The wisdom and personal quirks that define us are more than just
-                    memories — they are a vital inheritance for those we love.
+                    memories; they are a vital inheritance for those we love.
+                  </p>
+                  <p className="text-[color:var(--muted-text)] leading-relaxed">
+                    Heartloom was built on the idea that technology, when guided by genuine compassion,
+                    can serve as the quiet thread that weaves the beautiful fragments of a life into a
+                    lasting and meaningful legacy.
                   </p>
                 </div>
                 <Link
@@ -137,7 +144,7 @@ export default function AboutPage() {
                 {
                   icon: Heart,
                   title: "Living History",
-                  text: "Every life, rich with its own unique stories and lessons, deserves to be fully honored. The wisdom and personal quirks that define us are more than memories — they are a vital inheritance.",
+                  text: "Every life, rich with its own unique stories and lessons, deserves to be fully honored. The wisdom and personal quirks that define us are more than memories, they are a vital inheritance.",
                 },
                 {
                   icon: Shield,
@@ -208,12 +215,12 @@ export default function AboutPage() {
           <div className="max-w-2xl mx-auto text-center space-y-10">
             <div className="space-y-5">
               <h2 className="font-serif text-3xl sm:text-4xl text-primary leading-tight">
-                We built the product we wished had existed.
+                The people behind the loom.
               </h2>
               <p className="text-lg text-[color:var(--muted-text)] leading-relaxed max-w-prose mx-auto">
-                We are a small team of engineers and people who have each felt, firsthand, the ache
-                of an untold story. We built Heartloom with the hope that no family would ever again
-                have to say:
+                We are a small team of engineers, and people who have each felt, firsthand, the ache
+                of an untold story. We built the product we wished had existed. And we built it with
+                the hope that no family would ever again have to say:
               </p>
             </div>
 

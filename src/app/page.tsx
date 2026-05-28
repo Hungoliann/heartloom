@@ -10,6 +10,7 @@ import {
   Users,
   CheckCircle2,
   Lock,
+  Square,
 } from "lucide-react";
 import Link from "next/link";
 import { GrowingTree } from "@/components/GrowingTree";
@@ -277,70 +278,65 @@ export default function Home() {
         </section>
 
         <section className="py-24 md:py-32 px-6 bg-[color:var(--card-white)]">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-serif text-primary">Simple, transparent pricing</h2>
-              <p className="mt-4 text-lg text-[color:var(--muted-text)]">Choose the level of guidance you need.</p>
-            </div>
+          <div className="max-w-6xl mx-auto rounded-3xl bg-[color:var(--charcoal)] p-8 sm:p-12 md:p-16">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--brand-amber)]">Business Model</p>
+            <h2 className="mt-3 text-3xl md:text-5xl font-serif text-[color:var(--parchment)]">Three tiers. Two revenue modes.</h2>
 
-            <div className="grid md:grid-cols-3 gap-8 items-center">
-              <Card className="bg-[color:var(--card-white)]" style={{ borderColor: "var(--border-warm)" }}>
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-serif font-semibold mb-2">Legacy Starter</h3>
-                  <div className="mb-6">
-                    <span className="text-4xl font-serif text-primary">$49</span>
-                    <span className="text-[color:var(--muted-text)]"> one-time</span>
-                  </div>
-                  <ul className="space-y-4 mb-8">
-                    <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-secondary" /> 5 Future Letters</li>
-                    <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-secondary" /> 2GB Media Storage</li>
-                    <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-secondary" /> Basic Vault Access</li>
-                  </ul>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link href="/waitlist">Join Waitlist</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-[color:var(--charcoal)] text-[color:var(--parchment)] border-transparent shadow-2xl relative transform md:-translate-y-4">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent text-accent-foreground px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
-                  Featured
+            <div className="mt-10 grid md:grid-cols-3 gap-6 items-stretch">
+              {/* Free */}
+              <div className="rounded-2xl bg-[color:var(--parchment)] p-8 flex flex-col">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-serif text-[color:var(--charcoal)]">Free</h3>
                 </div>
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-serif font-semibold mb-2 text-[color:var(--parchment)]">Concierge</h3>
-                  <div className="mb-6">
-                    <span className="text-5xl font-serif text-accent">$20</span>
-                    <span className="text-[color:var(--parchment)]/70"> /mo</span>
-                  </div>
-                  <ul className="space-y-4 mb-8">
-                    <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-accent" /> Monthly Guided Sessions</li>
-                    <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-accent" /> Estate Specialist Support</li>
-                    <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-accent" /> Family Onboarding</li>
-                    <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-accent" /> Priority Verification</li>
-                  </ul>
-                  <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground border-0">
-                    <Link href="/waitlist">Join Waitlist</Link>
-                  </Button>
-                </CardContent>
-              </Card>
+                <div className="mt-5">
+                  <span className="text-5xl font-serif text-[color:var(--charcoal)]">$0</span>
+                  <span className="text-[color:var(--muted-text)]"> forever</span>
+                </div>
+                <ul className="mt-7 space-y-4">
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> Unlimited letter drafting</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> 5 Future Letter deliveries</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> Written and voice letters</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> 2 document uploads</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> 1 family member</li>
+                </ul>
+              </div>
 
-              <Card className="bg-[color:var(--card-white)]" style={{ borderColor: "var(--border-warm)" }}>
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-serif font-semibold mb-2">Infinity Vault</h3>
-                  <div className="mb-6">
-                    <span className="text-4xl font-serif text-primary">$299</span>
-                    <span className="text-[color:var(--muted-text)]"> one-time</span>
-                  </div>
-                  <ul className="space-y-4 mb-8">
-                    <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-secondary" /> Unlimited Letters</li>
-                    <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-secondary" /> 100GB Media Storage</li>
-                    <li className="flex items-center gap-3 text-sm"><CheckCircle2 className="w-4 h-4 text-secondary" /> Heirloom Physical Cards</li>
-                  </ul>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link href="/waitlist">Join Waitlist</Link>
-                  </Button>
-                </CardContent>
-              </Card>
+              {/* Family — Featured */}
+              <div className="rounded-2xl bg-[color:var(--charcoal)] border-2 border-[color:var(--brand-amber)] p-8 flex flex-col shadow-2xl">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-xl font-serif text-[color:var(--parchment)]">Family</h3>
+                  <span className="rounded-full bg-[color:var(--brand-amber)] px-3 py-1 text-xs font-medium text-[color:var(--charcoal)]">Featured</span>
+                </div>
+                <div className="mt-5">
+                  <span className="text-5xl font-serif text-[color:var(--brand-amber)]">$99</span>
+                  <span className="text-[color:var(--parchment)]/60"> /year</span>
+                  <p className="mt-1 text-sm text-[color:var(--parchment)]/60">or $12 / month</p>
+                </div>
+                <ul className="mt-7 space-y-4">
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--parchment)]"><Square className="w-4 h-4 text-[color:var(--brand-amber)] shrink-0" /> Unlimited Future Letter deliveries</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--parchment)]"><Square className="w-4 h-4 text-[color:var(--brand-amber)] shrink-0" /> Written, voice, and video</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--parchment)]"><Square className="w-4 h-4 text-[color:var(--brand-amber)] shrink-0" /> 6 family members</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--parchment)]"><Square className="w-4 h-4 text-[color:var(--brand-amber)] shrink-0" /> Concierge layer</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--parchment)]"><Square className="w-4 h-4 text-[color:var(--brand-amber)] shrink-0" /> Unlimited document vault</li>
+                </ul>
+              </div>
+
+              {/* Forever */}
+              <div className="rounded-2xl bg-[color:var(--parchment)] p-8 flex flex-col">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-serif text-[color:var(--charcoal)]">Legacy</h3>
+                </div>
+                <div className="mt-5">
+                  <span className="text-5xl font-serif text-[color:var(--charcoal)]">$299</span>
+                  <span className="text-[color:var(--muted-text)]"> one-time</span>
+                </div>
+                <ul className="mt-7 space-y-4">
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> Delivery escrow guarantee</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> Permanent storage</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> Annual printed heirloom book</li>
+                </ul>
+                <p className="mt-6 text-sm italic text-[color:var(--muted-text)]">Add-on to Family plan</p>
+              </div>
             </div>
           </div>
         </section>
