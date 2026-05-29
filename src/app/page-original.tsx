@@ -276,6 +276,70 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <section className="py-24 md:py-32 px-6 bg-[color:var(--card-white)]">
+          <div className="max-w-6xl mx-auto rounded-3xl bg-[color:var(--charcoal)] p-8 sm:p-12 md:p-16">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--brand-amber)]">Business Model</p>
+            <h2 className="mt-3 text-3xl md:text-5xl font-serif text-[color:var(--parchment)]">Three tiers. Two revenue modes.</h2>
+
+            <div className="mt-10 grid md:grid-cols-3 gap-6 items-stretch">
+              {/* Free */}
+              <div className="rounded-2xl bg-[color:var(--parchment)] p-8 flex flex-col">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-serif text-[color:var(--charcoal)]">Free</h3>
+                </div>
+                <div className="mt-5">
+                  <span className="text-5xl font-serif text-[color:var(--charcoal)]">$0</span>
+                  <span className="text-[color:var(--muted-text)]"> forever</span>
+                </div>
+                <ul className="mt-7 space-y-4">
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> Unlimited letter drafting</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> 5 Future Letter deliveries</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> Written and voice letters</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> 2 document uploads</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> 1 family member</li>
+                </ul>
+              </div>
+
+              {/* Family — Featured */}
+              <div className="rounded-2xl bg-[color:var(--charcoal)] border-2 border-[color:var(--brand-amber)] p-8 flex flex-col shadow-2xl">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-xl font-serif text-[color:var(--parchment)]">Family</h3>
+                  <span className="rounded-full bg-[color:var(--brand-amber)] px-3 py-1 text-xs font-medium text-[color:var(--charcoal)]">Featured</span>
+                </div>
+                <div className="mt-5">
+                  <span className="text-5xl font-serif text-[color:var(--brand-amber)]">$99</span>
+                  <span className="text-[color:var(--parchment)]/60"> /year</span>
+                  <p className="mt-1 text-sm text-[color:var(--parchment)]/60">or $12 / month</p>
+                </div>
+                <ul className="mt-7 space-y-4">
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--parchment)]"><Square className="w-4 h-4 text-[color:var(--brand-amber)] shrink-0" /> Unlimited Future Letter deliveries</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--parchment)]"><Square className="w-4 h-4 text-[color:var(--brand-amber)] shrink-0" /> Written, voice, and video</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--parchment)]"><Square className="w-4 h-4 text-[color:var(--brand-amber)] shrink-0" /> 6 family members</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--parchment)]"><Square className="w-4 h-4 text-[color:var(--brand-amber)] shrink-0" /> Concierge layer</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--parchment)]"><Square className="w-4 h-4 text-[color:var(--brand-amber)] shrink-0" /> Unlimited document vault</li>
+                </ul>
+              </div>
+
+              {/* Forever */}
+              <div className="rounded-2xl bg-[color:var(--parchment)] p-8 flex flex-col">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-serif text-[color:var(--charcoal)]">Legacy</h3>
+                </div>
+                <div className="mt-5">
+                  <span className="text-5xl font-serif text-[color:var(--charcoal)]">$299</span>
+                  <span className="text-[color:var(--muted-text)]"> one-time</span>
+                </div>
+                <ul className="mt-7 space-y-4">
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> Delivery escrow guarantee</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> Permanent storage</li>
+                  <li className="flex items-center gap-3 text-sm text-[color:var(--charcoal)]"><Square className="w-4 h-4 text-[color:var(--muted-text)] shrink-0" /> Annual printed heirloom book</li>
+                </ul>
+                <p className="mt-6 text-sm italic text-[color:var(--muted-text)]">Add-on to Family plan</p>
+              </div>
+            </div>
+          </div>
+        </section>
         
         <GrowingTree />
 
