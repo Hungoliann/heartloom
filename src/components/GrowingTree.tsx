@@ -537,20 +537,32 @@ export function GrowingTree() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // Cache the mobile cards once instead of re-querying the DOM every frame.
+    const mobileCards = section.querySelectorAll(".mobile-feature-card");
+
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const aspect = 580 / 500;
+    let scale = 1;
 
+    // Full resize: recompute the backing-store size + transform, then draw.
+    // Reallocating the canvas backing store is expensive, so this runs only
+    // on real size changes — never on every scroll frame.
     const resizeCanvas = () => {
       const rect = canvas.getBoundingClientRect();
       const width = Math.round(Math.min(rect.width, 520));
       const height = Math.round(width * aspect);
-      const scale = width / 500;
+      scale = width / 500;
 
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       canvas.style.width = "100%";
       canvas.style.height = "auto";
 
+      renderTree();
+    };
+
+    // Lightweight redraw at the current size — used on every scroll update.
+    const renderTree = () => {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.setTransform(dpr * scale, 0, 0, dpr * scale, 0, 0);
@@ -577,7 +589,6 @@ export function GrowingTree() {
         gsap.to(headingRef.current, { opacity: p >= 0.93 ? 1 : 0, y: p >= 0.93 ? 0 : 24, duration: 0.45, overwrite: true });
 
       // Mobile feature cards - show them progressively during animation
-      const mobileCards = document.querySelectorAll('.mobile-feature-card');
       mobileCards.forEach((card, idx) => {
         const thresholds = [0.52, 0.52, 0.67, 0.67, 0.87, 0.87];
         const threshold = thresholds[idx] || 0.5;
@@ -602,7 +613,7 @@ export function GrowingTree() {
           scrub: 1.5,
           onUpdate: (self) => {
             progressRef.current = self.progress;
-            paint();
+            renderTree();
             syncLabels(self.progress);
           },
         });
@@ -618,7 +629,7 @@ export function GrowingTree() {
           scrub: 1.5,
           onUpdate: (self) => {
             progressRef.current = self.progress;
-            paint();
+            renderTree();
             syncLabels(self.progress);
           },
         });
@@ -643,7 +654,7 @@ export function GrowingTree() {
     <div
       ref={sectionRef}
       className="relative w-full flex flex-col items-center justify-center overflow-hidden"
-      style={{ minHeight: "100vh", background: `linear-gradient(160deg, ${"var(--parchment)"} 0%, ${"var(--parchment-2)"} 100%)` }}
+      style={{ minHeight: "100dvh", background: `linear-gradient(160deg, ${"var(--parchment)"} 0%, ${"var(--parchment-2)"} 100%)` }}
     >
       <div className="absolute inset-0 pointer-events-none opacity-20"
         style={{ backgroundImage: "radial-gradient(circle,var(--brand-sage-30) 1px,transparent 1px)", backgroundSize: "38px 38px" }} />

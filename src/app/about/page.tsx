@@ -91,6 +91,8 @@ export default function AboutPage() {
                 <img
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj8W7iCxUo8S5ULzMbn7De1mAjE-5FVzzmHBLWAw_mB7i_4ZlBIKljcETig3SuAG37Spng6YfYLw1fnw8eHCUErzYHYe7ybor-vbZcB6nNwl975RI0WN0KGaGsf95-_tB_Fr8v2kVYwTFwTRkj3bxrY9sY0HbicmWd_FskKIWWy-8k6mWjr7YiRVQaCLTva2Q5su-dXn_ceXKFncRjuVPt7SweH07zjJ4GwGZfO0C85949BCcEjcyToVcYK53KbhXECVuO7FDYr-k"
                   alt="Heartloom design texture"
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover"
                 />
               </div>

@@ -48,6 +48,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Local placeholder screen (kept locally, not tracked)
+src/app/page-original.tsx
+
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
 

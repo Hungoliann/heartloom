@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ChangeEvent, type FormEvent, type ReactNode, type ComponentType } from "react";
+import Image from "next/image";
 import { Navbar } from "@/components/layout/Navbar";
 import { Globe, Mail, Phone, Users } from "lucide-react";
 import PageFooter from "@/components/layout/PageFooter";
@@ -245,11 +246,14 @@ export default function ContactPage() {
         </section>
 
         <section className="px-4 sm:px-6 pb-20">
-          <div className="max-w-7xl mx-auto overflow-hidden rounded-3xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] shadow-xl relative">
-            <img
+          <div className="max-w-7xl mx-auto h-[280px] sm:h-[360px] md:h-[520px] overflow-hidden rounded-3xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] shadow-xl relative">
+            <Image
               src="/contactphoto.jpg"
               alt="High-end library interior"
-              className="h-[280px] sm:h-[360px] md:h-[520px] w-full object-cover"
+              fill
+              quality={90}
+              sizes="(min-width: 1280px) 1280px, 100vw"
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--parchment)] via-transparent to-transparent" />
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center px-6 w-full max-w-3xl">

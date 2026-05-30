@@ -105,6 +105,8 @@ export default function LegalPage() {
             <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuDofSS2q6pyuzGb288QlYbQ_tp7X5t12GFV-jZdmSQ1CzIWo7viFLqo6UsKric4hA7_5K92ckgvO77lg1dYugzQeZLKFHJ3DAs0uyx7BKnm8xHPRvXtlzwo1cfCJ7LpLKJ8o0fBfqVrSGmxh_VUZkC0GlWSEUsCmyO7w9UG47h8phnntIu-OU4bPV3n4Ks_hbicyr2akuPjT3ay4QT-WJ9ayDnvDKG5G_9f7236lu9UXDPpeMwg_aus1mZvJ_07J4JSUHgCEIqGhEY"
               alt="Leather-bound journal and pen"
+              loading="lazy"
+              decoding="async"
               className="h-[280px] sm:h-[360px] md:h-[480px] w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--parchment)] via-transparent to-transparent opacity-60" />

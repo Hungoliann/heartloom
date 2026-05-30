@@ -36,6 +36,8 @@ export default function SecurityPage() {
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAut4s91Hb-7fSdx8be8rJ-ucl0PMLalwLld75Uf1F3JKEC-iZ6ab5cqHSaDwptH_5o7-x0MW8zJRzvHnJEH7y2YHecYY8I874-pnaKIQujjnuFBn108WOw586iqZPF-Pt2IQ2GThwTzYKsbKlar3--fCu_Vop9VidLnWuhPR4BnEZYW76jUKwN9qg1IXHegd3G2LcVJ_aopV7TJr9Sx_PM8nsTkM6DKWvyiXZHVVZYThZiyXOK9zkQx5TdyID9UWRBgEKpBDachV0"
                 alt="Digital vault"
+                loading="lazy"
+                decoding="async"
                 className="h-[260px] sm:h-[360px] md:h-[440px] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--parchment)]/70 to-transparent flex items-end justify-center pb-8">
@@ -88,6 +90,8 @@ export default function SecurityPage() {
                 <img
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFDkqj39SBliImPqmEEYoBY5V8HDhGFALEF70Yvqn-BO5ThVZFTb1ffWHmnSVjtzGA5m1OcJNxgVBAXB07JcVQ-yD9yVJ4bzRdm3HZ1c6YcqLAxVcM-Vo1Um3YtgBAUH_nXXeTH0Wkw_A9PICKypiNVDkLrpHgrXhtqRdku1Tj6gZ1OUfkbjg2s9a7zQ6gdW0MZr_da4gDYNZSW2iWiF59jNfnDRZ9DQ_NqIGtvOsi6j8A71J6If-DUToaodlXiCfwKkgI70oOZD8"
                   alt="Redundancy visualization"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-44 object-cover rounded-2xl border border-[color:var(--border-warm)]"
                 />
               </div>
@@ -127,6 +131,8 @@ export default function SecurityPage() {
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxuiwgorHBdvimL7fvx2VLVePTuMwld0M_2qFUIZC5k7XraEYPoFgqfx1MsPiuleTfDIHgpVcLCc7xklmzYI8_yq0BWL34ARd6fAq6agfMGvJSz0QaKVGtpWDmeFgMcuwmVteTHPXYYvqORF6pM2yMK8GXdEPCzngXUIDfPalgODWY7Rh3frzmcRo8tL7JRU6VN8FpULBnj-2DMTlEJ4dF00HsCPLdey0UW-qvkUEAnDK_eaa0kqZIEjvWfCVuIgFP4SkcCP1Td2g"
                 alt="Technical craftsmanship"
+                loading="lazy"
+                decoding="async"
                 className="w-full rounded-3xl border border-[color:var(--border-warm)] shadow-2xl"
               />
               <div className="absolute bottom-6 right-6 rounded-2xl border border-[color:var(--border-warm)] bg-white/70 backdrop-blur-md px-4 py-3">

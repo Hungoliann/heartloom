@@ -128,6 +128,8 @@ export default function TermsPage() {
                 <img
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuDofSS2q6pyuzGb288QlYbQ_tp7X5t12GFV-jZdmSQ1CzIWo7viFLqo6UsKric4hA7_5K92ckgvO77lg1dYugzQeZLKFHJ3DAs0uyx7BKnm8xHPRvXtlzwo1cfCJ7LpLKJ8o0fBfqVrSGmxh_VUZkC0GlWSEUsCmyO7w9UG47h8phnntIu-OU4bPV3n4Ks_hbicyr2akuPjT3ay4QT-WJ9ayDnvDKG5G_9f7236lu9UXDPpeMwg_aus1mZvJ_07J4JSUHgCEIqGhEY"
                   alt="Leather journal and fountain pen"
+                  loading="lazy"
+                  decoding="async"
                   className="h-[280px] sm:h-[360px] md:h-[460px] w-full object-cover"
                 />
               </div>

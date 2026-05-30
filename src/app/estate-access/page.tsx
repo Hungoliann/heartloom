@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { type ComponentType } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { ArrowRight, Building2, Leaf, ShieldCheck, PlayCircle, Landmark } from "lucide-react";
@@ -24,10 +25,14 @@ export default function EstateAccessPage() {
       <main className="pt-28">
         <section className="relative min-h-[78vh] flex items-center overflow-hidden">
           <div className="absolute inset-0">
-            <img
+            <Image
               src="/estatehero.jpg"
               alt="Stone monument in willow grove"
-              className="w-full h-full object-cover grayscale-[20%] sepia-[10%] brightness-[0.80]"
+              fill
+              priority
+              quality={90}
+              sizes="100vw"
+              className="object-cover grayscale-[20%] sepia-[10%] brightness-[0.80]"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--parchment)] via-[color:var(--parchment)]/55 to-[color:var(--parchment)]/10" />
             <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--parchment)]/20 via-transparent to-transparent" />
@@ -70,11 +75,14 @@ export default function EstateAccessPage() {
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
-              <div className="md:col-span-2 rounded-3xl overflow-hidden border border-[color:var(--border-warm)] shadow-xl relative group">
-                <img
+              <div className="md:col-span-2 h-[420px] rounded-3xl overflow-hidden border border-[color:var(--border-warm)] shadow-xl relative group">
+                <Image
                   src="/highland.jpg"
                   alt="Conservation estate on misty lakeside"
-                  className="w-full h-[420px] object-cover transition-transform duration-700 group-hover:scale-105"
+                  fill
+                  quality={90}
+                  sizes="(min-width: 768px) 66vw, 100vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-8 sm:p-10 text-white">
@@ -85,11 +93,16 @@ export default function EstateAccessPage() {
               </div>
 
               <div className="rounded-3xl border border-[color:var(--border-warm)] bg-[color:var(--card-white)] p-6 shadow-sm">
-                <img
-                  src="/ancestralgarden.png"
-                  alt="Woodland memorial park"
-                  className="w-full h-48 object-cover rounded-2xl"
-                />
+                <div className="relative h-48 w-full overflow-hidden rounded-2xl">
+                  <Image
+                    src="/ancestralgarden.png"
+                    alt="Woodland memorial park"
+                    fill
+                    quality={90}
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
                 <h3 className="font-serif text-2xl text-primary mt-5 mb-2">Ancestral Gardens</h3>
                 <p className="text-[color:var(--muted-text)]">Meticulously maintained historic cemeteries that offer continuity and architectural beauty.</p>
               </div>
@@ -103,11 +116,14 @@ export default function EstateAccessPage() {
 
         <section className="py-20 px-4 sm:px-6 bg-[color:var(--parchment)]">
           <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-            <div className="relative">
-              <img
-                src="estatepartner.jpg"
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-[color:var(--border-warm)] shadow-xl">
+              <Image
+                src="/estatepartner.jpg"
                 alt="Estate and forest at twilight"
-                className="w-full aspect-[4/5] object-cover rounded-3xl border border-[color:var(--border-warm)] shadow-xl"
+                fill
+                quality={90}
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
               />
             </div>
             <div>

@@ -25,6 +25,7 @@ export function PageFooter() {
             <ul className="space-y-2 text-[color:var(--muted-text)]">
               <li><Link href="/research" className="hover:text-accent transition-colors">Research Methodology</Link></li>
               <li><Link href="/about" className="hover:text-accent transition-colors">About Us</Link></li>
+              <li><Link href="/faq" className="hover:text-accent transition-colors">FAQ</Link></li>
               <li><Link href="/contact" className="hover:text-accent transition-colors">Contact</Link></li>
             </ul>
           </div>

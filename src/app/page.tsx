@@ -35,6 +35,9 @@ export default function Home() {
             muted
             loop
             playsInline
+            preload="metadata"
+            poster="/hero-bg.svg"
+            aria-hidden="true"
             className="absolute inset-0 w-full h-full object-cover -z-10 pointer-events-none"
           >
             <source src="/hero-video.mp4" type="video/mp4" />

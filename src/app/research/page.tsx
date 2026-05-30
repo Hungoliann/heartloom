@@ -106,6 +106,8 @@ export default function ResearchPage() {
                   <img
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuAefjJtMPdhJUDnX4miiONG6QNYTU4BjYhpmO4QJvmQ_cMWeXrMppBa_Pu7PbxhZRkQjHV6eVgjd1qtZw3ZNxPw44nOpgOVQgI2l_QjNcmefn-MDHLE_nf6W4O_Hjl9SKxvrCq_HnwjLXIC6ParsAVL4dJ_WNwiK5AIJC7qO6-xTB-L8ZIbMBGC3bmDSokWokbjr-rELw12YiNYQp7qqHoQAEiotKnGAueI4XAj7o3Eb_9TS7QVxYhiundOpYDHx1ZdnsMlLzI07h8"
                     alt="Fountain pen tip"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover min-h-[320px]"
                   />
                 </div>
@@ -136,6 +138,8 @@ export default function ResearchPage() {
                   <img
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuDabs8Btv10okWxsK-OIIMZlPIjpfvptue73CcmoMoR9YNjcgtbeUt6dEQJxeOyWJ8hmB89rf1XFSVOX-oNKs6Q9qRjhwFbs-7TZr-C3rY0jZQlRj-cdOTwua_j1Fc-kOZaPHKo0Grw4Dn7laisTEsVi_uzzofFDvTdHDfNeUK-W91miW01-zW09ttCBTrp8OvYmC6NndbbEvL535BS5XYo0TYNicNdUoIzhHVjWFBl1B-GxxbHPS_JFQkWdMr_rEO3mh28x-GfRQY"
                     alt="Encrypted data cube"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full min-h-[320px] object-cover"
                   />
                 </div>
