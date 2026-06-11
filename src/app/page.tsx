@@ -10,10 +10,10 @@ import {
   Users,
   CheckCircle2,
   Lock,
-  Square,
 } from "lucide-react";
 import Link from "next/link";
 import { GrowingTree } from "@/components/GrowingTree";
+import { BusinessModel } from "@/components/BusinessModel";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
@@ -280,6 +280,8 @@ export default function Home() {
           </div>
         </section>
         
+        <BusinessModel />
+
         <GrowingTree />
 
         <section className="py-24 md:py-32 px-6 text-center overflow-hidden" style={{ backgroundColor: "var(--charcoal)", color: "var(--parchment)" }}>

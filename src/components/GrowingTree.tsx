@@ -659,7 +659,7 @@ export function GrowingTree() {
       <div className="absolute inset-0 pointer-events-none opacity-20"
         style={{ backgroundImage: "radial-gradient(circle,var(--brand-sage-30) 1px,transparent 1px)", backgroundSize: "38px 38px" }} />
 
-      <p className="relative z-10 text-xs font-sans font-semibold tracking-[0.22em] uppercase mb-2" style={{ color: "var(--brand-sage)" }}>
+      <p className="relative z-5 text-xs font-sans font-semibold tracking-[0.22em] uppercase mb-2" style={{ color: "var(--brand-sage)" }}>
         Scroll to grow your legacy
       </p>
 
