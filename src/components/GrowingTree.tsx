@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useReduceMotionPref } from "@/lib/accessibility/useReduceMotionPref";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -528,6 +529,7 @@ export function GrowingTree() {
   const headingRef  = useRef<HTMLDivElement>(null);
   const featureList = [...LEFT_FEATURES, ...RIGHT_FEATURES].sort((a, b) => a.index - b.index);
   const mobileCardTopOffsets = [12, 26, 40, 54, 68, 82];
+  const reduceMotion = useReduceMotionPref();
 
   useEffect(() => {
     const canvas  = canvasRef.current;
@@ -568,6 +570,17 @@ export function GrowingTree() {
       ctx.setTransform(dpr * scale, 0, 0, dpr * scale, 0, 0);
       drawTree(ctx, progressRef.current);
     };
+
+    if (reduceMotion) {
+      progressRef.current = 1;
+      resizeCanvas(); // draws the fully-grown tree at the current size
+      gsap.set(labelRefs.current.filter(Boolean), { opacity: 1, y: 0 });
+      if (headingRef.current) gsap.set(headingRef.current, { opacity: 1, y: 0 });
+      mobileCards.forEach((card) => gsap.set(card, { opacity: 1, y: 0 }));
+      const ro = new ResizeObserver(() => resizeCanvas());
+      ro.observe(canvas);
+      return () => ro.disconnect();
+    }
 
     gsap.set(labelRefs.current.filter(Boolean), { opacity: 0, y: 14 });
     gsap.set(headingRef.current, { opacity: 0, y: 24 });
@@ -648,7 +661,7 @@ export function GrowingTree() {
       resizeObserver.disconnect();
       createdTriggers.forEach((trigger) => trigger?.kill?.());
     };
-  }, []);
+  }, [reduceMotion]);
 
   return (
     <div
