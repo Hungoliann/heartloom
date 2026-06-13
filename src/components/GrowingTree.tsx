@@ -582,6 +582,8 @@ export function GrowingTree() {
       return () => ro.disconnect();
     }
 
+    // Reset growth in case we're re-running after reduce-motion was toggled off.
+    progressRef.current = 0;
     gsap.set(labelRefs.current.filter(Boolean), { opacity: 0, y: 14 });
     gsap.set(headingRef.current, { opacity: 0, y: 24 });
 
