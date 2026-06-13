@@ -350,6 +350,16 @@
   text-decoration: underline;
 }
 
+/* Smooth easing while a setting change is in flight (added by the provider for
+   ~350ms, then removed). Only color-ish properties — zoom/text-size still snaps.
+   The reduce-motion block below overrides this for motion-sensitive users. */
+:root.a11y-animating,
+:root.a11y-animating * {
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease, fill 0.3s ease, stroke 0.3s ease,
+    text-decoration-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
 /* Reduce motion — kill keyframes + near-zero transitions */
 :root[data-a11y-motion="reduce"] *,
 :root[data-a11y-motion="reduce"] *::before,
