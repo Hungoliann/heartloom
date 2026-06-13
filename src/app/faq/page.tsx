@@ -76,12 +76,20 @@ const faqs: FaqCategory[] = [
     category: "Pricing & Plans",
     items: [
       {
-        q: "Is Heartloom free to use?",
-        a: "Yes. Heartloom has a free plan that includes one Future Letter, one recording, and access to the basic Vault. You can start for free with no credit card required.",
+        q: "How is Heartloom priced?",
+        a: "Heartloom has three monthly memberships, a lifetime option, and a set of one-time projects. You can choose a recurring membership, pay once for lifetime access, or commission a hands-on project for your family. Most families land on Plus, and if you're managing the legacy of multiple family members, Family is worth the step up.",
       },
       {
-        q: "What are the paid plans?",
-        a: "We offer three paid options. The Family plan is $15 per month and includes 10 letters, unlimited recordings, the full family tree, and the complete Vault. The Lineage plan is $50 per month and adds unlimited letters, video legacy recordings, white-glove setup, and priority delivery. The Legacy Vault is a one-time payment of $299 and includes everything in Lineage plus perpetual storage, attorney connections, and a dedicated guide.",
+        q: "What are the monthly memberships?",
+        a: "There are three: Essentials ($9.99/mo), Plus ($15.99/mo), and Family ($23.99/mo). Essentials gets you a secure digital vault for your key documents, guided checklists for hospice and the days after a death, simple story capture, and a Digital Legacy Blueprint your heirs can access. Plus adds guided legal and medical wishes workflows, weekly story prompts for one storyteller, memory boards, and an Heir Access seat with a guided handoff. Family adds up to three storytellers, a shared family space for collaborating, three Heir Access seats, and a dedicated onboarding session with priority support.",
+      },
+      {
+        q: "Is there a one-time payment option?",
+        a: "Yes. If you'd rather pay once, the Lifetime membership covers all Family features for a one-time fee of $499.99–$699.99.",
+      },
+      {
+        q: "Do you offer one-time projects?",
+        a: "Yes, for families who want something made by hand. The Heartloom Storybook ($149.99–$199.99) turns a life story, family recipes, or service memories into a full-color hardcover book. The Voice & Video Legacy project ($249.99–$399.99) includes structured recorded interviews, an edited highlight reel, and all your raw files. Concierge Setup & Organizing ($299.99–$599.99) is a remote white-glove service where we gather your documents, photos, and accounts and build out your digital vault for you.",
       },
       {
         q: "Do you offer plans for hospice organizations or care teams?",
