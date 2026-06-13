@@ -307,3 +307,58 @@
     inset: -1px;
   }
 }
+
+/* ── Accessibility settings (driven by data-a11y-* on <html>) ───────────── */
+
+/* Larger text — zoom scales fixed-px layouts uniformly */
+:root[data-a11y-text="large"] {
+  zoom: 1.15;
+}
+:root[data-a11y-text="xlarge"] {
+  zoom: 1.3;
+}
+
+/* High-contrast — override brand vars + shadcn hsl tokens toward WCAG AA */
+:root[data-a11y-contrast="high"] {
+  --parchment: #ffffff;
+  --parchment-2: #f2f2f2;
+  --card-white: #ffffff;
+  --charcoal: #000000;
+  --muted-text: #1a1a1a;
+  --border-warm: #595959;
+  --brand-amber: #8a3d00;
+
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+  --muted-foreground: 0 0% 12%;
+  --border: 0 0% 35%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 0%;
+}
+
+/* Colorblind-safe — distinguishable orange/teal pair + always-underline links */
+:root[data-a11y-cb="on"] {
+  --brand-amber: #9a3b00;
+  --brand-sage: #1f6f78;
+  --brand-sage-30: #1f6f7833;
+}
+:root[data-a11y-cb="on"] a {
+  text-decoration: underline;
+}
+
+/* Reduce motion — kill keyframes + near-zero transitions */
+:root[data-a11y-motion="reduce"] *,
+:root[data-a11y-motion="reduce"] *::before,
+:root[data-a11y-motion="reduce"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+:root[data-a11y-motion="reduce"] .float-a,
+:root[data-a11y-motion="reduce"] .float-b,
+:root[data-a11y-motion="reduce"] .float-c {
+  animation: none !important;
+}
