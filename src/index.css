@@ -338,6 +338,16 @@
   --border: 0 0% 35%;
   --popover: 0 0% 100%;
   --popover-foreground: 0 0% 0%;
+
+  /* Button / interactive tokens so all shadcn variants follow high contrast */
+  --primary: 0 0% 0%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 96 35% 24%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 25 100% 27%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 25 100% 27%;
+  --input: 0 0% 35%;
 }
 
 /* Colorblind-safe — distinguishable orange/teal pair + always-underline links */
