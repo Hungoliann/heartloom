@@ -17,12 +17,48 @@ export function BusinessModel() {
           Memberships for every stage.
         </h2>
         <p className="mt-4 max-w-2xl text-lg text-[color:var(--parchment)]/60">
-          Monthly plans that grow with your family, plus optional one-time
-          projects when you want something made by hand.
+          Start free, then choose a monthly plan that grows with your family —
+          plus optional one-time projects when you want something made by hand.
         </p>
 
+        {/* Free tier */}
+        <div className="mt-12 rounded-2xl bg-[color:var(--parchment)] p-6 sm:p-8 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="lg:max-w-md">
+            <div className="flex items-center gap-3">
+              <h3 className="text-xl font-serif text-[color:var(--charcoal)]">
+                Heartloom Free
+              </h3>
+              <span className="rounded-full bg-[color:var(--brand-sage)]/20 px-3 py-1 text-xs font-medium text-[color:var(--charcoal)]">
+                No card needed
+              </span>
+            </div>
+            <p className="mt-2 text-sm text-[color:var(--muted-text)]">
+              A no-cost way to start getting organized and capture your first
+              story.
+            </p>
+            <div className="mt-4">
+              <span className="text-5xl font-serif text-[color:var(--charcoal)]">$0</span>
+              <span className="text-[color:var(--muted-text)]"> /forever</span>
+            </div>
+          </div>
+          <ul className="space-y-4 lg:max-w-sm">
+            <li className={lightFeature}>
+              <Square className={lightIcon} /> Starter digital vault for a few of
+              your key documents
+            </li>
+            <li className={lightFeature}>
+              <Square className={lightIcon} /> Preview of the hospice and
+              after-loss checklists
+            </li>
+            <li className={lightFeature}>
+              <Square className={lightIcon} /> Start one story with a few guided
+              prompts
+            </li>
+          </ul>
+        </div>
+
         {/* Subscription tiers */}
-        <div className="mt-12 grid md:grid-cols-3 gap-6 items-stretch">
+        <div className="mt-6 grid md:grid-cols-3 gap-6 items-stretch">
           {/* Essentials */}
           <div className="rounded-2xl bg-[color:var(--parchment)] p-8 flex flex-col">
             <h3 className="text-xl font-serif text-[color:var(--charcoal)]">
