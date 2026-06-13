@@ -76,8 +76,8 @@ const faqs: FaqCategory[] = [
     category: "Pricing & Plans",
     items: [
       {
-        q: "Is there a free plan?",
-        a: "Yes. Heartloom Free is a no-cost way to get started, with no credit card required. It includes a starter digital vault for a few of your key documents, a preview of our hospice and after-loss checklists, and the ability to start one story with a few guided prompts. When you're ready for the full vault, the complete checklists, and a Digital Legacy Blueprint your heirs can access, you can upgrade to Essentials ($9.99/mo).",
+        q: "Is Heartloom free to use?",
+        a: "Yes. Heartloom has a free plan that includes one Future Letter, one recording, and access to the basic Vault. You can start for free with no credit card required.",
       },
       {
         q: "How is Heartloom priced?",
