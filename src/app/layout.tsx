@@ -36,7 +36,7 @@ export default function RootLayout({
   );
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <script dangerouslySetInnerHTML={{ __html: NO_FLASH_SCRIPT }} />
         {clerkPublishableKey ? (
